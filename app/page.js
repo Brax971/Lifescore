@@ -67,7 +67,7 @@ const QUESTION_GROUPS = [
   },
 ];
 
-// Valeur par défaut : tout à 5/10
+// Valeurs par défaut : tout à 5/10
 const buildInitialAnswers = () => {
   const defaults = {};
   QUESTION_GROUPS.forEach((group) => {
@@ -81,14 +81,15 @@ const buildInitialAnswers = () => {
 // --- COMPOSANT PRINCIPAL ----------------------------------------------
 
 export default function Home() {
-  const [view, setView] = useState<"home" | "results" | "about">("home");
+  const [view, setView] = useState("home"); // "home" | "results" | "about"
   const [answers, setAnswers] = useState(buildInitialAnswers);
   const [results, setResults] = useState(null);
 
-  // calcul des scores (global + par domaine)
+  // Calcul des scores (global + par domaine)
   const computed = useMemo(() => {
     const allValues = Object.values(answers);
-    const globalAvg = allValues.reduce((s, v) => s + v, 0) / allValues.length || 0;
+    const globalAvg =
+      allValues.reduce((sum, value) => sum + value, 0) / allValues.length || 0;
     const globalScore = Math.round(globalAvg * 10); // sur 100
 
     const domainScores = QUESTION_GROUPS.map((group) => {
@@ -101,19 +102,18 @@ export default function Home() {
       };
     });
 
-    // tri pour repérer forces / priorités
     const sorted = [...domainScores].sort((a, b) => b.score - a.score);
     const strengths = sorted.slice(0, 2);
     const priorities = sorted.slice(-2).sort((a, b) => a.score - b.score);
 
-    let level: "bas" | "moyen" | "haut" = "moyen";
+    let level = "moyen"; // "bas" | "moyen" | "haut"
     if (globalScore < 40) level = "bas";
     else if (globalScore > 70) level = "haut";
 
     return { globalScore, domainScores, strengths, priorities, level };
   }, [answers]);
 
-  const handleSliderChange = (id: string, value: number) => {
+  const handleSliderChange = (id, value) => {
     setAnswers((prev) => ({
       ...prev,
       [id]: value,
@@ -130,16 +130,20 @@ export default function Home() {
     e.preventDefault();
     setResults(computed);
     setView("results");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const goHome = () => {
     setView("home");
     setResults(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
-  // texte dynamique selon le score global
+  // Texte dynamique selon le score global
   const renderGlobalMessage = () => {
     if (!results) return null;
 
@@ -170,8 +174,9 @@ export default function Home() {
           </p>
           <p>
             Garde en tête que la situation peut évoluer. Identifie ce qui
-            fonctionne le mieux aujourd’hui et <strong>renforce ces habitudes</strong>{" "}
-            pour rester sur cette dynamique positive.
+            fonctionne le mieux aujourd’hui et{" "}
+            <strong>renforce ces habitudes</strong> pour rester sur cette
+            dynamique positive.
           </p>
         </>
       );
@@ -234,26 +239,24 @@ export default function Home() {
     );
   };
 
-  // GRAPH: barres horizontales
+  // GRAPH : barres horizontales
   const renderChart = () => {
     if (!results) return null;
 
     return (
       <div className="results-chart">
-        <div className="chart-list">
-          {results.domainScores.map((d) => (
-            <div className="chart-row" key={d.id}>
-              <div className="chart-label">{d.title}</div>
-              <div className="chart-bar-wrapper">
-                <div
-                  className="chart-bar-fill"
-                  style={{ width: `${d.score}%` }}
-                />
-              </div>
-              <div className="chart-value">{d.score}/100</div>
+        {results.domainScores.map((d) => (
+          <div className="chart-row" key={d.id}>
+            <div className="chart-label">{d.title}</div>
+            <div className="chart-bar-wrapper">
+              <div
+                className="chart-bar-fill"
+                style={{ width: `${d.score}%` }}
+              />
             </div>
-          ))}
-        </div>
+            <div className="chart-value">{d.score}/100</div>
+          </div>
+        ))}
       </div>
     );
   };
@@ -412,7 +415,7 @@ export default function Home() {
         <h1>À propos de LifeScore.ai</h1>
         <p>
           LifeScore.ai est un outil expérimental qui t’aide à prendre une{" "}
-          <strong>photo instantanée</strong> de ta situation de vie : finances,
+          <strong>photo instantanée</strong> de ta situation de vie : finances,
           travail, santé, relations, organisation et ressenti mental.
         </p>
         <p>
@@ -456,7 +459,9 @@ export default function Home() {
               className={`ls-nav-link ${view === "about" ? "is-active" : ""}`}
               onClick={() => {
                 setView("about");
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                if (typeof window !== "undefined") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
               }}
             >
               À propos
