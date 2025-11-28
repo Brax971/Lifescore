@@ -106,7 +106,6 @@ export default function Home() {
     const strengths = sorted.slice(0, 2);
     const priorities = sorted.slice(-2).sort((a, b) => a.score - b.score);
 
-    // message dynamique selon le score global
     let level: "bas" | "moyen" | "haut" = "moyen";
     if (globalScore < 40) level = "bas";
     else if (globalScore > 70) level = "haut";
@@ -143,7 +142,6 @@ export default function Home() {
   // texte dynamique selon le score global
   const renderGlobalMessage = () => {
     if (!results) return null;
-    const score = results.globalScore;
 
     if (results.level === "bas") {
       return (
@@ -179,7 +177,6 @@ export default function Home() {
       );
     }
 
-    // niveau moyen
     return (
       <>
         <p>
@@ -237,12 +234,12 @@ export default function Home() {
     );
   };
 
+  // GRAPH: barres horizontales
   const renderChart = () => {
     if (!results) return null;
 
     return (
       <div className="results-chart">
-        <h3>Scores par domaine</h3>
         <div className="chart-list">
           {results.domainScores.map((d) => (
             <div className="chart-row" key={d.id}>
@@ -380,7 +377,10 @@ export default function Home() {
             {renderGlobalMessage()}
           </section>
 
-          <section className="ls-section">{renderChart()}</section>
+          <section className="ls-section">
+            <h2>Scores par domaine</h2>
+            {renderChart()}
+          </section>
 
           <section className="ls-section">{renderForcesAxes()}</section>
 
