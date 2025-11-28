@@ -1,142 +1,478 @@
+// app/page.js
 "use client";
 
 import { useState } from "react";
 
-const initialForm = {
+// Valeurs initiales des curseurs (1 à 10)
+const INITIAL_DATA = {
   // Finances
-  finances_situation: 0,
-  finances_budget: 0,
-  finances_dettes: 0,
+  finances_situation: 5,
+  finances_budget: 5,
+  finances_debt: 5,
   // Travail / activité
-  travail_plaisir: 0,
-  travail_sens: 0,
-  travail_energie: 0,
+  work_satisfaction: 5,
+  work_meaning: 5,
+  work_energy: 5,
   // Santé / énergie
-  sante_energie: 0,
-  sante_sommeil: 0,
-  sante_habitudes: 0,
+  health_energy: 5,
+  health_sleep: 5,
+  health_stress: 5,
   // Organisation / administratif
-  orga_papiers: 0,
-  orga_temps: 0,
-  orga_priorites: 0,
+  admin_organisation: 5,
+  admin_papers: 5,
   // Relations / entourage
-  rel_proches: 0,
-  rel_famille: 0,
-  rel_social: 0,
+  relations_support: 5,
+  relations_time: 5,
   // État mental / ressenti
-  mental_stress: 0,
-  mental_humeur: 0,
-  mental_motivation: 0,
+  mood_general: 5,
+  mood_motivation: 5,
 };
 
-export default function Home() {
-  const [step, setStep] = useState<"form" | "result">("form");
-  const [formData, setFormData] = useState(initialForm);
-  const [domainScores, setDomainScores] = useState<{
-    finances: number;
-    travail: number;
-    sante: number;
-    orga: number;
-    relations: number;
-    mental: number;
-    global: number;
-  } | null>(null);
+const DOMAINS = {
+  finances: {
+    label: "Finances",
+    fields: ["finances_situation", "finances_budget", "finances_debt"],
+  },
+  work: {
+    label: "Travail / activité",
+    fields: ["work_satisfaction", "work_meaning", "work_energy"],
+  },
+  health: {
+    label: "Santé / énergie",
+    fields: ["health_energy", "health_sleep", "health_stress"],
+  },
+  admin: {
+    label: "Organisation / administratif",
+    fields: ["admin_organisation", "admin_papers"],
+  },
+  relations: {
+    label: "Relations / entourage",
+    fields: ["relations_support", "relations_time"],
+  },
+  mood: {
+    label: "État mental / ressenti",
+    fields: ["mood_general", "mood_motivation"],
+  },
+};
 
-  // Mise à jour d'un slider
-  const updateField = (field: keyof typeof initialForm, value: string) => {
+function computeScores(data) {
+  const domainScores = {};
+
+  Object.entries(DOMAINS).forEach(([key, domain]) => {
+    const values = domain.fields.map((f) => Number(data[f] || 0));
+    const avg = values.reduce((a, b) => a + b, 0) / values.length || 0;
+    domainScores[key] = Math.round(avg * 10); // /100
+  });
+
+  const allValues = Object.values(data).map((v) => Number(v || 0));
+  const globalAvg =
+    allValues.reduce((a, b) => a + b, 0) / (allValues.length || 1);
+  const globalScore = Math.round(globalAvg * 10);
+
+  return { globalScore, domainScores };
+}
+
+function getSummary(globalScore) {
+  if (globalScore < 40) {
+    return {
+      title: "Phase compliquée mais pas figée.",
+      text:
+        "Ton LifeScore global indique une période difficile. L’objectif n’est pas de te juger, mais de t’aider à identifier les points les plus urgents et les premières actions concrètes pour remonter progressivement.",
+    };
+  }
+  if (globalScore < 70) {
+    return {
+      title: "Situation intermédiaire, avec une vraie marge de progression.",
+      text:
+        "Tu vis une phase où tout n’est pas simple, mais tu as déjà des bases solides. En travaillant sur quelques domaines clés, tu peux rapidement améliorer ton confort de vie global.",
+    };
+  }
+  return {
+    title: "Base de vie plutôt solide.",
+    text:
+      "Ton LifeScore global est élevé. Tu sembles avoir trouvé un certain équilibre, même si certains domaines peuvent encore être affinés pour consolider cette stabilité.",
+  };
+}
+
+function getStrengthsAndPriorities(domainScores) {
+  const entries = Object.entries(domainScores);
+  // tri du plus élevé au plus faible
+  const sorted = [...entries].sort((a, b) => b[1] - a[1]);
+
+  const top = sorted.slice(0, 2);
+  const bottom = sorted.slice(-2);
+
+  const strengths = top.map(
+    ([key, score]) => `${DOMAINS[key].label} : ${score}/100`
+  );
+  const priorities = bottom.map(
+    ([key, score]) => `${DOMAINS[key].label} : ${score}/100`
+  );
+
+  return { strengths, priorities };
+}
+
+export default function Home() {
+  const [mode, setMode] = useState("form"); // "form" | "result" | "about"
+  const [formData, setFormData] = useState(INITIAL_DATA);
+  const [result, setResult] = useState(null);
+
+  const handleChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: Number(value),
     }));
   };
 
-  // Calcul des scores
-  const computeScores = () => {
-    const avg = (keys: (keyof typeof initialForm)[]) => {
-      const sum = keys.reduce((acc, k) => acc + formData[k], 0);
-      return (sum / (keys.length * 5)) * 100; // converti en /100
-    };
-
-    const finances = avg([
-      "finances_situation",
-      "finances_budget",
-      "finances_dettes",
-    ]);
-    const travail = avg([
-      "travail_plaisir",
-      "travail_sens",
-      "travail_energie",
-    ]);
-    const sante = avg([
-      "sante_energie",
-      "sante_sommeil",
-      "sante_habitudes",
-    ]);
-    const orga = avg(["orga_papiers", "orga_temps", "orga_priorites"]);
-    const relations = avg(["rel_proches", "rel_famille", "rel_social"]);
-    const mental = avg([
-      "mental_stress",
-      "mental_humeur",
-      "mental_motivation",
-    ]);
-
-    const global =
-      (finances + travail + sante + orga + relations + mental) / 6;
-
-    return {
-      finances: Math.round(finances),
-      travail: Math.round(travail),
-      sante: Math.round(sante),
-      orga: Math.round(orga),
-      relations: Math.round(relations),
-      mental: Math.round(mental),
-      global: Math.round(global),
-    };
-  };
-
-  // Soumission du questionnaire
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const scores = computeScores();
-    setDomainScores(scores);
-    setStep("result");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const scores = computeScores(formData);
+    setResult(scores);
+    setMode("result");
   };
 
-  // Retour à l'accueil / reset
-  const resetAll = () => {
-    setFormData(initialForm);
-    setDomainScores(null);
-    setStep("form");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const handleReset = () => {
+    setFormData(INITIAL_DATA);
+    setResult(null);
+    setMode("form");
   };
 
-  const scores = domainScores;
+  const handleGoHome = () => {
+    setMode("form");
+  };
+
+  // Contenu principal selon le mode
+  let mainContent;
+
+  if (mode === "about") {
+    mainContent = (
+      <main className="ls-main">
+        <section className="ls-card">
+          <h1>À propos de LifeScore.ai</h1>
+          <p>
+            LifeScore.ai est un outil expérimental qui calcule un{" "}
+            <strong>score de vie global</strong> à partir de différentes
+            dimensions du quotidien : finances, travail, santé, organisation,
+            relations et état mental.
+          </p>
+          <p>
+            L’objectif n’est pas de coller une « note » à ta vie, mais de te
+            donner un <strong>repère chiffré</strong> et un{" "}
+            <strong>langage simple</strong> pour analyser ta situation et
+            décider des prochaines actions.
+          </p>
+          <p>
+            Les réponses ne sont pas enregistrées côté serveur. Tout se calcule
+            directement dans ton navigateur, pour te permettre d’expérimenter
+            librement, sans pression.
+          </p>
+          <p>
+            Ce projet est une <strong>V1 de démonstration</strong>. La vision à
+            terme : un tableau de bord personnel, des suivis dans le temps, et
+            des pistes d’amélioration plus détaillées, générées par
+            l’intelligence artificielle.
+          </p>
+        </section>
+      </main>
+    );
+  } else if (mode === "result" && result) {
+    const { globalScore, domainScores } = result;
+    const summary = getSummary(globalScore);
+    const { strengths, priorities } = getStrengthsAndPriorities(domainScores);
+
+    mainContent = (
+      <main className="ls-main">
+        <section className="ls-card">
+          <header className="ls-result-header">
+            <div className="ls-score-circle">
+              <div className="ls-score-value">{globalScore}</div>
+              <div className="ls-score-max">/100</div>
+            </div>
+            <div className="ls-result-text">
+              <h1>Ton LifeScore global</h1>
+              <p>
+                Ce score est la moyenne de l’ensemble de tes réponses, convertie
+                sur 100. Il ne représente pas une vérité absolue, mais une
+                <strong> photographie de ta situation actuelle</strong> à
+                partir de ton ressenti.
+              </p>
+              <p>
+                Utilise-le comme un <strong>point de départ</strong> : tu peux
+                refaire le questionnaire régulièrement pour suivre l’évolution
+                de ton LifeScore au fil des semaines ou des mois.
+              </p>
+            </div>
+          </header>
+
+          <section className="ls-section">
+            <h2>Scores par domaine</h2>
+            <div className="ls-domain-list">
+              {Object.entries(DOMAINS).map(([key, domain]) => (
+                <div key={key} className="ls-domain-row">
+                  <div className="ls-domain-header">
+                    <span className="ls-domain-label">{domain.label}</span>
+                    <span className="ls-domain-score">
+                      {domainScores[key]}/100
+                    </span>
+                  </div>
+                  <div className="ls-bar-outer">
+                    <div
+                      className="ls-bar-inner"
+                      style={{ width: `${domainScores[key]}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="ls-section ls-section-grid">
+            <div>
+              <h3>Tes forces actuelles</h3>
+              <ul>
+                {strengths.map((s, idx) => (
+                  <li key={idx}>{s}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Axes prioritaires</h3>
+              <ul>
+                {priorities.map((p, idx) => (
+                  <li key={idx}>{p}</li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <section className="ls-section">
+            <h2>{summary.title}</h2>
+            <p>{summary.text}</p>
+            <p>
+              Pour aller plus loin, tu peux te fixer{" "}
+              <strong>1 ou 2 objectifs simples</strong> sur les prochains
+              jours&nbsp;:
+            </p>
+            <ul>
+              <li>
+                choisir un domaine prioritaire et noter une première action
+                concrète ;
+              </li>
+              <li>
+                refaire le questionnaire après quelques semaines pour voir si
+                ton ressenti a évolué ;
+              </li>
+              <li>
+                utiliser ce score comme base pour en parler avec une personne
+                de confiance ou un professionnel si besoin.
+              </li>
+            </ul>
+          </section>
+
+          <div className="ls-actions">
+            <button type="button" className="ls-button-secondary" onClick={handleGoHome}>
+              Retour à l’accueil
+            </button>
+            <button type="button" className="ls-button-primary" onClick={handleReset}>
+              Refaire le questionnaire
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  } else {
+    // MODE FORM (accueil)
+    mainContent = (
+      <main className="ls-main">
+        <section className="ls-card">
+          <header className="ls-hero-header">
+            <h1>Calcule ton LifeScore en 2 minutes.</h1>
+            <p className="ls-hero-intro">
+              Ce questionnaire a été conçu pour t’aider à prendre du recul sur
+              ta situation. En quelques questions, tu obtiens un{" "}
+              <strong>score global</strong> et des{" "}
+              <strong>scores par domaine</strong> (finances, travail, santé,
+              relations, etc.).
+            </p>
+            <p className="ls-hero-intro">
+              Réponds <strong>honnêtement</strong>, sans te juger. Il n’existe
+              pas de « bonne » réponse : l’important, c’est ce que{" "}
+              <strong>toi</strong> tu ressens aujourd’hui.
+            </p>
+            <p className="ls-hero-note">
+              Échelle utilisée : <strong>1 = très faible</strong>,{" "}
+              <strong>10 = excellent</strong>.
+            </p>
+          </header>
+
+          <form onSubmit={handleSubmit} className="ls-form">
+            {/* FINANCES */}
+            <section className="ls-section">
+              <h2>Finances</h2>
+              <p className="ls-scale-help">
+                1 = très mauvaise, 10 = excellente.
+              </p>
+
+              <QuestionSlider
+                label="Situation financière globale"
+                field="finances_situation"
+                value={formData.finances_situation}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Gestion du budget"
+                field="finances_budget"
+                value={formData.finances_budget}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Poids des dettes"
+                field="finances_debt"
+                value={formData.finances_debt}
+                onChange={handleChange}
+              />
+            </section>
+
+            {/* TRAVAIL / ACTIVITÉ */}
+            <section className="ls-section">
+              <h2>Travail / activité</h2>
+              <p className="ls-scale-help">
+                1 = très insatisfaisant, 10 = très satisfaisant.
+              </p>
+
+              <QuestionSlider
+                label="Confiance dans ton travail / activité"
+                field="work_satisfaction"
+                value={formData.work_satisfaction}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Sens de ton activité"
+                field="work_meaning"
+                value={formData.work_meaning}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Niveau d’énergie au travail"
+                field="work_energy"
+                value={formData.work_energy}
+                onChange={handleChange}
+              />
+            </section>
+
+            {/* SANTÉ / ÉNERGIE */}
+            <section className="ls-section">
+              <h2>Santé / énergie</h2>
+              <p className="ls-scale-help">
+                1 = très faible, 10 = très bon.
+              </p>
+
+              <QuestionSlider
+                label="Niveau d’énergie sur une semaine moyenne"
+                field="health_energy"
+                value={formData.health_energy}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Qualité moyenne du sommeil"
+                field="health_sleep"
+                value={formData.health_sleep}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Niveau de stress ressenti"
+                field="health_stress"
+                value={formData.health_stress}
+                onChange={handleChange}
+              />
+            </section>
+
+            {/* ORGANISATION / ADMIN */}
+            <section className="ls-section">
+              <h2>Organisation / administratif</h2>
+
+              <QuestionSlider
+                label="Sentiment d’organisation au quotidien"
+                field="admin_organisation"
+                value={formData.admin_organisation}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Gestion des papiers, factures, démarches"
+                field="admin_papers"
+                value={formData.admin_papers}
+                onChange={handleChange}
+              />
+            </section>
+
+            {/* RELATIONS */}
+            <section className="ls-section">
+              <h2>Relations / entourage</h2>
+
+              <QuestionSlider
+                label="Soutien ressenti de la part de ton entourage"
+                field="relations_support"
+                value={formData.relations_support}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Temps de qualité partagé avec les proches"
+                field="relations_time"
+                value={formData.relations_time}
+                onChange={handleChange}
+              />
+            </section>
+
+            {/* ÉTAT MENTAL */}
+            <section className="ls-section">
+              <h2>État mental / ressenti</h2>
+
+              <QuestionSlider
+                label="Humeur générale en ce moment"
+                field="mood_general"
+                value={formData.mood_general}
+                onChange={handleChange}
+              />
+              <QuestionSlider
+                label="Motivation pour avancer dans tes projets"
+                field="mood_motivation"
+                value={formData.mood_motivation}
+                onChange={handleChange}
+              />
+            </section>
+
+            <div className="ls-actions">
+              <button type="button" className="ls-button-secondary" onClick={handleReset}>
+                Réinitialiser les réponses
+              </button>
+              <button type="submit" className="ls-button-primary">
+                Calculer mon LifeScore
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    );
+  }
 
   return (
-    <>
+    <div className="ls-page">
       {/* HEADER */}
       <header className="ls-header">
         <div className="ls-header-inner">
-          <button
-            type="button"
-            onClick={resetAll}
-            className="ls-logo-button"
-          >
-            <span className="ls-logo">LifeScore.ai</span>
-          </button>
-
+          <div className="ls-logo">LifeScore.ai</div>
           <nav className="ls-nav">
-            <button type="button" className="ls-nav-link" onClick={resetAll}>
+            <button
+              type="button"
+              className={`ls-nav-link ${mode === "form" ? "is-active" : ""}`}
+              onClick={handleGoHome}
+            >
               Accueil
             </button>
             <button
               type="button"
-              className="ls-nav-link"
-              onClick={() => {
-                const el = document.getElementById("apropos");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
+              className={`ls-nav-link ${mode === "about" ? "is-active" : ""}`}
+              onClick={() => setMode("about")}
             >
               À propos
             </button>
@@ -144,465 +480,44 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="ls-main">
-        {/* === ÉTAPE 1 : QUESTIONNAIRE === */}
-        {step === "form" && (
-          <div className="ls-container">
-            <section className="ls-hero">
-              <h1 className="ls-title">Calcule ton LifeScore en 2 minutes.</h1>
-              <p className="ls-subtitle">
-                Réponds simplement aux questions ci-dessous. Chaque curseur va
-                de 0 (très faible) à 5 (très élevé). Tes réponses ne sont pas
-                enregistrées côté serveur.
-              </p>
-            </section>
+      {mainContent}
 
-            <form className="ls-form" onSubmit={handleSubmit}>
-              {/* FINANCES */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">Finances</h2>
-
-                <div className="ls-question">
-                  <label>
-                    Situation financière globale <span>(0 = catastrophique, 5 = confortable)</span>
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.finances_situation}
-                    onChange={(e) =>
-                      updateField("finances_situation", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Gestion du budget au quotidien</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.finances_budget}
-                    onChange={(e) =>
-                      updateField("finances_budget", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>
-                    Poids mental de tes dettes / crédits
-                    <span>(0 = très léger, 5 = très lourd)</span>
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.finances_dettes}
-                    onChange={(e) =>
-                      updateField("finances_dettes", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              {/* TRAVAIL / ACTIVITÉ */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">Travail / activité</h2>
-
-                <div className="ls-question">
-                  <label>Confiance dans ton travail ou activité actuelle</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.travail_plaisir}
-                    onChange={(e) =>
-                      updateField("travail_plaisir", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Sentiment que ton activité a du sens pour toi</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.travail_sens}
-                    onChange={(e) =>
-                      updateField("travail_sens", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Niveau d&apos;énergie moyen au travail</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.travail_energie}
-                    onChange={(e) =>
-                      updateField("travail_energie", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              {/* SANTÉ / ÉNERGIE */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">Santé / énergie</h2>
-
-                <div className="ls-question">
-                  <label>Niveau d&apos;énergie sur une semaine moyenne</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.sante_energie}
-                    onChange={(e) =>
-                      updateField("sante_energie", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Qualité de ton sommeil récent</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.sante_sommeil}
-                    onChange={(e) =>
-                      updateField("sante_sommeil", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Habitudes de vie (alimentation, mouvement, etc.)</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.sante_habitudes}
-                    onChange={(e) =>
-                      updateField("sante_habitudes", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              {/* ORGANISATION / ADMINISTRATIF */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">Organisation / administratif</h2>
-
-                <div className="ls-question">
-                  <label>Suivi de tes papiers et démarches</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.orga_papiers}
-                    onChange={(e) =>
-                      updateField("orga_papiers", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Gestion de ton temps</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.orga_temps}
-                    onChange={(e) =>
-                      updateField("orga_temps", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Capacité à prioriser ce qui est important</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.orga_priorites}
-                    onChange={(e) =>
-                      updateField("orga_priorites", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              {/* RELATIONS / ENTOURAGE */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">Relations / entourage</h2>
-
-                <div className="ls-question">
-                  <label>Qualité des relations très proches</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.rel_proches}
-                    onChange={(e) =>
-                      updateField("rel_proches", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Relations familiales globales</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.rel_famille}
-                    onChange={(e) =>
-                      updateField("rel_famille", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Vie sociale (amis, collègues, rencontres)</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.rel_social}
-                    onChange={(e) =>
-                      updateField("rel_social", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              {/* ÉTAT MENTAL / RESSENTI */}
-              <section className="ls-form-section">
-                <h2 className="ls-section-title">État mental / ressenti</h2>
-
-                <div className="ls-question">
-                  <label>Niveau de stress global</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.mental_stress}
-                    onChange={(e) =>
-                      updateField("mental_stress", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Qualité de ton humeur la plupart du temps</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.mental_humeur}
-                    onChange={(e) =>
-                      updateField("mental_humeur", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="ls-question">
-                  <label>Motivation pour tes projets personnels</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="5"
-                    value={formData.mental_motivation}
-                    onChange={(e) =>
-                      updateField("mental_motivation", e.target.value)
-                    }
-                  />
-                </div>
-              </section>
-
-              <div className="ls-submit-row">
-                <button type="submit" className="ls-button">
-                  Voir mon LifeScore
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* === ÉTAPE 2 : RÉSULTATS === */}
-        {step === "result" && scores && (
-          <div className="ls-container">
-            <section className="ls-result-header">
-              <div className="ls-score-circle">
-                <span className="ls-score-main">{scores.global}</span>
-                <span className="ls-score-max">/100</span>
-              </div>
-              <div>
-                <h1 className="ls-title">Ton LifeScore global</h1>
-                <p className="ls-subtitle">
-                  Ce score est une photographie rapide de ton équilibre de vie.
-                  Il ne remplace pas un avis professionnel, mais te donne un
-                  repère concret pour organiser la suite.
-                </p>
-              </div>
-            </section>
-
-            <section className="ls-result-grid">
-              <div className="ls-result-block">
-                <h2 className="ls-section-title">Scores par domaine</h2>
-
-                <div className="ls-bar-row">
-                  <span>Finances</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.finances}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.finances}/100</span>
-                </div>
-
-                <div className="ls-bar-row">
-                  <span>Travail / activité</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.travail}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.travail}/100</span>
-                </div>
-
-                <div className="ls-bar-row">
-                  <span>Santé / énergie</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.sante}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.sante}/100</span>
-                </div>
-
-                <div className="ls-bar-row">
-                  <span>Organisation / administratif</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.orga}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.orga}/100</span>
-                </div>
-
-                <div className="ls-bar-row">
-                  <span>Relations / entourage</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.relations}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.relations}/100</span>
-                </div>
-
-                <div className="ls-bar-row">
-                  <span>État mental / ressenti</span>
-                  <div className="ls-bar">
-                    <div
-                      className="ls-bar-fill"
-                      style={{ width: `${scores.mental}%` }}
-                    />
-                  </div>
-                  <span className="ls-bar-value">{scores.mental}/100</span>
-                </div>
-              </div>
-
-              <div className="ls-result-block">
-                <h2 className="ls-section-title">Lecture rapide</h2>
-                <p className="ls-text">
-                  Ton LifeScore global est{" "}
-                  <strong>{scores.global}/100</strong>. Tu traverses
-                  probablement une phase où certains domaines tirent les autres
-                  vers le haut, tandis que d&apos;autres demandent à être
-                  structurés.
-                </p>
-
-                <h3 className="ls-subblock-title">Forces actuelles</h3>
-                <ul className="ls-list">
-                  <li>
-                    Les domaines dont le score est le plus élevé sont tes
-                    appuis. Tu peux t&apos;en servir comme base pour
-                    progresser dans le reste.
-                  </li>
-                  <li>
-                    Garde une trace de ce qui fonctionne bien : habitudes,
-                    environnement, personnes qui t&apos;entourent.
-                  </li>
-                </ul>
-
-                <h3 className="ls-subblock-title">Axes prioritaires</h3>
-                <ul className="ls-list">
-                  <li>
-                    Commence par le domaine le plus bas (finances, organisation,
-                    santé, etc.) et choisis une seule action simple à réaliser
-                    dans les 7 prochains jours.
-                  </li>
-                  <li>
-                    Concentre-toi sur des actions réalistes : régulariser un
-                    papier, clarifier un budget, prendre un rendez-vous médical,
-                    organiser une discussion importante, etc.
-                  </li>
-                </ul>
-
-                <h3 className="ls-subblock-title">Et après ?</h3>
-                <p className="ls-text">
-                  L&apos;idée de LifeScore.ai n&apos;est pas de te juger, mais
-                  de te donner un repère chiffré pour suivre ton évolution. Tu
-                  peux revenir faire le test régulièrement pour voir si tes
-                  actions concrètes font bouger les scores.
-                </p>
-
-                <div className="ls-submit-row">
-                  <button type="button" className="ls-button" onClick={resetAll}>
-                    Refaire le questionnaire
-                  </button>
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
-
-        {/* SECTION À PROPOS */}
-        <section id="apropos" className="ls-about">
-          <div className="ls-container">
-            <h2 className="ls-section-title">À propos de LifeScore.ai</h2>
-            <p className="ls-text">
-              LifeScore.ai est un outil expérimental conçu pour t&apos;aider à
-              prendre du recul sur ta situation globale. Le questionnaire reste
-              volontairement simple&nbsp;: aucune réponse n&apos;est enregistrée
-              côté serveur et tu peux refaire le test autant de fois que tu le
-              souhaites.
-            </p>
-            <p className="ls-text">
-              Ce n&apos;est pas un diagnostic médical ni un avis financier, mais
-              un point de départ pour organiser tes prochaines décisions.
-            </p>
-          </div>
-        </section>
-      </main>
-
-      {/* FOOTER UNIQUE */}
+      {/* FOOTER */}
       <footer className="ls-footer">
-        © {new Date().getFullYear()} LifeScore.ai — Bilan de vie expérimental.
+        <div className="ls-footer-inner">
+          <span>© {new Date().getFullYear()} LifeScore.ai – Bilan de vie expérimental.</span>
+          <span className="ls-footer-note">
+            Les réponses ne sont pas enregistrées côté serveur. Ce site ne fournit pas de conseil
+            médical, financier ou psychologique.
+          </span>
+        </div>
       </footer>
-    </>
+    </div>
+  );
+}
+
+// Composant curseur 1 → 10 avec graduations visibles
+function QuestionSlider({ label, field, value, onChange }) {
+  return (
+    <div className="ls-question">
+      <label className="ls-question-label">
+        {label}
+        <span className="ls-question-value">{value}/10</span>
+      </label>
+      <input
+        type="range"
+        min="1"
+        max="10"
+        step="1"
+        value={value}
+        onChange={(e) => onChange(field, e.target.value)}
+        className="ls-slider"
+      />
+      <div className="ls-slider-scale">
+        {[1,2,3,4,5,6,7,8,9,10].map((n) => (
+          <span key={n}>{n}</span>
+        ))}
+      </div>
+    </div>
   );
 }
