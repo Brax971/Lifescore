@@ -3,279 +3,205 @@
 
 import { useState } from "react";
 
+// Définition du questionnaire
 const DOMAINS = [
-  { id: "finances", label: "Finances" },
-  { id: "travail", label: "Travail / activité" },
-  { id: "sante", label: "Santé / énergie" },
-  { id: "organisation", label: "Organisation / administratif" },
-  { id: "relations", label: "Relations / entourage" },
-  { id: "mental", label: "État mental / ressenti" },
-];
-
-const QUESTIONS = [
-  // Finances
   {
-    id: "finances_1",
-    domainId: "finances",
-    label: "Situation financière globale",
+    id: "finances",
+    title: "Finances",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { key: "fin_situation", label: "Situation financière globale" },
+      { key: "fin_budget", label: "Gestion du budget" },
+      { key: "fin_dettes", label: "Poids des dettes" },
+    ],
   },
   {
-    id: "finances_2",
-    domainId: "finances",
-    label: "Gestion du budget",
+    id: "travail",
+    title: "Travail / activité",
+    description: "1 = très insatisfaisant, 10 = très satisfaisant.",
+    questions: [
+      {
+        key: "job_confiance",
+        label: "Confiance dans ton travail / activité",
+      },
+      { key: "job_sens", label: "Sens de ton activité" },
+      { key: "job_energie", label: "Niveau d'énergie au travail" },
+    ],
   },
   {
-    id: "finances_3",
-    domainId: "finances",
-    label: "Poids des dettes",
-  },
-
-  // Travail / activité
-  {
-    id: "travail_1",
-    domainId: "travail",
-    label: "Confiance dans ton travail / activité",
-  },
-  {
-    id: "travail_2",
-    domainId: "travail",
-    label: "Sens de ton activité",
+    id: "sante",
+    title: "Santé / énergie",
+    description: "1 = très faible, 10 = excellente.",
+    questions: [
+      {
+        key: "health_energie",
+        label: "Niveau d'énergie sur une semaine moyenne",
+      },
+      { key: "health_sommeil", label: "Qualité du sommeil" },
+      { key: "health_habitudes", label: "Habitudes de santé (alimentation, sport…)" },
+    ],
   },
   {
-    id: "travail_3",
-    domainId: "travail",
-    label: "Niveau d'énergie au travail",
-  },
-
-  // Santé / énergie
-  {
-    id: "sante_1",
-    domainId: "sante",
-    label: "Niveau d'énergie sur une semaine moyenne",
+    id: "organisation",
+    title: "Organisation / administratif",
+    description: "1 = très chaotique, 10 = très clair et maîtrisé.",
+    questions: [
+      { key: "org_papiers", label: "Gestion des papiers / administratif" },
+      { key: "org_temps", label: "Organisation du temps et des priorités" },
+      { key: "org_logement", label: "Gestion du logement / foyer" },
+    ],
   },
   {
-    id: "sante_2",
-    domainId: "sante",
-    label: "Qualité du sommeil",
+    id: "relations",
+    title: "Relations / entourage",
+    description: "1 = très isolé, 10 = très bien entouré.",
+    questions: [
+      {
+        key: "rel_soutien",
+        label: "Soutien ressenti de la part de ton entourage",
+      },
+      {
+        key: "rel_temps",
+        label: "Temps de qualité partagé avec les proches",
+      },
+      {
+        key: "rel_conflits",
+        label: "Niveau de sérénité (peu de conflits, tensions…)",
+      },
+    ],
   },
   {
-    id: "sante_3",
-    domainId: "sante",
-    label: "Habitudes de santé (alimentation, activité physique…)",
-  },
-
-  // Organisation / administratif
-  {
-    id: "organisation_1",
-    domainId: "organisation",
-    label: "Organisation du quotidien",
-  },
-  {
-    id: "organisation_2",
-    domainId: "organisation",
-    label: "Gestion des tâches administratives",
-  },
-  {
-    id: "organisation_3",
-    domainId: "organisation",
-    label: "Clarté de tes priorités",
-  },
-
-  // Relations / entourage
-  {
-    id: "relations_1",
-    domainId: "relations",
-    label: "Qualité des relations proches",
-  },
-  {
-    id: "relations_2",
-    domainId: "relations",
-    label: "Soutien ressenti de ton entourage",
-  },
-  {
-    id: "relations_3",
-    domainId: "relations",
-    label: "Temps accordé à tes relations importantes",
-  },
-
-  // État mental / ressenti
-  {
-    id: "mental_1",
-    domainId: "mental",
-    label: "Humeur générale en ce moment",
-  },
-  {
-    id: "mental_2",
-    domainId: "mental",
-    label: "Motivation pour avancer dans tes projets",
-  },
-  {
-    id: "mental_3",
-    domainId: "mental",
-    label: "Niveau de stress ressenti",
+    id: "mental",
+    title: "État mental / ressenti",
+    description: "1 = très bas, 10 = très bon.",
+    questions: [
+      { key: "mind_humeur", label: "Humeur générale en ce moment" },
+      {
+        key: "mind_motivation",
+        label: "Motivation pour avancer dans tes projets",
+      },
+      {
+        key: "mind_stress",
+        label: "Niveau de stress ressenti au quotidien",
+      },
+    ],
   },
 ];
 
-function createInitialAnswers() {
-  const obj = {};
-  QUESTIONS.forEach((q) => {
-    obj[q.id] = 5; // valeur par défaut : 5/10
+// Valeurs initiales : tout à 5/10
+function buildInitialAnswers() {
+  const initial = {};
+  DOMAINS.forEach((domain) => {
+    domain.questions.forEach((q) => {
+      initial[q.key] = 5;
+    });
   });
-  return obj;
+  return initial;
 }
 
-export default function Home() {
-  const [view, setView] = useState<"form" | "result">("form");
-  const [answers, setAnswers] = useState(createInitialAnswers);
-  const [globalScore, setGlobalScore] = useState(0);
-  const [domainScores, setDomainScores] = useState({});
-  const [summaryText, setSummaryText] = useState("");
+export default function HomePage() {
+  const [view, setView] = useState("home"); // "home" | "about"
+  const [answers, setAnswers] = useState(buildInitialAnswers);
+  const [results, setResults] = useState(null); // null ou objet résultat
 
-  const handleChange = (id, value) => {
+  // Mise à jour d'un slider
+  const handleChange = (key, value) => {
     setAnswers((prev) => ({
       ...prev,
-      [id]: Number(value),
+      [key]: Number(value),
     }));
   };
 
+  // Reset des réponses
   const handleReset = () => {
-    setAnswers(createInitialAnswers());
-    setView("form");
-    setGlobalScore(0);
-    setDomainScores({});
-    setSummaryText("");
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    setAnswers(buildInitialAnswers());
+    setResults(null);
+    setView("home");
   };
 
-  const computeScores = () => {
-    const domainTotals = {};
-    const domainCounts = {};
-
-    QUESTIONS.forEach((q) => {
-      const v = answers[q.id] ?? 5;
-      if (!domainTotals[q.domainId]) {
-        domainTotals[q.domainId] = 0;
-        domainCounts[q.domainId] = 0;
-      }
-      domainTotals[q.domainId] += v;
-      domainCounts[q.domainId] += 1;
-    });
-
-    const domainScoresComputed = {};
-    let sum = 0;
-    let count = 0;
-
-    DOMAINS.forEach((d) => {
-      if (domainTotals[d.id]) {
-        const avg = domainTotals[d.id] / domainCounts[d.id]; // 1–10
-        const score100 = Math.round(avg * 10); // 1–100
-        domainScoresComputed[d.id] = score100;
-        sum += score100;
-        count += 1;
-      }
-    });
-
-    const global = count > 0 ? Math.round(sum / count) : 0;
-
-    // petit résumé simple (on fera la version “premium” à l’étape B)
-    let summary = "";
-    if (global >= 80) {
-      summary =
-        "Ton LifeScore global est élevé : tu traverses une phase plutôt positive, avec de bons repères dans la plupart des domaines.";
-    } else if (global >= 60) {
-      summary =
-        "Ton LifeScore global est correct : il y a une certaine stabilité, avec des marges de progression intéressantes.";
-    } else if (global >= 40) {
-      summary =
-        "Ton LifeScore global est intermédiaire : la période n’est pas simple, mais plusieurs leviers peuvent être améliorés.";
-    } else {
-      summary =
-        "Ton LifeScore global est bas en ce moment : tu traverses sans doute une phase difficile. Ce bilan sert de point de départ pour organiser une progression, pas de jugement.";
-    }
-
-    setGlobalScore(global);
-    setDomainScores(domainScoresComputed);
-    setSummaryText(summary);
-  };
-
+  // Calcul du LifeScore
   const handleSubmit = (e) => {
     e.preventDefault();
-    computeScores();
-    setView("result");
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const domainScores = DOMAINS.map((domain) => {
+      const values = domain.questions.map((q) => answers[q.key] || 1);
+      const avgOn10 =
+        values.reduce((sum, v) => sum + v, 0) / values.length;
+      const scoreOn100 = Math.round(avgOn10 * 10); // 1–10 → 10–100
+
+      return {
+        id: domain.id,
+        title: domain.title,
+        score: scoreOn100,
+      };
+    });
+
+    const global =
+      domainScores.reduce((sum, d) => sum + d.score, 0) /
+      domainScores.length;
+
+    // Interprétation simple pour le texte
+    let globalMessage;
+    if (global < 40) {
+      globalMessage =
+        "Ton LifeScore global est bas : tu traverses probablement une période compliquée. L'idée n'est pas de te juger, mais d'identifier clairement les zones à sécuriser en priorité.";
+    } else if (global < 70) {
+      globalMessage =
+        "Ton LifeScore global est intermédiaire : tout n'est pas simple, mais tu as déjà des bases sur lesquelles t'appuyer pour progresser.";
+    } else {
+      globalMessage =
+        "Ton LifeScore global est plutôt élevé : ta situation générale est globalement satisfaisante, même s'il reste toujours des points à peaufiner.";
     }
+
+    const strengths = domainScores
+      .filter((d) => d.score >= 70)
+      .map((d) => d.title);
+
+    const priorities = domainScores
+      .filter((d) => d.score < 50)
+      .map((d) => d.title);
+
+    setResults({
+      global: Math.round(global),
+      domains: domainScores,
+      globalMessage,
+      strengths,
+      priorities,
+    });
   };
 
-  const handleClickAccueil = () => {
-    handleReset();
+  const goHome = () => {
+    setView("home");
+    setResults(null);
   };
 
-  const handleClickAPropos = () => {
-    // Navigation simple vers la page À propos (route /a-propos)
-    if (typeof window !== "undefined") {
-      window.location.href = "/a-propos";
-    }
+  const goAbout = () => {
+    setView("about");
+    setResults(null);
   };
-
-  const renderScaleTicks = () => {
-    // graduations 1 à 10 sous chaque slider
-    return (
-      <div className="scale-ticks">
-        {Array.from({ length: 10 }).map((_, index) => (
-          <span key={index}>{index + 1}</span>
-        ))}
-      </div>
-    );
-  };
-
-  const renderQuestion = (question) => {
-    const value = answers[question.id] ?? 5;
-    return (
-      <div key={question.id} className="question-row">
-        <div className="question-label">
-          <span>{question.label}</span>
-          <span className="question-value">{value}/10</span>
-        </div>
-        <input
-          type="range"
-          min="1"
-          max="10"
-          step="1"
-          value={value}
-          onChange={(e) => handleChange(question.id, e.target.value)}
-          className="slider"
-        />
-        {renderScaleTicks()}
-      </div>
-    );
-  };
-
-  const questionsByDomain = DOMAINS.map((domain) => ({
-    domain,
-    questions: QUESTIONS.filter((q) => q.domainId === domain.id),
-  }));
 
   return (
-    <div className="page-wrapper">
+    <div className="ls-root">
       {/* HEADER */}
-      <header className="top-nav">
-        <div className="top-nav-inner">
-          <div className="logo">LifeScore.ai</div>
-          <nav className="nav-links">
+      <header className="ls-header">
+        <div className="ls-header-inner">
+          <div className="ls-logo">LifeScore.ai</div>
+          <nav className="ls-nav">
             <button
               type="button"
-              className="nav-link-button"
-              onClick={handleClickAccueil}
+              className={`ls-nav-link ${
+                view === "home" ? "ls-nav-link-active" : ""
+              }`}
+              onClick={goHome}
             >
               Accueil
             </button>
             <button
               type="button"
-              className="nav-link-button"
-              onClick={handleClickAPropos}
+              className={`ls-nav-link ${
+                view === "about" ? "ls-nav-link-active" : ""
+              }`}
+              onClick={goAbout}
             >
               À propos
             </button>
@@ -283,133 +209,301 @@ export default function Home() {
         </div>
       </header>
 
-      {/* MAIN */}
-      <main className="main-shell">
-        {view === "form" && (
-          <section className="card">
-            <h1 className="page-title">Calcule ton LifeScore en 2 minutes.</h1>
-
-            {/* ⚡ Intro plus claire */}
-            <div className="intro-block">
-              <p className="intro-text">
-                Ce questionnaire a été conçu pour t&apos;aider à prendre du
-                recul sur ta situation. En quelques questions, tu obtiens :
-              </p>
-              <ul className="intro-list">
-                <li>un score global de ta vie actuelle ;</li>
-                <li>des scores par domaine (finances, travail, santé, etc.) ;</li>
-                <li>un résumé simple pour clarifier tes priorités.</li>
-              </ul>
-              <p className="intro-scale">
-                Réponds honnêtement, sans te juger. Il n&apos;y a pas de
-                &laquo; bonne &raquo; réponse : l&apos;important, c&apos;est ce
-                que tu ressens aujourd&apos;hui.
-                <br />
-                <strong>Échelle utilisée : 1 = très faible, 10 = excellent.</strong>
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="lifescore-form">
-              {questionsByDomain.map(({ domain, questions }) => (
-                <section key={domain.id} className="domain-section">
-                  <h2 className="domain-title">{domain.label}</h2>
-                  <p className="domain-subtitle">
-                    Note chaque affirmation de 1 à 10 en fonction de ton
-                    ressenti actuel.
-                  </p>
-                  {questions.map(renderQuestion)}
-                </section>
-              ))}
-
-              <div className="form-actions">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={handleReset}
-                >
-                  Réinitialiser les réponses
-                </button>
-                <button type="submit" className="btn-primary">
-                  Calculer mon LifeScore
-                </button>
-              </div>
-            </form>
-          </section>
-        )}
-
-        {view === "result" && (
-          <section className="card">
-            <h1 className="page-title">Ton LifeScore</h1>
-
-            <div className="result-header">
-              <div className="circle-score">
-                <span className="circle-score-main">{globalScore}</span>
-                <span className="circle-score-sub">/100</span>
-              </div>
-              <div className="result-header-text">
-                <h2>LifeScore global</h2>
-                <p>
-                  Ce score est la moyenne de tous les domaines évalués. Il ne
-                  s&apos;agit pas d&apos;un jugement, mais d&apos;un{" "}
-                  <strong>indicateur</strong> de ton niveau de satisfaction
-                  global aujourd&apos;hui.
-                </p>
-              </div>
-            </div>
-
-            <section className="domain-scores">
-              <h2>Scores par domaine</h2>
-              {DOMAINS.map((domain) => {
-                const score = domainScores[domain.id] ?? 0;
-                return (
-                  <div key={domain.id} className="domain-score-row">
-                    <div className="domain-score-header">
-                      <span>{domain.label}</span>
-                      <span className="domain-score-value">{score}/100</span>
-                    </div>
-                    <div className="domain-score-bar">
-                      <div
-                        className="domain-score-fill"
-                        style={{ width: `${score}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </section>
-
-            <section className="summary-block">
-              <h2>Résumé rapide</h2>
-              <p>{summaryText}</p>
-              <p className="summary-note">
-                Ce LifeScore est un point de départ. Tu peux revenir le refaire
-                régulièrement pour suivre ton évolution.
-              </p>
-            </section>
-
-            <div className="form-actions">
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={handleReset}
-              >
-                Refaire le questionnaire
-              </button>
-            </div>
-          </section>
+      {/* CONTENU */}
+      <main className="ls-main">
+        {view === "about" ? (
+          <AboutSection />
+        ) : results ? (
+          <ResultsSection results={results} onRestart={goHome} />
+        ) : (
+          <Questionnaire
+            answers={answers}
+            onChange={handleChange}
+            onReset={handleReset}
+            onSubmit={handleSubmit}
+          />
         )}
       </main>
 
       {/* FOOTER */}
-      <footer className="site-footer">
-        <div className="site-footer-inner">
-          <p>© 2025 LifeScore.ai – Bilan de vie expérimental.</p>
-          <p className="footer-note">
-            Les réponses ne sont pas enregistrées côté serveur. Ce site est un
-            outil d&apos;auto-évaluation, pas un avis médical ou financier.
-          </p>
+      <footer className="ls-footer">
+        <div className="ls-footer-inner">
+          <div>© 2025 LifeScore.ai – Bilan de vie expérimental.</div>
+          <div className="ls-footer-note">
+            Les réponses ne sont pas enregistrées côté serveur. Ce site ne
+            fournit pas de conseil médical, financier ou psychologique.
+          </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+/* ---------- Composant Questionnaire ---------- */
+
+function Questionnaire({ answers, onChange, onReset, onSubmit }) {
+  return (
+    <section className="ls-card">
+      <h1 className="ls-title">Calcule ton LifeScore en 2 minutes.</h1>
+
+      <p className="ls-intro">
+        Ce questionnaire a été conçu pour t&apos;aider à prendre du recul sur
+        ta situation. En quelques questions, tu obtiens un{" "}
+        <strong>score global</strong> et des <strong>scores par domaine</strong>{" "}
+        (finances, travail, santé, relations, etc.).
+        <br />
+        <br />
+        Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe pas
+        de « bonne » réponse : l&apos;important, c&apos;est ce que{" "}
+        <strong>toi</strong> tu ressens aujourd&apos;hui.
+        <br />
+        <br />
+        Échelle utilisée : <strong>1 = très faible, 10 = excellent.</strong>
+      </p>
+
+      <form onSubmit={onSubmit}>
+        {DOMAINS.map((domain) => (
+          <div key={domain.id} className="ls-domain-block">
+            <h2 className="ls-domain-title">{domain.title}</h2>
+            <p className="ls-domain-description">{domain.description}</p>
+
+            {domain.questions.map((q) => (
+              <div key={q.key} className="ls-question-row">
+                <div className="ls-question-header">
+                  <span className="ls-question-label">{q.label}</span>
+                  <span className="ls-question-value">
+                    {answers[q.key]}/10
+                  </span>
+                </div>
+                <div className="ls-slider-wrapper">
+                  <input
+                    type="range"
+                    min={1}
+                    max={10}
+                    step={1}
+                    value={answers[q.key]}
+                    onChange={(e) => onChange(q.key, e.target.value)}
+                    className="ls-slider"
+                  />
+                  <div className="ls-slider-scale">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                      <span key={n}>{n}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div
+          className="ls-actions-row"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "12px",
+            marginTop: "24px",
+          }}
+        >
+          <button
+            type="button"
+            className="ls-button ls-button-secondary"
+            onClick={onReset}
+          >
+            Réinitialiser les réponses
+          </button>
+          <button
+            type="submit"
+            className="ls-button ls-button-primary"
+          >
+            Calculer mon LifeScore
+          </button>
+        </div>
+      </form>
+    </section>
+  );
+}
+
+/* ---------- Composant Résultats ---------- */
+
+function ResultsSection({ results, onRestart }) {
+  const { global, domains, globalMessage, strengths, priorities } = results;
+
+  return (
+    <section className="ls-card">
+      <div className="ls-results-header">
+        {/* Cercle bien rond, propre */}
+        <div
+          style={{
+            width: "120px",
+            height: "120px",
+            borderRadius: "999px",
+            border: "4px solid #2563eb",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "32px",
+              fontWeight: 700,
+              lineHeight: 1,
+              color: "#111827",
+            }}
+          >
+            {global}
+          </div>
+          <div
+            style={{
+              marginTop: "4px",
+              fontSize: "14px",
+              color: "#6b7280",
+              fontWeight: 500,
+            }}
+          >
+            /100
+          </div>
+        </div>
+
+        <div className="ls-results-text">
+          <h1 className="ls-title">Ton LifeScore global</h1>
+          <p className="ls-intro">
+            Ce score est la moyenne de l&apos;ensemble de tes réponses,
+            ramenée sur 100. Ce n&apos;est pas une note absolue, mais une{" "}
+            <strong>photographie de ta situation actuelle</strong>.
+            <br />
+            <br />
+            Utilise-le comme un <strong>point de départ</strong> : tu peux
+            refaire le questionnaire régulièrement pour suivre l&apos;évolution
+            de ton LifeScore au fil des semaines ou des mois.
+          </p>
+        </div>
+      </div>
+
+      <p className="ls-global-message">{globalMessage}</p>
+
+      <h2 className="ls-section-subtitle">Scores par domaine</h2>
+      <div className="ls-domain-scores">
+        {domains.map((d) => (
+          <div key={d.id} className="ls-domain-score-row">
+            <div className="ls-domain-score-header">
+              <span className="ls-domain-score-label">{d.title}</span>
+              <span className="ls-domain-score-value">{d.score}/100</span>
+            </div>
+            <div className="ls-domain-score-bar">
+              <div
+                className="ls-domain-score-bar-fill"
+                style={{ width: `${d.score}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="ls-results-grid">
+        <div className="ls-results-column">
+          <h3>Tes forces actuelles</h3>
+          {strengths.length === 0 ? (
+            <p>
+              Aucun domaine n&apos;ressort particulièrement fort pour le
+              moment, mais c&apos;est justement l&apos;occasion de{" "}
+              <strong>construire des bases solides</strong>.
+            </p>
+          ) : (
+            <ul>
+              {strengths.map((label) => (
+                <li key={label}>
+                  <strong>{label}</strong> apparaît comme un domaine plutôt
+                  solide aujourd&apos;hui.
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="ls-results-column">
+          <h3>Axes prioritaires</h3>
+          {priorities.length === 0 ? (
+            <p>
+              Aucun domaine n&apos;est identifié comme critique. Tu peux
+              maintenant travailler sur des <strong>micro-améliorations</strong>{" "}
+              dans chaque zone.
+            </p>
+          ) : (
+            <ul>
+              {priorities.map((label) => (
+                <li key={label}>
+                  <strong>{label}</strong> mérite une attention particulière
+                  dans les prochaines semaines.
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="ls-summary-block">
+        <h3>Résumé</h3>
+        <p>
+          Le but de ce LifeScore n&apos;est pas de te juger, mais de te donner{" "}
+          <strong>un repère de départ</strong> pour organiser ta progression. Tu
+          peux refaire le questionnaire à tout moment pour mesurer ton
+          évolution.
+        </p>
+      </div>
+
+      <div
+        className="ls-actions-row"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "12px",
+          marginTop: "24px",
+        }}
+      >
+        <button
+          type="button"
+          className="ls-button ls-button-secondary"
+          onClick={onRestart}
+        >
+          Refaire le questionnaire
+        </button>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Page À propos ---------- */
+
+function AboutSection() {
+  return (
+    <section className="ls-card">
+      <h1 className="ls-title">À propos de LifeScore.ai</h1>
+      <p className="ls-intro">
+        LifeScore.ai est un outil expérimental qui te permet de mesurer,
+        en quelques minutes, un <strong>score global de qualité de vie</strong>{" "}
+        et des <strong>scores par domaine</strong> (finances, travail, santé,
+        relations, etc.).
+      </p>
+      <p className="ls-intro">
+        L&apos;objectif n&apos;est pas de poser un diagnostic, mais de t&apos;
+        offrir un <strong>tableau de bord simple</strong> pour voir où tu en es
+        aujourd&apos;hui et où concentrer tes efforts demain.
+      </p>
+      <p className="ls-intro">
+        Tes réponses ne sont <strong>pas enregistrées côté serveur</strong> :
+        le calcul se fait directement dans ton navigateur. Tu peux donc explorer
+        différents scénarios librement, sans créer de compte.
+      </p>
+      <p className="ls-intro">
+        À terme, LifeScore.ai pourra évoluer vers un suivi dans le temps,
+        des plans d&apos;action personnalisés et, peut-être, des possibilités
+        de partage volontaire de certains scores avec des proches ou des
+        professionnels.
+      </p>
+    </section>
   );
 }
