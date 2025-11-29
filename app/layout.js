@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "LifeScore – Bilan de vie en 2 minutes",
+  title: "Lifecore – Ta vie a un potentiel, mesure-la",
   description: "Calcule ton LifeScore et obtiens un bilan de vie structuré en quelques questions.",
 };
 
