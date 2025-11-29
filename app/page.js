@@ -74,7 +74,7 @@ const domains = [
     questions: [
       {
         id: "rel_soutien",
-        label: "Soutien ressenti de la part de ton entourage",
+        label: "Soutien ressenti de la part ton entourage",
       },
       {
         id: "rel_temps",
@@ -100,7 +100,7 @@ const domains = [
 ];
 
 export default function HomePage() {
-  const [showAbout, setShowAbout] = useState(false); // si tu veux l'utiliser plus tard
+  const [showAbout, setShowAbout] = useState(false); // laissé au cas où pour plus tard
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
 
@@ -171,7 +171,7 @@ export default function HomePage() {
             <div className="lk-brand-text">
               <span className="lk-brand-name">Lifekore</span>
               <span className="lk-brand-tagline">
-                Ton score de vie, en un coup d’œil.
+                Ta vie a un potentiel, mesure-la.
               </span>
             </div>
           </div>
@@ -217,15 +217,21 @@ export default function HomePage() {
           <div className="lk-card lk-card-main lk-card-intro">
             <h1>Calcule ton LifeScore en 2 minutes.</h1>
             <p>
-              Ce questionnaire a été conçu pour t&apos;aider à prendre du
-              recul sur ta situation. En quelques questions, tu obtiens un{" "}
+              <strong>Lifekore</strong> a été conçu pour t&apos;aider à prendre du
+              recul sur ta situation de vie grâce à l&apos;intelligence
+              artificielle. En quelques questions, tu obtiens un{" "}
               <strong>score global</strong> et des{" "}
               <strong>scores par domaine</strong> (finances, travail, santé,
-              relations, etc.).
+              relations, etc.), calculés de manière cohérente.
             </p>
             <p>
-              Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe pas
-              de « bonne » réponse : l&apos;important, c&apos;est ce que toi tu
+              L&apos;outil utilise l&apos;IA pour structurer tes réponses, te
+              donner une vision claire de ton équilibre général et t&apos;aider
+              à repérer les domaines qui méritent le plus ton attention.
+            </p>
+            <p>
+              Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe
+              pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi tu
               ressens aujourd&apos;hui.
             </p>
             <div className="lk-scale-info">
@@ -279,11 +285,11 @@ export default function HomePage() {
                             }
                             className="lk-slider"
                           />
-                          {/* graduations */}
+                          {/* graduations 1 à 10 */}
                           <div className="lk-slider-ticks">
-                            <span>1</span>
-                            <span>5</span>
-                            <span>10</span>
+                            {Array.from({ length: 10 }, (_, i) => (
+                              <span key={i + 1}>{i + 1}</span>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -441,19 +447,30 @@ export default function HomePage() {
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2>À propos de Lifekore</h2>
             <p>
-              Lifekore est un outil simple qui t&apos;aide à{" "}
-              <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui,
-              sans jugement.
+              Lifekore est un outil minimaliste qui utilise l&apos;intelligence
+              artificielle pour t&apos;aider à{" "}
+              <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui.
             </p>
             <p>
-              Le but n&apos;est pas d&apos;avoir 100/100 partout, mais de{" "}
-              <strong>repérer où tu as besoin d&apos;un coup de pouce</strong> :
-              finances, énergie, organisation, relations, état mental…
+              En quelques questions, tu mesures ton équilibre dans six
+              domaines clés : finances, travail, santé, organisation,
+              relations et état mental. Le LifeScore ne cherche pas la
+              perfection : il met en lumière <strong>où tu es solide</strong> et
+              <strong>où tu as besoin d&apos;un coup de pouce</strong>.
             </p>
             <p>
-              Reviens régulièrement, note tes scores et observe ton évolution
-              au fil des semaines. Petit à petit, tu construis une vie plus
-              alignée avec ce que tu veux vraiment.
+              L&apos;objectif n&apos;est pas de te juger, mais de te donner un
+              repère simple pour :
+            </p>
+            <ul className="lk-list">
+              <li>suivre ton ressenti au fil du temps ;</li>
+              <li>voir si tes actions ont un impact réel sur ton quotidien ;</li>
+              <li>te concentrer sur un seul domaine à la fois, sans te disperser.</li>
+            </ul>
+            <p>
+              Tu peux revenir sur Lifekore aussi souvent que tu veux, noter
+              ton nouveau score et observer ton évolution. Ta vie a un
+              potentiel : Lifekore est là pour t&apos;aider à le mesurer.
             </p>
           </div>
         </section>
@@ -462,7 +479,7 @@ export default function HomePage() {
       {/* FOOTER */}
       <footer className="lk-footer">
         <div className="lk-footer-inner">
-          Lifekore · Ton score de vie, en un coup d’œil.
+          Lifekore · Ta vie a un potentiel, mesure-la.
         </div>
       </footer>
     </div>
