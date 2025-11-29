@@ -18,7 +18,10 @@ const domains = [
     label: "Travail / activité",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "job_confiance", label: "Confiance dans ton travail / activité" },
+      {
+        id: "job_confiance",
+        label: "Confiance dans ton travail / activité",
+      },
       { id: "job_sens", label: "Sens de ton activité" },
     ],
   },
@@ -101,7 +104,7 @@ export default function HomePage() {
       const avgDomain =
         values.reduce((sum, v) => sum + v, 0) / values.length || 0;
 
-      domainScores[domain.label] = Math.round(avgDomain * 10);
+      domainScores[domain.label] = Math.round(avgDomain * 10); // /100
     });
 
     const globalAvg =
@@ -133,7 +136,6 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Logo + marque cliquable pour revenir à l’accueil */}
           <button
             type="button"
             className="lk-brand"
@@ -145,28 +147,24 @@ export default function HomePage() {
             }}
           >
             <div className="lk-brand-mark">
-              <div className="lk-brand-pulse" />
+              <span className="lk-brand-mark-inner" />
             </div>
             <div className="lk-brand-text">
-              <span className="lk-brand-name">Lifecore</span>
+              <span className="lk-brand-name">
+                <span className="lk-brand-name-l">L</span>
+                <span className="lk-brand-name-rest">ifecore</span>
+              </span>
               <span className="lk-brand-tagline">
                 Ta vie a un potentiel, mesure-la.
               </span>
             </div>
           </button>
 
-          {/* Boutons auth – mêmes styles que le CTA principal */}
           <nav className="lk-nav">
-            <button
-              type="button"
-              className="lk-button lk-button-primary lk-nav-cta"
-            >
+            <button type="button" className="lk-nav-cta lk-nav-cta-secondary">
               Se connecter
             </button>
-            <button
-              type="button"
-              className="lk-button lk-button-primary lk-nav-cta"
-            >
+            <button type="button" className="lk-nav-cta lk-nav-cta-primary">
               Créer un compte
             </button>
           </nav>
@@ -237,7 +235,10 @@ export default function HomePage() {
                             step={1}
                             value={value}
                             onChange={(e) =>
-                              handleChange(question.id, Number(e.target.value))
+                              handleChange(
+                                question.id,
+                                Number(e.target.value)
+                              )
                             }
                             className="lk-slider"
                           />
@@ -262,7 +263,10 @@ export default function HomePage() {
               >
                 Réinitialiser
               </button>
-              <button type="submit" className="lk-button lk-button-primary">
+              <button
+                type="submit"
+                className="lk-button lk-button-primary"
+              >
                 Calculer mon LifeScore
               </button>
             </div>
@@ -376,7 +380,8 @@ export default function HomePage() {
                     type="button"
                     className="lk-button lk-button-secondary"
                     onClick={() => {
-                      const el = document.getElementById("lk-home");
+                      const el =
+                        document.getElementById("lk-home");
                       if (el) {
                         el.scrollIntoView({
                           behavior: "smooth",
@@ -391,6 +396,41 @@ export default function HomePage() {
               </div>
             </div>
           )}
+        </section>
+
+        {/* À PROPOS */}
+        <section id="lk-about" className="lk-section">
+          <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
+            <h2>À propos de Lifecore</h2>
+            <p>
+              Lifecore est un outil qui utilise l&apos;intelligence
+              artificielle pour t&apos;aider à{" "}
+              <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui.
+            </p>
+            <p>
+              En quelques questions, tu mesures ton équilibre dans six
+              domaines clés : finances, travail, santé, organisation,
+              relations et état mental. Le LifeScore ne cherche pas la
+              perfection : il met en lumière <strong>où tu es solide</strong> et{" "}
+              <strong>où tu as besoin d&apos;un coup de pouce</strong>.
+            </p>
+            <p>
+              L&apos;objectif n&apos;est pas de te juger, mais de te donner un
+              repère simple pour :
+            </p>
+            <ul className="lk-list">
+              <li>suivre ton ressenti au fil du temps ;</li>
+              <li>voir si tes actions ont un impact réel sur ton quotidien ;</li>
+              <li>
+                te concentrer sur un seul domaine à la fois, sans te disperser.
+              </li>
+            </ul>
+            <p>
+              Tu peux revenir sur Lifecore aussi souvent que tu veux, noter
+              ton nouveau score et observer ton évolution. Ta vie a un
+              potentiel : Lifecore est là pour t&apos;aider à le mesurer.
+            </p>
+          </div>
         </section>
       </main>
 
