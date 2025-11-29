@@ -199,7 +199,7 @@ export default function HomePage() {
               flex: 1,
               marginLeft: 16,
               marginRight: 16,
-              fontSize: 14,
+              fontSize: 35,
               lineHeight: 1.4,
               color: "#0f172a",
               maxWidth: 360,
@@ -207,7 +207,7 @@ export default function HomePage() {
             }}
           >
             <strong>
-              “Rejoins la première communauté qui mesure, partage et améliore ton équilibre de vie.
+              Rejoins la première communauté qui mesure, partage et améliore ton équilibre de vie.
             </strong>
             <br />
             
