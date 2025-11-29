@@ -2,393 +2,315 @@
 
 import { useState } from "react";
 
-const QUESTIONS = [
-  // Finances
+// Définition des sections et des questions
+const sections = [
   {
-    id: "finances_global",
-    domainKey: "finances",
-    domainLabel: "Finances",
-    label: "Situation financière globale",
+    id: "finances",
+    title: "Finances",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { id: "situation_financiere", label: "Situation financière globale" },
+      { id: "gestion_budget", label: "Gestion du budget" },
+      { id: "poids_dettes", label: "Poids des dettes" },
+    ],
   },
   {
-    id: "finances_budget",
-    domainKey: "finances",
-    domainLabel: "Finances",
-    label: "Gestion du budget",
+    id: "travail",
+    title: "Travail / activité",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { id: "confiance_travail", label: "Confiance dans ton travail / activité" },
+      { id: "sens_activite", label: "Sens de ton activité" },
+    ],
   },
   {
-    id: "finances_dettes",
-    domainKey: "finances",
-    domainLabel: "Finances",
-    label: "Poids des dettes",
-  },
-
-  // Travail / activité
-  {
-    id: "travail_confiance",
-    domainKey: "travail",
-    domainLabel: "Travail / activité",
-    label: "Confiance dans ton travail / activité",
+    id: "sante",
+    title: "Santé / énergie",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { id: "energie_globale", label: "Niveau d'énergie global" },
+      { id: "hygiene_vie", label: "Qualité de ton hygiène de vie" },
+    ],
   },
   {
-    id: "travail_sens",
-    domainKey: "travail",
-    domainLabel: "Travail / activité",
-    label: "Sens de ton activité",
-  },
-
-  // Santé / énergie
-  {
-    id: "sante_energie",
-    domainKey: "sante",
-    domainLabel: "Santé / énergie",
-    label: "Niveau d'énergie global",
+    id: "organisation",
+    title: "Organisation / administratif",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { id: "organisation_quotidien", label: "Organisation de ton quotidien" },
+      { id: "gestion_admin", label: "Gestion de l'administratif" },
+    ],
   },
   {
-    id: "sante_hygiene",
-    domainKey: "sante",
-    domainLabel: "Santé / énergie",
-    label: "Qualité de ton hygiène de vie",
-  },
-
-  // Organisation / administratif
-  {
-    id: "orga_quotidien",
-    domainKey: "organisation",
-    domainLabel: "Organisation / administratif",
-    label: "Organisation de ton quotidien",
-  },
-  {
-    id: "orga_admin",
-    domainKey: "organisation",
-    domainLabel: "Organisation / administratif",
-    label: "Gestion de l'administratif",
-  },
-
-  // Relations / entourage
-  {
-    id: "relations_soutien",
-    domainKey: "relations",
-    domainLabel: "Relations / entourage",
-    label: "Soutien ressenti de la part de ton entourage",
+    id: "relations",
+    title: "Relations / entourage",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      {
+        id: "soutien_entourage",
+        label: "Soutien ressenti de la part ton entourage",
+      },
+      {
+        id: "temps_qualite_proches",
+        label: "Temps de qualité partagé avec les proches",
+      },
+    ],
   },
   {
-    id: "relations_temps",
-    domainKey: "relations",
-    domainLabel: "Relations / entourage",
-    label: "Temps de qualité partagé avec les proches",
-  },
-
-  // État mental / ressenti
-  {
-    id: "mental_humeur",
-    domainKey: "mental",
-    domainLabel: "État mental / ressenti",
-    label: "Humeur générale en ce moment",
-  },
-  {
-    id: "mental_motivation",
-    domainKey: "mental",
-    domainLabel: "État mental / ressenti",
-    label: "Motivation pour avancer dans tes projets",
+    id: "mental",
+    title: "État mental / ressenti",
+    description: "1 = très mauvaise, 10 = excellente.",
+    questions: [
+      { id: "humeur_generale", label: "Humeur générale en ce moment" },
+      {
+        id: "motivation_projets",
+        label: "Motivation pour avancer dans tes projets",
+      },
+    ],
   },
 ];
 
-const DOMAINS_ORDER = [
-  "finances",
-  "travail",
-  "sante",
-  "organisation",
-  "relations",
-  "mental",
-];
+// Valeurs initiales (toutes à 5/10)
+function buildInitialAnswers() {
+  const obj = {};
+  sections.forEach((section) => {
+    section.questions.forEach((q) => {
+      obj[q.id] = 5;
+    });
+  });
+  return obj;
+}
 
-const DOMAIN_LABELS = {
-  finances: "Finances",
-  travail: "Travail / activité",
-  sante: "Santé / énergie",
-  organisation: "Organisation / administratif",
-  relations: "Relations / entourage",
-  mental: "État mental / ressenti",
-};
+// Calcul des scores
+function calculateScores(answers) {
+  // Score global
+  const allValues = Object.values(answers);
+  const globalAverage =
+    allValues.reduce((sum, v) => sum + v, 0) / allValues.length;
+  const globalScore = Math.round(globalAverage * 10); // /100
 
-function getGlobalMessage(score) {
-  if (score <= 40) {
+  // Scores par domaine
+  const domainScores = {};
+  sections.forEach((section) => {
+    const values = section.questions.map((q) => answers[q.id]);
+    const avg = values.reduce((sum, v) => sum + v, 0) / values.length;
+    domainScores[section.title] = Math.round(avg * 10);
+  });
+
+  return { globalScore, domainScores };
+}
+
+// Texte dynamique pour le score global
+function getGlobalMessage(globalScore) {
+  if (globalScore < 40) {
     return {
-      title: "Ton LifeScore global est fragile.",
-      text: "Plusieurs domaines tirent ton niveau de vie vers le bas. L'idée n'est pas de tout révolutionner d'un coup, mais d'identifier 1 ou 2 axes prioritaires pour reprendre la main doucement.",
+      niveau: "plutôt fragile",
+      texte:
+        "Ta situation actuelle est compliquée sur plusieurs plans. Ce n'est pas un jugement, mais un point de départ pour identifier ce qui a besoin d'attention en priorité.",
     };
   }
-  if (score <= 70) {
+  if (globalScore < 70) {
     return {
-      title: "Ton LifeScore global est intermédiaire.",
-      text: "Tout n'est pas simple, mais tu as déjà des bases solides. Le but n'est pas d'atteindre 100/100, mais de repérer ce qui mérite un coup de pouce pour améliorer concrètement ton quotidien.",
+      niveau: "intermédiaire",
+      texte:
+        "Tout n'est pas simple, mais tu as déjà des bases solides. Le but n'est pas d'atteindre 100/100, mais de repérer ce qui mérite un coup de pouce pour améliorer concrètement ton quotidien.",
     };
   }
   return {
-    title: "Ton LifeScore global est élevé.",
-    text: "Globalement, ta vie est bien alignée sur ce que tu souhaites. Tu peux utiliser ce score pour repérer les zones à consolider et éviter que certains domaines ne se dégradent avec le temps.",
+    niveau: "élevé",
+    texte:
+      "Ton LifeScore global est déjà très bon. L'idée n'est pas de tout révolutionner, mais d'identifier quelques ajustements pour consolider ce qui fonctionne et éviter l'usure.",
   };
 }
 
-export default function HomePage() {
-  // réponses du questionnaire
-  const initialAnswers = {};
-  QUESTIONS.forEach((q) => {
-    initialAnswers[q.id] = 5;
-  });
+export default function Home() {
+  const [answers, setAnswers] = useState(buildInitialAnswers);
+  const [showResults, setShowResults] = useState(false);
+  const [results, setResults] = useState(null);
 
-  const [answers, setAnswers] = useState(initialAnswers);
-
-  // résultats calculés
-  const [hasResults, setHasResults] = useState(false);
-  const [globalScore, setGlobalScore] = useState(0);
-  const [domainScores, setDomainScores] = useState({});
-
-  const handleChange = (id, value) => {
+  const handleChange = (questionId, value) => {
     setAnswers((prev) => ({
       ...prev,
-      [id]: Number(value),
+      [questionId]: Number(value),
     }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // score global (moyenne de toutes les réponses * 10)
-    const allValues = Object.values(answers);
-    const avg =
-      allValues.reduce((sum, v) => sum + v, 0) / allValues.length || 0;
-    const global = Math.round(avg * 10);
-
-    // scores par domaine
-    const domainBuckets = {};
-    QUESTIONS.forEach((q) => {
-      if (!domainBuckets[q.domainKey]) {
-        domainBuckets[q.domainKey] = [];
-      }
-      domainBuckets[q.domainKey].push(answers[q.id]);
-    });
-
-    const perDomain = {};
-    Object.keys(domainBuckets).forEach((key) => {
-      const list = domainBuckets[key];
-      const dAvg = list.reduce((s, v) => s + v, 0) / list.length || 0;
-      perDomain[key] = Math.round(dAvg * 10);
-    });
-
-    setGlobalScore(global);
-    setDomainScores(perDomain);
-    setHasResults(true);
-
+    const scores = calculateScores(answers);
+    setResults(scores);
+    setShowResults(true);
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const globalMessage = getGlobalMessage(globalScore);
+  const handleReset = () => {
+    setAnswers(buildInitialAnswers());
+    setResults(null);
+    setShowResults(false);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const globalMessage =
+    results && results.globalScore != null
+      ? getGlobalMessage(results.globalScore)
+      : null;
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-16">
-      <div className="max-w-4xl mx-auto px-4 pt-8 sm:pt-12">
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        {/* Titre / intro */}
+        <section className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
+            Calcule ton LifeScore en 2 minutes.
+          </h1>
+          <p className="mb-3">
+            Ce questionnaire a été conçu pour t&apos;aider à prendre du recul
+            sur ta situation. En quelques questions, tu obtiens un{" "}
+            <strong>score global</strong> et des{" "}
+            <strong>scores par domaine</strong> (finances, travail, santé,
+            relations, etc.).
+          </p>
+          <p className="mb-3">
+            Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe
+            pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi
+            tu ressens aujourd&apos;hui.
+          </p>
+          <p className="font-semibold">
+            Échelle utilisée : <strong>1 = très faible, 10 = excellent.</strong>
+          </p>
+        </section>
+
         {/* FORMULAIRE */}
-        {!hasResults && (
-          <section className="bg-white rounded-3xl shadow-lg p-6 sm:p-10 mb-10">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mb-4">
-              Calcule ton LifeScore en 2 minutes.
-            </h1>
-            <p className="text-slate-600 mb-3">
-              Ce questionnaire a été conçu pour t&apos;aider à prendre du recul
-              sur ta situation. En quelques questions, tu obtiens un{" "}
-              <span className="font-semibold">score global</span> et des{" "}
-              <span className="font-semibold">scores par domaine</span>{" "}
-              (finances, travail, santé, relations, etc.).
-            </p>
-            <p className="text-slate-600 mb-3">
-              Répond <span className="font-semibold">honnêtement</span>, sans te
-              juger. Il n&apos;existe pas de « bonne » réponse&nbsp;: l&apos;important,
-              c&apos;est ce que toi tu ressens aujourd&apos;hui.
-            </p>
-            <p className="text-slate-600 mb-6">
-              Échelle utilisée&nbsp;:{" "}
-              <span className="font-semibold">
-                1 = très faible, 10 = excellent.
-              </span>
-            </p>
+        {!showResults && (
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {sections.map((section) => (
+              <section key={section.id} className="bg-white rounded-2xl p-5 shadow-sm">
+                <h2 className="text-2xl font-extrabold mb-1">
+                  {section.title}
+                </h2>
+                <p className="text-sm text-slate-600 mb-4">
+                  {section.description}
+                </p>
 
-            <form onSubmit={handleSubmit} className="space-y-10">
-              {DOMAINS_ORDER.map((domainKey) => {
-                const domainQuestions = QUESTIONS.filter(
-                  (q) => q.domainKey === domainKey
-                );
-                return (
-                  <div key={domainKey}>
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-1">
-                      {DOMAIN_LABELS[domainKey]}
-                    </h2>
-                    <p className="text-slate-600 text-sm mb-4">
-                      1 = très mauvaise, 10 = excellente.
-                    </p>
-
-                    <div className="space-y-5">
-                      {domainQuestions.map((q) => (
-                        <div key={q.id}>
-                          <label className="block text-sm sm:text-base font-medium text-slate-800 mb-1.5">
-                            {q.label}
-                            <span className="font-semibold">
-                              {" "}
-                              {answers[q.id]}/10
-                            </span>
-                          </label>
-                          <div className="flex items-center gap-3">
-                            <input
-                              type="range"
-                              min={1}
-                              max={10}
-                              step={1}
-                              value={answers[q.id]}
-                              onChange={(e) =>
-                                handleChange(q.id, e.target.value)
-                              }
-                              className="flex-1 accent-blue-600"
-                            />
-                          </div>
-                        </div>
-                      ))}
+                <div className="space-y-4">
+                  {section.questions.map((q) => (
+                    <div key={q.id}>
+                      <label className="block font-semibold mb-1">
+                        {q.label}{" "}
+                        <span className="font-normal">
+                          {answers[q.id]}/10
+                        </span>
+                      </label>
+                      <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        value={answers[q.id]}
+                        onChange={(e) => handleChange(q.id, e.target.value)}
+                        className="w-full"
+                      />
                     </div>
-                  </div>
-                );
-              })}
+                  ))}
+                </div>
+              </section>
+            ))}
 
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition-colors w-full sm:w-auto"
-                >
-                  Calculer mon LifeScore
-                </button>
-              </div>
-            </form>
-          </section>
+            <div className="flex justify-center pt-4">
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition"
+              >
+                Calculer mon LifeScore
+              </button>
+            </div>
+          </form>
         )}
 
         {/* RÉSULTATS */}
-        {hasResults && (
-          <section className="bg-white rounded-3xl shadow-lg p-6 sm:p-10 space-y-8">
-            {/* Score global */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-              <div className="flex items-center gap-6">
-                <div className="relative w-28 h-28">
-                  {/* cercle de fond */}
-                  <svg
-                    viewBox="0 0 120 120"
-                    className="w-28 h-28 transform -rotate-90"
-                  >
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="52"
-                      className="stroke-slate-200"
-                      strokeWidth="10"
-                      fill="none"
-                    />
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="52"
-                      className="stroke-blue-600"
-                      strokeWidth="10"
-                      fill="none"
-                      strokeDasharray={2 * Math.PI * 52}
-                      strokeDashoffset={
-                        ((100 - globalScore) / 100) * (2 * Math.PI * 52)
-                      }
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <div className="text-3xl font-extrabold text-slate-900">
-                      {globalScore}
-                    </div>
-                    <div className="text-xs text-slate-500">/100</div>
-                  </div>
-                </div>
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-1">
-                    Ton LifeScore global
-                  </h2>
-                  <p className="text-slate-600 text-sm sm:text-base">
-                    Ce score est la moyenne de l&apos;ensemble de tes réponses,
-                    ramenée sur 100. Ce n&apos;est pas une note absolue, mais une{" "}
-                    <span className="font-semibold">
-                      photographie de ta situation actuelle.
-                    </span>
-                  </p>
-                </div>
+        {showResults && results && (
+          <section className="mt-6 bg-white rounded-2xl p-6 shadow-sm">
+            {/* Cercle LifeScore global */}
+            <div className="flex flex-col items-center mb-6">
+              <div
+                style={{
+                  width: 160,
+                  height: 160,
+                  borderRadius: "50%",
+                  border: "10px solid #2563eb",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "3rem",
+                  fontWeight: 800,
+                  color: "#0f172a",
+                }}
+              >
+                {results.globalScore}
               </div>
+              <div className="mt-1 text-slate-700 font-semibold">/100</div>
             </div>
 
-            {/* Comment lire tes résultats */}
-            <div className="space-y-3">
-              <h3 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                Comment lire tes résultats ?
-              </h3>
-              <p className="text-slate-700 font-semibold">
-                {globalMessage.title}
-              </p>
-              <p className="text-slate-600">{globalMessage.text}</p>
-              <p className="text-slate-600">
-                Utilise ce score comme un{" "}
-                <span className="font-semibold">point de départ</span> : tu peux
-                refaire le questionnaire régulièrement pour suivre l&apos;évolution
-                de ton LifeScore au fil des semaines ou des mois.
-              </p>
-            </div>
+            <h2 className="text-2xl font-extrabold mb-3">
+              Ton LifeScore global
+            </h2>
+            {globalMessage && (
+              <>
+                <p className="mb-2">
+                  Ton LifeScore global est{" "}
+                  <strong>{globalMessage.niveau}</strong>.
+                </p>
+                <p className="mb-4">{globalMessage.texte}</p>
+              </>
+            )}
 
-            {/* Scores par domaine sous forme de barres */}
-            <div className="space-y-4">
-              <h3 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                Scores par domaine
-              </h3>
-              <div className="space-y-3">
-                {DOMAINS_ORDER.map((key) => (
-                  <div key={key} className="space-y-1">
-                    <div className="flex items-center justify-between text-sm sm:text-base">
-                      <span className="font-medium text-slate-800">
-                        {DOMAIN_LABELS[key]}
-                      </span>
-                      <span className="font-semibold text-slate-900">
-                        {domainScores[key] ?? 0}/100
-                      </span>
+            {/* Scores par domaine */}
+            <h3 className="text-xl font-extrabold mt-4 mb-3">
+              Scores par domaine
+            </h3>
+
+            <div className="space-y-3 mb-6">
+              {Object.entries(results.domainScores).map(
+                ([domainTitle, score]) => (
+                  <div key={domainTitle}>
+                    <div className="flex justify-between text-sm font-semibold mb-1">
+                      <span>{domainTitle}</span>
+                      <span>{score}/100</span>
                     </div>
-                    <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
+                    <div
+                      style={{
+                        width: "100%",
+                        height: 10,
+                        borderRadius: 9999,
+                        backgroundColor: "#e5e7eb",
+                        overflow: "hidden",
+                      }}
+                    >
                       <div
-                        className="h-full rounded-full bg-blue-600 transition-all duration-500"
                         style={{
-                          width: `${Math.min(
-                            100,
-                            Math.max(0, domainScores[key] ?? 0)
-                          )}%`,
+                          width: `${score}%`,
+                          height: "100%",
+                          borderRadius: 9999,
+                          background:
+                            "linear-gradient(90deg,#2563eb,#7c3aed)",
                         }}
                       />
                     </div>
                   </div>
-                ))}
-              </div>
+                )
+              )}
             </div>
 
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setHasResults(false);
-                  setAnswers(initialAnswers);
-                }}
-                className="inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors"
-              >
-                Refaire le questionnaire
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="px-5 py-2 rounded-full bg-slate-100 text-slate-800 font-semibold hover:bg-slate-200 transition"
+            >
+              Refaire le questionnaire
+            </button>
           </section>
         )}
       </div>
