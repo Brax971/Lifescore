@@ -1,268 +1,120 @@
-/* ====== RESET ====== */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-html, body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-    sans-serif;
-  background: #f8f7fc;
-  color: #1a1a1a;
-}
-
-/* ====== PAGE STRUCTURE ====== */
+/* PAGE */
 .ls-page {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 20px;
+  background: #f7f8fc;
+  min-height: 100vh;
 }
 
-/* ====== HEADER ====== */
+/* HEADER */
 .lk-header {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  background: #ffffffcc;
-  backdrop-filter: blur(12px);
-  padding: 16px 0;
-  margin-bottom: 16px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  padding: 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .lk-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* ====== LOGO ====== */
+/* LOGO */
 .lk-brand {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .lk-brand-mark {
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #ec4899, #6366f1);
-  padding: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.lk-brand-mark::before {
-  content: "";
-  width: 100%;
-  height: 100%;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
-  background: white;
-}
-
-.lk-brand img {
-  width: 46px;
-  height: 46px;
-  object-fit: contain; /* Empêche toute déformation */
-}
-
-.lk-brand-text {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
+  background: linear-gradient(135deg,#ff2d7f,#755bff,#00c8ff,#00db7f);
 }
 
 .lk-brand-name {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  display: flex;
+  gap: 2px;
 }
 
-.lk-brand-name .lk-L {
-  color: #ec4899;
+.lk-letter-l {
+  color: #ff2d7f;
 }
 
-.lk-brand-name .lk-rest {
-  color: #3b82f6;
+.lk-brand-name {
+  color: #007aff;
 }
 
 .lk-brand-tagline {
-  margin-top: -4px;
   font-size: 14px;
-  color: #6b7280;
+  margin-top: -2px;
+  opacity: 0.7;
+  display: block;
 }
 
-/* ====== NAVIGATION ====== */
+/* NAV BUTTONS */
 .lk-nav {
   display: flex;
   gap: 12px;
 }
 
-/* ====== NAV BUTTONS (HEADER) ======
-   Identiques au bouton "Calculer mon LifeScore"
-===================================== */
-
-.lk-header-button {
-  background: linear-gradient(90deg, #ec4899, #6366f1);
-  color: #fff;
-  font-weight: 600;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.1s ease, opacity 0.15s ease;
+.lk-nav-button {
+  padding: 12px 22px;
+  border-radius: 999px;
   font-size: 16px;
-}
-
-.lk-header-button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* ====== CARDS ====== */
-.lk-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-}
-
-.lk-card-main {
-  padding: 26px;
-}
-
-/* ====== TITLES / TEXT ====== */
-h1 {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-p {
-  margin-bottom: 12px;
-  line-height: 1.55;
-}
-
-/* ====== SLIDERS ====== */
-.lk-slider {
-  width: 100%;
-  appearance: none;
-  height: 6px;
-  border-radius: 5px;
-  background: #e5e7eb;
-  outline: none;
-}
-
-.lk-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 26px;
-  height: 26px;
-  background: #ec4899;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-.lk-slider-ticks {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
-  font-size: 10px;
-  opacity: 0.6;
-}
-
-/* ====== RESULTS ====== */
-.lk-circle-score {
-  width: 140px;
-  height: 140px;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, #ec4899, #6366f1);
-  padding: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 18px;
-}
-
-.lk-circle-score-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 9999px;
+  border: 1px solid rgba(0,0,0,0.15);
   background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  font-weight: 600;
 }
 
-.lk-circle-score-value {
-  font-size: 40px;
-  font-weight: 800;
-  color: #3b82f6;
+.lk-nav-button-primary {
+  background: linear-gradient(90deg, #ff2d7f, #755bff);
+  border: none;
+  color: white !important;
 }
 
-.lk-circle-score-label {
-  margin-top: -6px;
-  font-size: 14px;
-  color: #6b7280;
-}
-
-/* ====== BUTTONS ====== */
-.lk-actions-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+/* BOUTONS PRINCIPAUX */
+.lk-button-primary {
+  background: linear-gradient(90deg, #ff2d7f, #755bff);
+  color: #fff;
+  border: none;
 }
 
 .lk-button {
-  padding: 12px 24px;
-  border-radius: 9999px;
-  cursor: pointer;
-  font-weight: 600;
-  border: none;
+  padding: 14px 28px;
+  border-radius: 999px;
   font-size: 16px;
+  font-weight: 600;
 }
 
 .lk-button-secondary {
-  background: #e5e7eb;
-  color: #111;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: #fff;
 }
 
-/* Bouton principal */
-.lk-button-primary {
-  background: linear-gradient(90deg, #ec4899, #6366f1);
-  color: #fff;
-  font-weight: 600;
-  padding: 12px 24px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.1s ease, opacity 0.15s ease;
+/* CARDS */
+.lk-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
 }
 
-.lk-button-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* ====== FOOTER ====== */
-.lk-footer {
-  margin-top: 40px;
-  padding: 24px 0;
-  text-align: center;
-  color: #6b7280;
-  font-size: 14px;
+.lk-card-main {
+  max-width: 1180px;
+  margin: 0 auto;
 }
