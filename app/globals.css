@@ -1,130 +1,190 @@
-/* ========================= */
-/* GLOBAL RESET & BASE STYLE */
-/* ========================= */
-
-* {
-  margin: 0;
-  padding: 0;
+/* Reset léger */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #f5f6fa;
-  color: #111;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #f4f5fb;
+  color: #0f172a;
+}
+
+/* Wrapper Next */
 .ls-page {
   min-height: 100vh;
-  width: 100%;
 }
 
-/* ========================= */
-/* HEADER */
-/* ========================= */
+/* App */
+.lk-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top left, #fef5ff 0, #f5f6ff 40%, #f4f5fb 100%);
+}
 
+/* HEADER */
 .lk-header {
-  width: 100%;
-  background: #fff;
-  padding: 12px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 255, 255, 0.9)
+  );
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .lk-header-inner {
-  max-width: 1100px;
-  margin: auto;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 10px 16px 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 18px;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-/* LOGO */
-
+/* Logo + marque */
 .lk-brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 4px 6px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
-.lk-brand img {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
+.lk-logo-pill {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  padding: 3px;
+  background: conic-gradient(
+    from 140deg,
+    #ff4b8b,
+    #ff9f43,
+    #ffe047,
+    #2dd4ff,
+    #6366f1,
+    #a855f7,
+    #ff4b8b
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lk-logo-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+  background: white;
 }
 
 .lk-brand-text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   line-height: 1.1;
 }
 
 .lk-brand-name {
-  font-size: 32px;
   font-weight: 800;
-  background: linear-gradient(90deg, #ff2a7f, #007bff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+.lk-brand-name-l {
+  color: #f973b2; /* L en rose */
+}
+
+.lk-brand-name-rest {
+  color: #2563eb; /* ifecore en bleu */
 }
 
 .lk-brand-tagline {
-  font-size: 14px;
-  color: #666;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: #6b7280;
 }
 
-/* ========================= */
-/* NAV BUTTONS */
-/* ========================= */
-
-.lk-nav {
+/* Boutons header */
+.lk-header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
-.lk-nav-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 26px;
-  font-size: 17px;
-  font-weight: 700;
-  border-radius: 40px;
-  color: white;
-  border: none;
-  cursor: pointer;
-
-  background: linear-gradient(90deg, #ff2a7f, #7a3bff);
-  box-shadow: 0 6px 20px rgba(175, 0, 255, 0.20);
-  transition: 0.25s ease;
+.lk-button-header {
+  padding-inline: 18px;
+  height: 36px;
+  font-size: 0.86rem;
 }
 
-.lk-nav-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(175, 0, 255, 0.30);
+/* MAIN */
+.lk-main {
+  flex: 1;
 }
 
-/* ========================= */
-/* MOBILE FIXES */
-/* ========================= */
-
-@media (max-width: 600px) {
-  
-  .lk-brand img {
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: contain;
-  }
-
-  .lk-brand-name {
-    font-size: 26px !important;
-  }
-
-  .lk-nav-btn {
-    padding: 10px 18px !important;
-    font-size: 15px !important;
-    border-radius: 32px !important;
-    white-space: nowrap;
-  }
+.lk-section {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 16px;
 }
+
+/* CARTES */
+.lk-card {
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(148, 163, 184, 0.18);
+  padding: 20px 20px 22px;
+}
+
+.lk-card-main {
+  margin-bottom: 20px;
+}
+
+.lk-card-intro h1 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+}
+
+.lk-card-intro p {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.lk-scale-info {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: #fef9c3;
+  font-size: 0.85rem;
+}
+
+/* Domaines / questions */
+.lk-form-card {
+  margin-top: 12px;
+}
+
+.lk-domain-block + .lk-domain-block {
+  margin-top: 18px;
+  padding-top: 16px;
+  border
