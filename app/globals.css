@@ -563,3 +563,23 @@ p {
     text-align: center;
   }
 }
+/* === PATCH LOGO + ESPACE BOUTONS HEADER === */
+
+/* Agrandir le logo Lifekore dans le header */
+.lk-header img[src="/logo.png"] {
+  display: block;
+  height: 96px;   /* taille sur PC */
+  width: auto;
+}
+
+/* Version mobile : un peu plus petit mais bien visible */
+@media (max-width: 768px) {
+  .lk-header img[src="/logo.png"] {
+    height: 80px;
+  }
+}
+
+/* Ajoute de l'espace entre les deux boutons du header */
+.lk-header button + button {
+  margin-left: 24px;
+}
