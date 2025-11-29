@@ -447,7 +447,7 @@ export default function HomePage() {
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2>À propos de Lifekore</h2>
             <p>
-              Lifekore est un outil minimaliste qui utilise l&apos;intelligence
+              Lifekore est un outil qui utilise l&apos;intelligence
               artificielle pour t&apos;aider à{" "}
               <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui.
             </p>
