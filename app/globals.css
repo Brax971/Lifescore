@@ -46,6 +46,7 @@ html, body {
 .lk-brand-mark {
   width: 46px;
   height: 46px;
+  flex-shrink: 0;
   border-radius: 14px;
   background: linear-gradient(135deg, #ec4899, #6366f1);
   padding: 3px;
@@ -62,6 +63,12 @@ html, body {
   background: white;
 }
 
+.lk-brand img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain; /* Empêche toute déformation */
+}
+
 .lk-brand-text {
   display: flex;
   flex-direction: column;
@@ -75,11 +82,11 @@ html, body {
 }
 
 .lk-brand-name .lk-L {
-  color: #ec4899; /* rose */
+  color: #ec4899;
 }
 
 .lk-brand-name .lk-rest {
-  color: #3b82f6; /* bleu */
+  color: #3b82f6;
 }
 
 .lk-brand-tagline {
@@ -94,7 +101,10 @@ html, body {
   gap: 12px;
 }
 
-/* Boutons du HEADER = identiques au bouton Calculer mon LifeScore */
+/* ====== NAV BUTTONS (HEADER) ======
+   Identiques au bouton "Calculer mon LifeScore"
+===================================== */
+
 .lk-header-button {
   background: linear-gradient(90deg, #ec4899, #6366f1);
   color: #fff;
@@ -225,13 +235,12 @@ p {
   font-size: 16px;
 }
 
-/* Secondaire */
 .lk-button-secondary {
   background: #e5e7eb;
   color: #111;
 }
 
-/* Principal (référence visuelle) */
+/* Bouton principal */
 .lk-button-primary {
   background: linear-gradient(90deg, #ec4899, #6366f1);
   color: #fff;
