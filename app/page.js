@@ -199,7 +199,7 @@ export default function HomePage() {
               flex: 1,
               marginLeft: 16,
               marginRight: 16,
-              fontSize: 35,
+              fontSize: 20,
               lineHeight: 1.4,
               color: "#0f172a",
               maxWidth: 360,
