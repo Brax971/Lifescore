@@ -1,4 +1,6 @@
-/* Reset léger */
+/* ------------------------------
+   RESET DE BASE
+---------------------------------*/
 *,
 *::before,
 *::after {
@@ -15,176 +17,463 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
     "Segoe UI", sans-serif;
   background: #f4f5fb;
-  color: #0f172a;
+  color: #111827;
 }
 
-/* Wrapper Next */
+/* ------------------------------
+   PAGE GLOBALE
+---------------------------------*/
 .ls-page {
   min-height: 100vh;
-}
-
-/* App */
-.lk-app {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  background: radial-gradient(circle at top left, #fef5ff 0, #f5f6ff 40%, #f4f5fb 100%);
+  justify-content: center;
+  padding: 24px 12px 40px;
 }
 
-/* HEADER */
+.lk-app {
+  width: 100%;
+  max-width: 960px;
+}
+
+/* ------------------------------
+   HEADER
+---------------------------------*/
 .lk-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  backdrop-filter: blur(16px);
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.96),
-    rgba(255, 255, 255, 0.9)
-  );
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  background: linear-gradient(145deg, #f7f7ff, #f4f5fb);
+  border-radius: 24px;
+  padding: 12px 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  margin-bottom: 20px;
 }
 
 .lk-header-inner {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 10px 16px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
-/* Logo + marque */
+/* Marque Lifecore (logo + texte) */
 .lk-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 6px;
-  border-radius: 999px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  gap: 14px;
 }
 
-.lk-logo-pill {
-  width: 40px;
-  height: 40px;
-  border-radius: 16px;
+/* Icône gradient non déformée */
+.lk-brand-mark {
+  width: 52px;
+  min-width: 52px;
+  height: 52px;
+  border-radius: 18px;
   padding: 3px;
-  background: conic-gradient(
-    from 140deg,
-    #ff4b8b,
-    #ff9f43,
-    #ffe047,
-    #2dd4ff,
-    #6366f1,
-    #a855f7,
-    #ff4b8b
-  );
+  background: linear-gradient(135deg, #ff4b8b, #ff8a3d, #ffd93d, #2fdad0, #4f46e5);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.lk-logo-inner {
+.lk-brand-mark-inner {
   width: 100%;
   height: 100%;
-  border-radius: 13px;
+  border-radius: 15px;
   background: white;
 }
 
+/* Texte Lifecore */
 .lk-brand-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  line-height: 1.1;
+  gap: 2px;
 }
 
 .lk-brand-name {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   letter-spacing: 0.01em;
 }
 
-.lk-brand-name-l {
-  color: #f973b2; /* L en rose */
+/* L rose, ifecore bleu */
+.lk-brand-name span.lk-brand-first {
+  color: #ec4899; /* rose */
 }
 
-.lk-brand-name-rest {
-  color: #2563eb; /* ifecore en bleu */
+.lk-brand-name span.lk-brand-rest {
+  color: #2563eb; /* bleu */
 }
 
 .lk-brand-tagline {
-  margin-top: 2px;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   color: #6b7280;
 }
 
-/* Boutons header */
+/* ------------------------------
+   BOUTONS HEADER (Se connecter / Créer un compte)
+   -> style identique au bouton "Calculer mon LifeScore"
+---------------------------------*/
 .lk-header-actions {
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
-.lk-button-header {
-  padding-inline: 18px;
-  height: 36px;
-  font-size: 0.86rem;
-}
-
-/* MAIN */
-.lk-main {
-  flex: 1;
-}
-
-.lk-section {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-/* CARTES */
-.lk-card {
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.08),
-    0 0 0 1px rgba(148, 163, 184, 0.18);
-  padding: 20px 20px 22px;
-}
-
-.lk-card-main {
-  margin-bottom: 20px;
-}
-
-.lk-card-intro h1 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 1.6rem;
-}
-
-.lk-card-intro p {
-  margin: 0 0 10px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.lk-scale-info {
-  margin-top: 8px;
-  padding: 8px 10px;
+/* Style de base bouton gradient */
+.lk-gradient-btn {
+  position: relative;
+  border: none;
+  outline: none;
+  cursor: pointer;
   border-radius: 999px;
-  background: #fef9c3;
-  font-size: 0.85rem;
+  padding: 10px 20px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f97393, #e243d3, #4f46e5);
+  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.45);
+  white-space: nowrap;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    filter 0.12s ease-out;
 }
 
-/* Domaines / questions */
-.lk-form-card {
+.lk-gradient-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 18px 40px rgba(79, 70, 229, 0.55);
+}
+
+.lk-gradient-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.4);
+}
+
+/* Variante outline (Réinitialiser / Se connecter si on veut) */
+.lk-outline-btn {
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(148, 163, 184, 0.6);
+  background: #ffffff;
+  color: #1f2933;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  transition: background 0.12s ease-out, box-shadow 0.12s ease-out,
+    transform 0.12s ease-out;
+}
+
+.lk-outline-btn:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+}
+
+.lk-outline-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+/* ------------------------------
+   MAIN + CARTES
+---------------------------------*/
+.lk-main {
   margin-top: 12px;
 }
 
+.lk-section {
+  margin-bottom: 32px;
+}
+
+.lk-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 22px 20px;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+}
+
+.lk-card-main {
+  margin-bottom: 18px;
+}
+
+/* Texte titres / paragraphes */
+h1,
+h2,
+h3 {
+  margin: 0 0 10px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+h1 {
+  font-size: 1.7rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0 0 8px;
+  line-height: 1.5;
+  font-size: 0.98rem;
+}
+
+.lk-scale-info {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #fef9c3;
+  color: #78350f;
+  font-size: 0.9rem;
+}
+
+/* ------------------------------
+   FORMULAIRE / DOMAINES
+---------------------------------*/
 .lk-domain-block + .lk-domain-block {
-  margin-top: 18px;
-  padding-top: 16px;
-  border
+  margin-top: 22px;
+}
+
+.lk-domain-header h2 {
+  margin-bottom: 4px;
+}
+
+.lk-domain-description {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.lk-domain-questions {
+  margin-top: 10px;
+}
+
+/* Ligne question */
+.lk-question-row + .lk-question-row {
+  margin-top: 16px;
+}
+
+.lk-question-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lk-question-label {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 500;
+}
+
+.lk-question-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ec4899;
+}
+
+/* Slider + graduations */
+.lk-slider-wrapper {
+  margin-top: 8px;
+}
+
+.lk-slider {
+  width: 100%;
+}
+
+/* graduations 1–10 */
+.lk-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.lk-slider-ticks span {
+  flex: 1;
+  text-align: center;
+}
+
+/* ------------------------------
+   ACTIONS FORMULAIRE
+---------------------------------*/
+.lk-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* On réutilise .lk-gradient-btn et .lk-outline-btn pour les boutons */
+
+/* ------------------------------
+   RÉSULTATS
+---------------------------------*/
+.lk-results-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Cercle score */
+.lk-circle-score {
+  width: 130px;
+  height: 130px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 0%, #fee2e2, #e0f2fe, #ede9fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lk-circle-score-inner {
+  width: 96px;
+  height: 96px;
+  border-radius: inherit;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+}
+
+.lk-circle-score-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.lk-circle-score-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.lk-results-title p {
+  font-size: 0.95rem;
+}
+
+/* Scores par domaine */
+.lk-domain-scores {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lk-domain-score-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lk-domain-score-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.lk-domain-score-value {
+  font-weight: 700;
+}
+
+.lk-domain-score-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.lk-domain-score-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #f97393, #e243d3, #4f46e5);
+}
+
+/* Listes */
+.lk-list {
+  padding-left: 20px;
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* ------------------------------
+   FOOTER
+---------------------------------*/
+.lk-footer {
+  margin-top: 16px;
+}
+
+.lk-footer-inner {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+  padding: 8px 4px;
+}
+
+/* ------------------------------
+   RESPONSIVE
+---------------------------------*/
+@media (max-width: 768px) {
+  .ls-page {
+    padding: 16px 8px 30px;
+  }
+
+  .lk-header-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lk-brand {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .lk-brand-tagline {
+    text-align: left;
+  }
+
+  .lk-header-actions {
+    justify-content: center;
+  }
+
+  .lk-gradient-btn {
+    font-size: 0.9rem;
+    padding: 9px 16px;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .lk-outline-btn {
+    font-size: 0.9rem;
+    padding: 9px 18px;
+  }
+
+  .lk-card {
+    border-radius: 22px;
+    padding: 18px 14px;
+  }
+
+  .lk-circle-score {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .lk-brand-name {
+    font-size: 1.3rem;
+  }
+
+  .lk-brand-tagline {
+    font-size: 0.8rem;
+  }
+
+  .lk-header-actions {
+    flex-wrap: wrap;
+  }
+}
