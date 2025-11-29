@@ -184,7 +184,7 @@ export default function HomePage() {
           >
             <img
               src="/logo.png"
-              alt="Lifecore – Ta vie a un potentiel, mesure-la."
+              alt="Lifekore – Ta vie a un potentiel, mesure-la."
               style={{
                 height: 240,
                 width: "auto",
@@ -237,7 +237,7 @@ export default function HomePage() {
           <div className="lk-card lk-card-main lk-card-intro">
             <h1>Evalues ton équilibre de vie en 2 minutes</h1>
             <p>
-              <strong>Lifecore</strong> t&apos;aide à obtenir une vision claire
+              <strong>Lifekore</strong> t&apos;aide à obtenir une vision claire
               de ton équilibre de vie grâce à l&apos;intelligence artificielle.
             </p>
             <p>
@@ -455,9 +455,9 @@ export default function HomePage() {
         {/* À PROPOS */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
-            <h2>À propos de Lifecore</h2>
+            <h2>À propos de Lifekore</h2>
             <p>
-              Lifecore est un outil qui utilise l&apos;intelligence artificielle
+              Lifekore est un outil qui utilise l&apos;intelligence artificielle
               pour t&apos;aider à{" "}
               <strong>prendre une photo honnête de ta vie</strong>{" "}
               aujourd&apos;hui.
@@ -483,9 +483,9 @@ export default function HomePage() {
               </li>
             </ul>
             <p>
-              Tu peux revenir sur Lifecore aussi souvent que tu veux, noter ton
+              Tu peux revenir sur Lifekore aussi souvent que tu veux, noter ton
               nouveau score et observer ton évolution. Ta vie a un potentiel :
-              Lifecore est là pour t&apos;aider à le mesurer.
+              Lifekore est là pour t&apos;aider à le mesurer.
             </p>
           </div>
         </section>
@@ -494,7 +494,7 @@ export default function HomePage() {
       {/* FOOTER */}
       <footer className="lk-footer">
         <div className="lk-footer-inner">
-          Lifecore · Ta vie a un potentiel, mesure-la.
+          Lifekore · Ta vie a un potentiel, mesure-la.
         </div>
       </footer>
     </div>
