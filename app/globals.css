@@ -1,4 +1,4 @@
-/* RESET DE BASE */
+/* Reset léger */
 *,
 *::before,
 *::after {
@@ -12,46 +12,49 @@ body {
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text",
     "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top left, #fdf2ff 0, #f3f4ff 40%, #eef2ff 100%);
-  color: #111827;
+  background: radial-gradient(circle at top left, #eef2ff 0, #f9fafb 40%, #f3f4ff 100%);
+  color: #0f172a;
 }
 
-/* WRAPPER GLOBAL */
-.ls-page {
+/* Page wrapper */
+.lk-page {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 24px 16px 40px;
 }
 
+/* Layout principal */
 .lk-app {
-  width: 100%;
   max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 16px 40px;
 }
 
 /* HEADER */
 .lk-header {
   position: sticky;
   top: 0;
-  z-index: 20;
-  padding-bottom: 12px;
-  backdrop-filter: blur(10px);
+  z-index: 40;
+  background: rgba(248, 250, 252, 0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
 }
 
 .lk-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
-/* Logo + marque */
+/* Brand */
 .lk-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 4px 0;
   border: none;
   background: transparent;
@@ -64,20 +67,21 @@ body {
   border-radius: 14px;
   padding: 2px;
   background: conic-gradient(
-    from 160deg,
-    #ff4b8b,
-    #ff7b5b,
-    #ffd95b,
-    #41e1ff,
-    #7b61ff,
-    #ff4b8b
+    from 120deg,
+    #fb7185,
+    #ec4899,
+    #8b5cf6,
+    #3b82f6,
+    #22c55e,
+    #facc15,
+    #fb7185
   );
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.lk-brand-pulse {
+.lk-brand-mark-inner {
   width: 100%;
   height: 100%;
   border-radius: 12px;
@@ -88,173 +92,155 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 2px;
 }
 
 .lk-brand-name {
   font-weight: 800;
-  font-size: 1.4rem;
-  letter-spacing: 0.01em;
-  line-height: 1.1;
-  background: linear-gradient(90deg, #ff4b8b 0%, #2f80ff 55%, #2f80ff 100%);
-  -webkit-background-clip: text;
-  color: transparent;
+  letter-spacing: -0.03em;
+  font-size: 1.24rem;
+}
+
+.lk-brand-name-l {
+  color: #ec4899; /* rose */
+}
+
+.lk-brand-name-rest {
+  color: #2563eb; /* bleu */
 }
 
 .lk-brand-tagline {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: #6b7280;
 }
 
-/* NAV + BOUTONS AUTH */
+/* NAV */
 .lk-nav {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
-/* Bouton générique */
-.lk-button {
+/* Boutons header = même style que bouton primaire Lifescore */
+.lk-nav-cta {
   border-radius: 999px;
-  border: none;
+  padding: 7px 14px;
+  font-size: 0.86rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.65rem 1.6rem;
+  border: none;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease,
-    opacity 0.12s ease;
   white-space: nowrap;
 }
 
-/* Bouton principal – utilisé pour le CTA et pour les boutons auth */
-.lk-button-primary {
-  background: linear-gradient(90deg, #ff4b8b, #7b61ff);
+.lk-nav-cta-primary {
+  background: linear-gradient(90deg, #ec4899, #6366f1);
   color: #ffffff;
-  box-shadow: 0 14px 30px rgba(123, 97, 255, 0.35);
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.35);
 }
 
-.lk-button-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 40px rgba(123, 97, 255, 0.45);
+.lk-nav-cta-primary:hover {
+  filter: brightness(1.07);
 }
 
-.lk-button-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 8px 18px rgba(123, 97, 255, 0.35);
+.lk-nav-cta-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.7);
 }
 
-/* Bouton secondaire */
-.lk-button-secondary {
-  background: #f3f4ff;
-  color: #4b5563;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 6px 16px rgba(148, 163, 184, 0.25);
-}
-
-.lk-button-secondary:hover {
-  background: #e5e7ff;
-}
-
-/* Ajustement visuel pour les boutons du header
-   (même style que CTA mais un peu plus compacts) */
-.lk-nav-cta {
-  padding-inline: 1.3rem;
-  padding-block: 0.55rem;
-  font-size: 0.9rem;
-}
-
-/* MAIN LAYOUT */
-.lk-main {
-  margin-top: 12px;
-}
-
-.lk-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* CARDS */
-.lk-card {
+.lk-nav-cta-secondary:hover {
   background: #ffffff;
-  border-radius: 22px;
-  padding: 20px 22px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+/* MAIN */
+.lk-main {
+  padding-top: 20px;
+}
+
+/* Cards */
+.lk-card {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.1),
+    0 0 0 1px rgba(148, 163, 184, 0.22);
+  padding: 20px 20px 22px;
 }
 
 .lk-card-main {
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 16px;
 }
 
 .lk-card-intro h1 {
   margin-top: 0;
-  font-size: 1.7rem;
-  letter-spacing: 0.01em;
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
 }
 
 .lk-card-intro p {
-  margin-bottom: 0.6rem;
+  margin: 0 0 8px;
+  line-height: 1.5;
 }
 
 .lk-scale-info {
-  margin-top: 0.8rem;
-  padding: 10px 14px;
-  border-radius: 16px;
-  background: #f5f3ff;
-  color: #4b5563;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #eef2ff, #fef9c3);
+  font-size: 0.88rem;
 }
 
-/* DOMAINES / QUESTIONS */
+/* Domaines / questions */
 .lk-domain-block + .lk-domain-block {
   margin-top: 18px;
 }
 
 .lk-domain-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
+  margin: 0 0 4px;
+  font-size: 1.1rem;
 }
 
 .lk-domain-description {
-  margin: 4px 0 12px;
+  margin: 0;
+  font-size: 0.86rem;
   color: #6b7280;
-  font-size: 0.9rem;
 }
 
 .lk-domain-questions {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
 .lk-question-row {
-  padding: 10px 12px 12px;
-  border-radius: 16px;
-  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .lk-question-label-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 4px;
+  gap: 12px;
+  align-items: baseline;
 }
 
 .lk-question-label {
   margin: 0;
-  font-weight: 500;
+  font-size: 0.94rem;
 }
 
 .lk-question-value {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 0.86rem;
+  color: #4b5563;
+  font-weight: 600;
 }
 
-/* SLIDER */
+/* Sliders */
 .lk-slider-wrapper {
-  margin-top: 4px;
+  padding: 4px 0 0;
 }
 
 .lk-slider {
@@ -263,80 +249,117 @@ body {
   appearance: none;
   height: 6px;
   border-radius: 999px;
-  background: #e5e7eb;
+  background: linear-gradient(90deg, #e5e7eb 0, #e5e7eb 100%);
   outline: none;
 }
 
-/* piste */
+/* thumb */
 .lk-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe6f4 40%, #ff4b8b 100%);
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe4f1 40%, #ec4899 100%);
+  box-shadow: 0 8px 18px rgba(236, 72, 153, 0.45);
   border: 2px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.8);
-  cursor: pointer;
+  margin-top: -7px;
 }
 
 .lk-slider::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe6f4 40%, #ff4b8b 100%);
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe4f1 40%, #ec4899 100%);
+  box-shadow: 0 8px 18px rgba(236, 72, 153, 0.45);
   border: 2px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.8);
-  cursor: pointer;
 }
 
+/* ticks */
 .lk-slider-ticks {
-  margin-top: 6px;
+  margin-top: 4px;
   display: flex;
   justify-content: space-between;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: #9ca3af;
 }
 
-/* ACTIONS */
+/* Actions */
 .lk-actions-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: flex-end;
+  gap: 10px;
   margin-top: 18px;
 }
 
-/* RÉSULTATS */
+/* Boutons principaux */
+.lk-button {
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.lk-button-primary {
+  background: linear-gradient(90deg, #ec4899, #6366f1);
+  color: #ffffff;
+  box-shadow: 0 16px 40px rgba(129, 140, 248, 0.45);
+}
+
+.lk-button-primary:hover {
+  filter: brightness(1.06);
+}
+
+.lk-button-secondary {
+  background: #f9fafb;
+  color: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+}
+
+.lk-button-secondary:hover {
+  background: #ffffff;
+}
+
+/* Résultats */
 .lk-results-header {
   display: flex;
-  gap: 18px;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .lk-circle-score {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 200deg,
-    #ff4b8b,
-    #ffd95b,
-    #7b61ff,
-    #ff4b8b
-  );
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 18px 40px rgba(123, 97, 255, 0.45);
 }
 
 .lk-circle-score-inner {
-  width: 86%;
-  height: 86%;
-  border-radius: 50%;
-  background: #ffffff;
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 120deg,
+    #06b6d4,
+    #6366f1,
+    #ec4899,
+    #f97316,
+    #22c55e,
+    #06b6d4
+  );
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lk-circle-score-inner > div {
+  background: #f9fafb;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -344,32 +367,49 @@ body {
 }
 
 .lk-circle-score-value {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 800;
+  letter-spacing: -0.08em;
 }
 
 .lk-circle-score-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #6b7280;
 }
 
 .lk-results-title h1 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 8px;
 }
 
+.lk-results-title p {
+  margin: 0 0 6px;
+  line-height: 1.5;
+}
+
+/* Scores par domaine */
 .lk-results-block {
-  margin-top: 18px;
+  margin-top: 20px;
+}
+
+.lk-results-block h2 {
+  margin: 0 0 6px;
+}
+
+.lk-results-block p {
+  margin: 0 0 8px;
 }
 
 .lk-domain-scores {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 6px;
 }
 
 .lk-domain-score-row {
-  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .lk-domain-score-header {
@@ -379,9 +419,8 @@ body {
 }
 
 .lk-domain-score-bar {
-  margin-top: 5px;
   width: 100%;
-  height: 7px;
+  height: 8px;
   border-radius: 999px;
   background: #e5e7eb;
   overflow: hidden;
@@ -389,56 +428,55 @@ body {
 
 .lk-domain-score-bar-fill {
   height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ff4b8b, #7b61ff);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22c55e, #facc15, #f97316, #ef4444);
 }
 
-/* LISTES */
+/* Listes */
 .lk-list {
   margin: 8px 0 0;
-  padding-left: 1.1rem;
-  color: #4b5563;
+  padding-left: 18px;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 /* FOOTER */
 .lk-footer {
-  margin-top: 20px;
-  padding-top: 8px;
-}
-
-.lk-footer-inner {
+  margin-top: 32px;
+  padding: 16px 0 8px;
+  text-align: center;
   font-size: 0.8rem;
   color: #9ca3af;
-  text-align: center;
 }
 
-/* RESPONSIVE */
-@media (max-width: 640px) {
-  .ls-page {
-    padding-inline: 10px;
+/* Responsive */
+@media (min-width: 768px) {
+  .lk-app {
+    padding: 24px 16px 48px;
   }
 
   .lk-header-inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .lk-nav {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .lk-nav-cta {
-    flex: 0 0 auto;
+    padding: 14px 8px;
   }
 
   .lk-card {
-    padding: 18px 16px;
+    padding: 24px 24px 26px;
+  }
+
+  .lk-card-intro h1 {
+    font-size: 1.9rem;
+  }
+
+  .lk-results-header {
+    flex-direction: row;
+    align-items: center;
   }
 
   .lk-circle-score {
-    width: 100px;
-    height: 100px;
+    flex: 0 0 auto;
+  }
+
+  .lk-results-title {
+    flex: 1;
   }
 }
