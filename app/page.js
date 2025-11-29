@@ -215,7 +215,7 @@ export default function HomePage() {
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
-            <h1>Calcule ton LifeScore en 2 minutes.</h1>
+            <h1>Evalues ton équilibre de vie en 2 minutes</h1>
             <p>
               <strong>Lifekore</strong> a été conçu pour t&apos;aider à prendre du
               recul sur ta situation de vie grâce à l&apos;intelligence
