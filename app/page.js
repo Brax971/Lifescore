@@ -163,10 +163,10 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Logo / retour accueil */}
+          {/* Logo + titre cliquables (reviennent à l’accueil) */}
           <button
             type="button"
-            className="lk-brand"
+            className="lk-brand-button"
             onClick={() => {
               const el = document.getElementById("lk-home");
               if (el) {
@@ -176,11 +176,8 @@ export default function HomePage() {
                 });
               }
             }}
-            style={{ background: "none", border: "none", padding: 0 }}
           >
-            <div className="lk-brand-mark">
-              <div className="lk-brand-pulse" />
-            </div>
+            <div className="lk-brand-mark" />
             <div className="lk-brand-text">
               <span className="lk-brand-name">Lifecore</span>
               <span className="lk-brand-tagline">
@@ -189,14 +186,17 @@ export default function HomePage() {
             </div>
           </button>
 
-          {/* Actions compte */}
-          <nav className="lk-nav">
-            <button type="button" className="lk-nav-link">
+          {/* Boutons authentification */}
+          <nav className="lk-nav-auth">
+            <button
+              type="button"
+              className="lk-auth-link lk-auth-link-ghost"
+            >
               Se connecter
             </button>
             <button
               type="button"
-              className="lk-nav-link lk-nav-link-primary"
+              className="lk-auth-link lk-auth-link-primary"
             >
               Créer un compte
             </button>
@@ -250,10 +250,7 @@ export default function HomePage() {
                   {domain.questions.map((question) => {
                     const value = answers[question.id] ?? 5;
                     return (
-                      <div
-                        key={question.id}
-                        className="lk-question-row"
-                      >
+                      <div key={question.id} className="lk-question-row">
                         <div className="lk-question-label-row">
                           <p className="lk-question-label">
                             {question.label}
@@ -278,7 +275,6 @@ export default function HomePage() {
                             }
                             className="lk-slider"
                           />
-                          {/* graduations 1 à 10 */}
                           <div className="lk-slider-ticks">
                             {Array.from({ length: 10 }, (_, i) => (
                               <span key={i + 1}>{i + 1}</span>
@@ -333,7 +329,7 @@ export default function HomePage() {
                   </p>
                   <p>
                     Ton LifeScore global est{" "}
-                      <strong>{getScoreText(results.globalScore)}</strong>.
+                    <strong>{getScoreText(results.globalScore)}</strong>.
                   </p>
                   <p>
                     Utilise ce score comme un point de départ : tu peux
@@ -435,7 +431,7 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* À PROPOS – on la garde pour la mettre plus tard dans le footer/menu */}
+        {/* À PROPOS */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2>À propos de Lifecore</h2>
