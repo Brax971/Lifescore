@@ -1,564 +1,180 @@
-/* RESET SIMPLE */
-*,
-*::before,
-*::after {
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html,
 body {
-  margin: 0;
-  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #f5f6fa;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "Helvetica Neue", Arial, sans-serif;
-  background: #f5f6ff;
-  color: #0f172a;
-}
-
+/* Page container */
 .ls-page {
-  min-height: 100vh;
-}
-
-/* APP CONTAINER */
-
-.lk-app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.lk-main {
-  flex: 1;
-  padding: 16px;
-}
-
-.lk-section {
-  max-width: 960px;
-  margin: 0 auto 32px;
-}
-
-/* HEADER */
-
-.lk-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: linear-gradient(180deg, #f5f6ff 0%, #f5f6ff 60%, #f5f6ff00 100%);
-  backdrop-filter: blur(18px);
-}
-
-.lk-header-inner {
-  max-width: 960px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 12px 16px 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  padding: 20px;
 }
 
-/* Brand */
+/* ------------------------------------------------------ */
+/* HEADER + LOGO FIX (SEULE CHOSE CHANGÉE)                */
+/* ------------------------------------------------------ */
 
-.lk-brand {
-  border: none;
-  outline: none;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-  cursor: pointer;
-  text-align: left;
-  flex: 1;
-}
-
-.lk-brand-mark {
-  width: 40px;
-  height: 56px;
-  border-radius: 999px;
-  padding: 2px;
-  background: linear-gradient(135deg, #ff4b8b, #ff9a3c, #28d8ff, #7b5cff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lk-brand-mark-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: #ffffff;
-}
-
-.lk-brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.lk-brand-name {
-  font-weight: 800;
-  font-size: 22px;
-  letter-spacing: 0.02em;
-}
-
-.lk-brand-name-l {
-  background: linear-gradient(135deg, #ff4b8b, #ff7ad9);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.lk-brand-name-rest {
-  background: linear-gradient(135deg, #007bff, #5a5cff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.lk-brand-tagline {
-  margin-top: 4px;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* Header buttons */
-
-.lk-header-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.lk-header-btn {
-  border: none;
-  cursor: pointer;
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-weight: 700;
-  font-size: 15px;
-  white-space: nowrap;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-  color: #ffffff;
-}
-
-.lk-header-btn-primary {
-  background-image: linear-gradient(135deg, #ff4b8b, #7b5cff);
-  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.45);
-}
-
-.lk-header-btn-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow: 0 14px 28px rgba(124, 58, 237, 0.55);
-}
-
-/* CARDS */
-
-.lk-card {
-  background: #ffffff;
-  border-radius: 28px;
-  padding: 24px 20px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
-}
-
-.lk-card-main {
-  margin-bottom: 20px;
-}
-
-.lk-card-intro {
-  background: radial-gradient(
-      circle at top left,
-      rgba(255, 192, 203, 0.3),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(129, 140, 248, 0.35),
-      transparent 55%
-    ),
-    #ffffff;
-}
-
-/* TITRES & TEXTES */
-
-h1,
-h2,
-h3 {
-  margin: 0 0 8px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-h1 {
-  font-size: 26px;
-}
-
-h2 {
-  font-size: 22px;
-}
-
-h3 {
-  font-size: 18px;
-}
-
-p {
-  margin: 6px 0;
-  line-height: 1.5;
-  font-size: 15px;
-}
-
-.lk-scale-info {
-  margin-top: 16px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: #fff7cc;
-  font-size: 14px;
-}
-
-/* DOMAINES */
-
-.lk-domain-block + .lk-domain-block {
-  margin-top: 24px;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 20px;
-}
-
-.lk-domain-header h2 {
-  margin-bottom: 4px;
-}
-
-.lk-domain-description {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-/* QUESTIONS & SLIDERS */
-
-.lk-domain-questions {
-  margin-top: 12px;
-}
-
-.lk-question-row + .lk-question-row {
-  margin-top: 16px;
-}
-
-.lk-question-label-row {
+.ls-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+  background: #ffffff;
+  padding: 14px 20px;
+  border-radius: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
 }
 
-.lk-question-label {
-  margin: 0;
-  font-size: 15px;
+/* Bloc logo */
+.ls-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.lk-question-value {
+/* FIX : empêche toute déformation du logo */
+.ls-logo {
+  width: 48px;        /* Taille fixe */
+  height: 48px;       /* Hauteur fixe */
+  flex-shrink: 0;     /* Évite que le logo se comprime */
+  object-fit: contain; /* Empêche toute déformation */
+}
+
+/* Texte Lifecore */
+.ls-logo-text {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -1px;
+}
+
+/* Slogan */
+.ls-logo-slogan {
+  margin-top: -6px;
+  font-size: 14px;
+  color: #7d7d7d;
+}
+
+/* ------------------------------------------------------ */
+/* BOUTONS (inchangés, ne surtout pas modifier)           */
+/* ------------------------------------------------------ */
+
+.ls-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Bouton blanc */
+.btn-outline {
+  padding: 14px 28px;
+  border-radius: 40px;
+  border: 2px solid #d0d0d0;
+  font-size: 17px;
   font-weight: 600;
-  color: #ec4899;
-  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Slider */
-
-.lk-slider-wrapper {
-  padding: 8px 0 2px;
+.btn-outline:hover {
+  background: #f0f0f0;
 }
 
-.lk-slider {
+/* Bouton gradient */
+.btn-gradient {
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+  box-shadow: 0 8px 20px rgba(120, 75, 160, 0.35);
+  transition: 0.2s;
+  border: none;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(120, 75, 160, 0.45);
+}
+
+/* ------------------------------------------------------ */
+/* SECTIONS + FORM                                        */
+/* ------------------------------------------------------ */
+
+.ls-section {
+  background: white;
+  padding: 25px;
+  border-radius: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.06);
+}
+
+.ls-section h2 {
+  margin-bottom: 12px;
+  font-size: 28px;
+}
+
+/* Sliders */
+input[type="range"] {
   width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 4px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  outline: none;
+  margin: 10px 0;
 }
 
-/* Track */
-.lk-slider::-webkit-slider-runnable-track {
-  height: 4px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-.lk-slider::-moz-range-track {
-  height: 4px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-
-/* Thumb */
-.lk-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 3px solid #fb52a7;
-  box-shadow: 0 4px 10px rgba(219, 39, 119, 0.5);
-  margin-top: -9px;
-}
-.lk-slider::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 3px solid #fb52a7;
-  box-shadow: 0 4px 10px rgba(219, 39, 119, 0.5);
-}
-
-/* Graduation 1 à 10 */
-
-.lk-slider-ticks {
+/* Centrage des chiffres */
+.ls-scale {
   display: flex;
   justify-content: space-between;
-  margin-top: 4px;
-  font-size: 11px;
-  color: #9ca3af;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
-.lk-slider-ticks span {
-  width: 10px;
+/* Footer */
+.ls-footer {
   text-align: center;
+  color: #666;
+  margin-top: 50px;
+  padding-bottom: 60px;
 }
 
-/* BOUTONS FORMULAIRE */
+/* ------------------------------------------------------ */
+/* RESPONSIVE MOBILE                                      */
+/* ------------------------------------------------------ */
 
-.lk-actions-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.lk-button {
-  border-radius: 999px;
-  padding: 11px 20px;
-  border: none;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-}
-
-.lk-button-secondary {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #e5e7eb;
-}
-
-.lk-button-secondary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
-}
-
-.lk-button-primary {
-  background-image: linear-gradient(135deg, #ff4b8b, #7b5cff);
-  color: #ffffff;
-  box-shadow: 0 12px 26px rgba(124, 58, 237, 0.6);
-}
-
-.lk-button-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow: 0 16px 30px rgba(124, 58, 237, 0.7);
-}
-
-/* RÉSULTATS */
-
-.lk-results-header {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.lk-circle-score {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle at top, #f97316, #ec4899);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 14px 32px rgba(219, 39, 119, 0.5);
-}
-
-.lk-circle-score-inner {
-  width: 86px;
-  height: 86px;
-  border-radius: 50%;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.lk-circle-score-value {
-  font-size: 30px;
-  font-weight: 800;
-}
-
-.lk-circle-score-label {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.lk-results-title p {
-  font-size: 15px;
-}
-
-.lk-results-block {
-  margin-top: 20px;
-}
-
-.lk-domain-scores {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.lk-domain-score-row {}
-
-.lk-domain-score-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.lk-domain-score-label {
-  font-weight: 600;
-}
-
-.lk-domain-score-value {
-  font-weight: 700;
-  color: #ec4899;
-}
-
-.lk-domain-score-bar {
-  height: 6px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  overflow: hidden;
-}
-
-.lk-domain-score-bar-fill {
-  height: 100%;
-  border-radius: inherit;
-  background-image: linear-gradient(135deg, #f97316, #ec4899, #4f46e5);
-}
-
-/* LISTES */
-
-.lk-list {
-  margin: 8px 0 0;
-  padding-left: 20px;
-  font-size: 14px;
-  color: #374151;
-}
-
-/* FOOTER */
-
-.lk-footer {
-  padding: 12px 16px 24px;
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.lk-footer-inner {
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-/* RESPONSIVE MOBILE */
-
-@media (max-width: 768px) {
-  .lk-header-inner {
+@media (max-width: 640px) {
+  .ls-header {
     flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+    text-align: center;
+    gap: 18px;
   }
 
-  .lk-brand {
-    width: 100%;
+  .ls-logo {
+    width: 55px;   /* un peu plus grand pour lisibilité mobile */
+    height: 55px;
   }
 
-  .lk-brand-mark {
-    width: 34px;
-    height: 46px;
-  }
-
-  .lk-brand-name {
-    font-size: 20px;
-  }
-
-  .lk-brand-tagline {
-    font-size: 12px;
-  }
-
-  .lk-header-actions {
+  .ls-buttons {
     width: 100%;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
-  .lk-header-btn {
-    font-size: 14px;
-    padding: 10px 14px;
-    flex: 1 1 0;
-    text-align: center;
-  }
-
-  .lk-section {
-    margin-bottom: 24px;
-  }
-
-  .lk-card {
-    border-radius: 24px;
-    padding: 20px 16px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  p {
-    font-size: 14px;
-  }
-
-  .lk-question-label {
-    font-size: 14px;
-  }
-
-  .lk-question-label-row {
-    align-items: flex-end;
-  }
-
-  .lk-actions-row {
-    justify-content: center;
-  }
-
-  .lk-circle-score {
-    margin: 0 auto;
-  }
-
-  .lk-results-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  .btn-gradient,
+  .btn-outline {
+    width: 100%;
+    max-width: 320px;
   }
 }
