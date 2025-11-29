@@ -1,500 +1,442 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 
-const DOMAINS = [
-  {
-    id: "finances",
+// --- Configuration des questions par domaine ---
+
+const DOMAINS = {
+  finances: {
     label: "Finances",
-    description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
-        id: "finances_global",
+        key: "finances_overall",
         label: "Situation financière globale",
       },
       {
-        id: "finances_budget",
+        key: "finances_budget",
         label: "Gestion du budget",
       },
       {
-        id: "finances_dettes",
+        key: "finances_debt",
         label: "Poids des dettes",
       },
     ],
   },
-  {
-    id: "travail",
+  work: {
     label: "Travail / activité",
-    description: "1 = très insatisfaisant, 10 = très satisfaisant.",
     questions: [
       {
-        id: "travail_confiance",
+        key: "work_confidence",
         label: "Confiance dans ton travail / activité",
       },
       {
-        id: "travail_sens",
+        key: "work_meaning",
         label: "Sens de ton activité",
       },
-      {
-        id: "travail_energie",
-        label: "Niveau d’énergie au travail",
-      },
     ],
   },
-  {
-    id: "sante",
+  health: {
     label: "Santé / énergie",
-    description: "1 = très faible, 10 = excellente.",
     questions: [
       {
-        id: "sante_energie",
-        label: "Niveau d’énergie sur une semaine moyenne",
+        key: "health_energy",
+        label: "Niveau d'énergie global",
       },
       {
-        id: "sante_sommeil",
-        label: "Qualité moyenne de ton sommeil",
-      },
-      {
-        id: "sante_habitudes",
-        label: "Habitudes de vie (alimentation, activité physique, rythme)",
+        key: "health_habits",
+        label: "Qualité de ton hygiène de vie",
       },
     ],
   },
-  {
-    id: "organisation",
+  organisation: {
     label: "Organisation / administratif",
-    description: "1 = très chaotique, 10 = très structuré.",
     questions: [
       {
-        id: "orga_papiers",
-        label: "Gestion des papiers et tâches administratives",
+        key: "orga_daily",
+        label: "Organisation de ton quotidien",
       },
       {
-        id: "orga_temps",
-        label: "Organisation de ton temps (priorités, planning)",
-      },
-      {
-        id: "orga_avancement",
-        label: "Sentiment d’avancer sur tes sujets importants",
+        key: "orga_admin",
+        label: "Gestion de l'administratif",
       },
     ],
   },
-  {
-    id: "relations",
+  relations: {
     label: "Relations / entourage",
-    description: "1 = très insatisfaisant, 10 = très satisfaisant.",
     questions: [
       {
-        id: "rel_soutien",
+        key: "relations_support",
         label: "Soutien ressenti de la part de ton entourage",
       },
       {
-        id: "rel_qualite",
-        label: "Qualité de tes relations proches",
-      },
-      {
-        id: "rel_temps",
+        key: "relations_quality",
         label: "Temps de qualité partagé avec les proches",
       },
     ],
   },
-  {
-    id: "mental",
+  mental: {
     label: "État mental / ressenti",
-    description: "1 = très bas, 10 = très élevé.",
     questions: [
       {
-        id: "mental_humeur",
+        key: "mental_mood",
         label: "Humeur générale en ce moment",
       },
       {
-        id: "mental_motivation",
+        key: "mental_motivation",
         label: "Motivation pour avancer dans tes projets",
       },
     ],
   },
-];
+};
 
-const INITIAL_VALUE = 5;
-
-function buildInitialAnswers() {
-  const initial = {};
-  DOMAINS.forEach((domain) => {
-    domain.questions.forEach((q) => {
-      initial[q.id] = INITIAL_VALUE;
-    });
+// Valeurs initiales des sliders (5/10 partout)
+const INITIAL_ANSWERS = Object.values(DOMAINS).reduce((acc, domain) => {
+  domain.questions.forEach((q) => {
+    acc[q.key] = 5;
   });
-  return initial;
+  return acc;
+}, {});
+
+// --- Fonctions de calcul ---
+
+function calculateScores(answers) {
+  const domainScores = {};
+  let domainSum = 0;
+  let domainCount = 0;
+
+  Object.entries(DOMAINS).forEach(([domainKey, domainConfig]) => {
+    const values = domainConfig.questions.map((q) => answers[q.key] || 1);
+    const avg10 = values.reduce((s, v) => s + v, 0) / values.length; // échelle 1–10
+    const score100 = Math.round(avg10 * 10); // échelle 0–100
+    domainScores[domainKey] = score100;
+    domainSum += score100;
+    domainCount += 1;
+  });
+
+  const globalScore =
+    domainCount > 0 ? Math.round(domainSum / domainCount) : 0;
+
+  const strengths = getStrengthDomains(domainScores);
+  const priorities = getPriorityDomains(domainScores);
+  const globalMessage = getGlobalMessage(globalScore);
+
+  return {
+    globalScore,
+    domainScores,
+    strengths,
+    priorities,
+    globalMessage,
+  };
 }
 
-export default function HomePage() {
-  const [activeView, setActiveView] = useState<"quiz" | "results">("quiz");
-  const [showAbout, setShowAbout] = useState(false);
-  const [answers, setAnswers] = useState(buildInitialAnswers);
-  const [results, setResults] = useState<null | {
-    globalScore: number;
-    domainScores: Record<string, number>;
-  }>(null);
+function getStrengthDomains(domainScores) {
+  const entries = Object.entries(domainScores);
+  if (!entries.length) return [];
 
-  const handleSliderChange = (id: string, value: number) => {
+  const maxScore = Math.max(...entries.map(([, v]) => v));
+  // On considère "force" ≥ 70/100
+  return entries
+    .filter(([, v]) => v >= 70 && v >= maxScore - 5)
+    .map(([k]) => DOMAINS[k].label);
+}
+
+function getPriorityDomains(domainScores) {
+  const entries = Object.entries(domainScores);
+  if (!entries.length) return [];
+
+  const minScore = Math.min(...entries.map(([, v]) => v));
+  // On considère "prioritaire" ≤ 50/100
+  return entries
+    .filter(([, v]) => v <= 50 && v <= minScore + 5)
+    .map(([k]) => DOMAINS[k].label);
+}
+
+function getGlobalMessage(score) {
+  if (score <= 30) {
+    return "Ton LifeScore global est fragile : la période n’est pas simple, mais le fait de regarder ta situation en face est déjà un premier pas important.";
+  }
+  if (score <= 60) {
+    return "Ton LifeScore global est intermédiaire : tout n’est pas simple, mais tu as déjà des bases solides sur lesquelles t’appuyer pour progresser.";
+  }
+  if (score <= 80) {
+    return "Ton LifeScore global est solide : tu as déjà beaucoup de choses en place. L’objectif est maintenant d’affiner certains domaines pour te rapprocher de ton potentiel maximum.";
+  }
+  return "Ton LifeScore global est élevé : tu es dans une phase globalement favorable. Le but est de consolider cet équilibre et d’anticiper les zones qui pourraient se fragiliser.";
+}
+
+// --- Composants UI ---
+
+function DomainSlider({ question, value, onChange }) {
+  return (
+    <div className="mb-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <label className="font-medium text-slate-800">
+          {question.label}
+        </label>
+        <span className="text-sm font-semibold text-sky-600">
+          {value}/10
+        </span>
+      </div>
+
+      <input
+        type="range"
+        min={1}
+        max={10}
+        step={1}
+        value={value}
+        onChange={(e) => onChange(question.key, Number(e.target.value))}
+        className="w-full accent-sky-600"
+      />
+
+      <div className="mt-1 flex justify-between text-[11px] text-slate-400">
+        <span>1</span>
+        <span>5</span>
+        <span>10</span>
+      </div>
+    </div>
+  );
+}
+
+function DomainBar({ label, value }) {
+  return (
+    <div className="mb-4">
+      <div className="flex items-center justify-between text-sm font-medium text-slate-800">
+        <span>{label}</span>
+        <span className="tabular-nums text-slate-900">{value}/100</span>
+      </div>
+      <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
+        <div
+          className="h-2 rounded-full bg-gradient-to-r from-sky-500 via-emerald-500 to-fuchsia-500 transition-all"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// --- Page principale ---
+
+export default function HomePage() {
+  const [answers, setAnswers] = useState(INITIAL_ANSWERS);
+  const [results, setResults] = useState(null);
+  const [showAbout, setShowAbout] = useState(false);
+
+  function handleChange(key, value) {
     setAnswers((prev) => ({
       ...prev,
-      [id]: value,
+      [key]: value,
     }));
-  };
+  }
 
-  const handleReset = () => {
-    setAnswers(buildInitialAnswers());
+  function handleSubmit(event) {
+    event.preventDefault();
+    const computed = calculateScores(answers);
+    setResults(computed);
+
+    // Remonte en haut sur mobile pour voir le score
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  function handleReset() {
+    setAnswers(INITIAL_ANSWERS);
     setResults(null);
-    setActiveView("quiz");
-  };
-
-  const handleCalculate = () => {
-    const domainScores: Record<string, number> = {};
-
-    DOMAINS.forEach((domain) => {
-      const values = domain.questions.map((q) => answers[q.id] || INITIAL_VALUE);
-      const avg = values.reduce((sum, v) => sum + v, 0) / values.length;
-      domainScores[domain.id] = Math.round(avg * 10);
-    });
-
-    const allValues = DOMAINS.flatMap((domain) =>
-      domain.questions.map((q) => answers[q.id] || INITIAL_VALUE)
-    );
-    const globalAvg =
-      allValues.reduce((sum, v) => sum + v, 0) / allValues.length;
-
-    const globalScore = Math.round(globalAvg * 10);
-
-    setResults({ globalScore, domainScores });
-    setActiveView("results");
-    setShowAbout(false);
-  };
-
-  const strengths = useMemo(() => {
-    if (!results) return [];
-    return DOMAINS.filter((d) => results.domainScores[d.id] >= 70);
-  }, [results]);
-
-  const priorities = useMemo(() => {
-    if (!results) return [];
-    return DOMAINS.filter((d) => results.domainScores[d.id] <= 50);
-  }, [results]);
-
-  const globalMessage = useMemo(() => {
-    if (!results) return "";
-    const s = results.globalScore;
-    if (s <= 40)
-      return "Ton LifeScore global est bas : tu traverses une phase exigeante. Le but n’est pas de culpabiliser, mais de poser un diagnostic honnête pour enclencher des améliorations concrètes.";
-    if (s <= 60)
-      return "Ton LifeScore global est intermédiaire : tout n’est pas simple, mais tu as déjà des bases solides. Tu peux gagner en confort de vie en travaillant quelques domaines clés.";
-    if (s <= 80)
-      return "Ton LifeScore global est bon : globalement, ta vie tient debout. Tu peux désormais affiner certains domaines pour te rapprocher d’un niveau d’excellence.";
-    return "Ton LifeScore global est très élevé : tu as construit un équilibre de vie solide. L’objectif est maintenant de le préserver dans le temps sans tomber dans la pression du “toujours plus”.";
-  }, [results]);
-
-  const adviceIntro = useMemo(() => {
-    if (!results) return "";
-    if (priorities.length === 0)
-      return "Aucun domaine ne ressort comme critique : tu peux te servir de ce LifeScore comme un tableau de bord pour garder ton équilibre actuel.";
-    if (priorities.length === 1)
-      return `Le domaine qui mérite le plus d’attention est : ${priorities[0].label}. Commencer par là aura le plus d’impact sur ton quotidien.`;
-    return `Plusieurs domaines méritent une attention particulière : ${priorities
-      .map((d) => d.label)
-      .join(", ")}. L’idée n’est pas de tout changer d’un coup, mais d’avancer étape par étape.`;
-  }, [results, priorities]);
-
-  const handleShowQuiz = () => {
-    setActiveView("quiz");
-    setShowAbout(false);
-  };
-
-  const handleShowAbout = () => {
-    setShowAbout(true);
-    setActiveView("quiz");
-  };
+  }
 
   return (
-    <div className="lk-app">
-      <header className="lk-header">
-        <div className="lk-header-inner">
-          <div className="lk-brand">
-            <div className="lk-brand-mark">
-              <span className="lk-brand-pulse" />
-            </div>
-            <div className="lk-brand-text">
-              <span className="lk-brand-name">Lifekore</span>
-              <span className="lk-brand-tagline">Score de vie intelligent</span>
-            </div>
-          </div>
-          <nav className="lk-nav">
-            <button
-              type="button"
-              className={`lk-nav-link ${
-                !showAbout ? "lk-nav-link-active" : ""
-              }`}
-              onClick={handleShowQuiz}
-            >
-              Accueil
-            </button>
-            <button
-              type="button"
-              className={`lk-nav-link ${
-                showAbout ? "lk-nav-link-active" : ""
-              }`}
-              onClick={handleShowAbout}
-            >
-              À propos
-            </button>
-          </nav>
-        </div>
-      </header>
-
-      <main className="lk-main">
-        {!showAbout && activeView === "quiz" && (
-          <section className="lk-section">
-            <div className="lk-card lk-card-main">
-              <div className="lk-card-intro">
-                <h1>Calcule ton LifeScore en 2 minutes.</h1>
-                <p>
-                  Ce questionnaire a été conçu pour t’aider à prendre du recul
-                  sur ta situation. En quelques questions, tu obtiens un{" "}
-                  <strong>score global</strong> et des{" "}
-                  <strong>scores par domaine</strong> (finances, travail,
-                  santé, relations, etc.).
-                </p>
-                <p>
-                  Répond <strong>honnêtement</strong>, sans te juger. Il n’existe
-                  pas de « bonne » réponse : l’important, c’est ce que{" "}
-                  <strong>toi</strong> tu ressens aujourd’hui.
-                </p>
-                <p className="lk-scale-info">
-                  Échelle utilisée : <strong>1 = très faible, 10 = excellent.</strong>
-                </p>
-              </div>
-
-              {DOMAINS.map((domain) => (
-                <div key={domain.id} className="lk-domain-block">
-                  <div className="lk-domain-header">
-                    <h2>{domain.label}</h2>
-                    <p className="lk-domain-description">
-                      {domain.description}
-                    </p>
-                  </div>
-                  <div className="lk-domain-questions">
-                    {domain.questions.map((q) => {
-                      const value = answers[q.id] || INITIAL_VALUE;
-                      return (
-                        <div key={q.id} className="lk-question-row">
-                          <div className="lk-question-label-row">
-                            <p className="lk-question-label">{q.label}</p>
-                            <span className="lk-question-value">
-                              {value}/10
-                            </span>
-                          </div>
-                          <div className="lk-slider-wrapper">
-                            <input
-                              type="range"
-                              min={1}
-                              max={10}
-                              step={1}
-                              value={value}
-                              onChange={(e) =>
-                                handleSliderChange(
-                                  q.id,
-                                  Number(e.target.value)
-                                )
-                              }
-                              className="lk-slider"
-                            />
-                            <div className="lk-slider-ticks">
-                              {Array.from({ length: 10 }).map((_, i) => (
-                                <span key={i + 1}>{i + 1}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-
-              <div className="lk-actions-row">
-                <button
-                  type="button"
-                  className="lk-button lk-button-secondary"
-                  onClick={handleReset}
-                >
-                  Réinitialiser les réponses
-                </button>
-                <button
-                  type="button"
-                  className="lk-button lk-button-primary"
-                  onClick={handleCalculate}
-                >
-                  Calculer mon LifeScore
-                </button>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {showAbout && (
-          <section className="lk-section">
-            <div className="lk-card lk-card-main">
-              <h1>À propos de Lifekore</h1>
-              <p>
-                Lifekore est un outil simple qui t’aide à{" "}
-                <strong>mesurer le potentiel de ta vie</strong> à travers un
-                LifeScore global et des scores par domaine.
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 pb-16 pt-10 sm:px-6 lg:px-8">
+        {/* HERO + éventuellement logo dans le layout, ici juste le contenu */}
+        <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h1 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
+                Calcule ton LifeScore en 2 minutes.
+              </h1>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                Ce questionnaire a été conçu pour t&apos;aider à prendre du
+                recul sur ta situation. En quelques questions, tu obtiens un{" "}
+                <span className="font-semibold text-slate-900">
+                  score global
+                </span>{" "}
+                et des{" "}
+                <span className="font-semibold text-slate-900">
+                  scores par domaine
+                </span>{" "}
+                (finances, travail, santé, relations, etc.).
               </p>
-              <p>
-                L’objectif n’est pas de te mettre une note, mais de te donner
-                un <strong>tableau de bord clair</strong> pour savoir où tu en
-                es, repérer tes points forts et tes axes de progression.
+              <p className="mt-2 text-sm text-slate-600">
+                Répond{" "}
+                <span className="font-semibold text-slate-900">
+                  honnêtement
+                </span>
+                , sans te juger. Il n&apos;existe pas de « bonne » réponse :
+                l&apos;important, c&apos;est ce que{" "}
+                <span className="font-semibold text-slate-900">toi</span> tu
+                ressens aujourd&apos;hui.
               </p>
-              <p>
-                Tu peux utiliser Lifekore ponctuellement pour faire un bilan, ou
-                régulièrement pour <strong>suivre ton évolution</strong> au fil
-                des mois.
+              <p className="mt-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+                Échelle utilisée :{" "}
+                <span className="font-bold text-slate-900">
+                  1 = très faible, 10 = excellent.
+                </span>
               </p>
             </div>
-          </section>
-        )}
 
-        {!showAbout && activeView === "results" && results && (
-          <section className="lk-section">
-            <div className="lk-card lk-card-main">
-              <div className="lk-results-header">
-                <div className="lk-circle-score">
-                  <div className="lk-circle-score-inner">
-                    <div className="lk-circle-score-value">
+            {results && (
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-tr from-sky-500 via-emerald-500 to-fuchsia-500 p-[3px] shadow-md">
+                  <div className="flex h-full w-full flex-col items-center justify-center rounded-full bg-white">
+                    <span className="text-3xl font-black text-slate-900 tabular-nums">
                       {results.globalScore}
-                    </div>
-                    <div className="lk-circle-score-label">/100</div>
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      /100
+                    </span>
                   </div>
                 </div>
-                <div className="lk-results-title">
-                  <h1>Ton LifeScore global</h1>
-                  <p className="lk-results-intro">
-                    Ce score est la moyenne de l’ensemble de tes réponses,
-                    ramenée sur 100. Ce n’est pas une note absolue, mais une{" "}
-                    <strong>photographie de ta situation actuelle</strong>.
-                  </p>
-                  <p>
-                    Utilise-le comme un <strong>point de départ</strong> : tu
-                    peux refaire le questionnaire régulièrement pour suivre
-                    l’évolution de ton LifeScore au fil des semaines ou des
-                    mois.
-                  </p>
-                </div>
+                <p className="mt-3 text-center text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Ton LifeScore global
+                </p>
               </div>
+            )}
+          </div>
+        </section>
 
-              <div className="lk-results-block">
-                <h2>Comment lire tes résultats ?</h2>
-                <p>{globalMessage}</p>
+        {/* FORMULAIRE */}
+        <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {Object.entries(DOMAINS).map(([domainKey, domain]) => (
+              <div key={domainKey} className="border-t border-slate-100 pt-6 first:border-0 first:pt-0">
+                <h2 className="text-lg font-bold text-slate-900">
+                  {domain.label}
+                </h2>
+                <p className="mb-4 mt-1 text-xs text-slate-500">
+                  1 = très mauvaise, 10 = excellente.
+                </p>
+                {domain.questions.map((q) => (
+                  <DomainSlider
+                    key={q.key}
+                    question={q}
+                    value={answers[q.key]}
+                    onChange={handleChange}
+                  />
+                ))}
               </div>
+            ))}
 
-              <div className="lk-results-block">
-                <h2>Scores par domaine</h2>
-                <div className="lk-domain-scores">
-                  {DOMAINS.map((domain) => {
-                    const score = results.domainScores[domain.id] || 0;
-                    return (
-                      <div key={domain.id} className="lk-domain-score-row">
-                        <div className="lk-domain-score-header">
-                          <span className="lk-domain-score-label">
-                            {domain.label}
-                          </span>
-                          <span className="lk-domain-score-value">
-                            {score}/100
-                          </span>
-                        </div>
-                        <div className="lk-domain-score-bar">
-                          <div
-                            className="lk-domain-score-bar-fill"
-                            style={{ width: `${score}%` }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 via-emerald-500 to-fuchsia-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-white"
+              >
+                Calculer mon LifeScore
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+              >
+                Réinitialiser les réponses
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowAbout((v) => !v)}
+                className="ml-auto inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-medium text-slate-500 hover:bg-slate-50"
+              >
+                {showAbout ? "Masquer l'explication" : "Comment lire les résultats ?"}
+              </button>
+            </div>
+          </form>
+        </section>
 
-              <div className="lk-results-columns">
-                <div className="lk-results-block">
-                  <h2>Tes forces actuelles</h2>
-                  {strengths.length === 0 && (
-                    <p>
-                      Aucun domaine ne ressort particulièrement fort pour le
-                      moment, mais c’est justement l’occasion de{" "}
-                      <strong>consolider des bases solides</strong> dans tous
-                      les aspects de ta vie.
-                    </p>
-                  )}
-                  {strengths.length > 0 && (
-                    <>
-                      <p>
-                        Tu peux t’appuyer sur ces domaines pour{" "}
-                        <strong>garder de l’énergie</strong> et de la
-                        motivation&nbsp;:
-                      </p>
-                      <ul className="lk-list">
-                        {strengths.map((d) => (
-                          <li key={d.id}>
-                            <strong>{d.label}</strong> : score solide sur ce
-                            domaine. Continue à entretenir ce qui fonctionne
-                            déjà.
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </div>
+        {/* RÉSULTATS */}
+        {results && (
+          <section className="space-y-6 rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">
+                Comment lire tes résultats ?
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                {results.globalMessage}
+              </p>
+            </div>
 
-                <div className="lk-results-block">
-                  <h2>Axes prioritaires</h2>
-                  <p>{adviceIntro}</p>
-                  {priorities.length > 0 && (
-                    <ul className="lk-list">
-                      {priorities.map((d) => (
-                        <li key={d.id}>
-                          <strong>{d.label}</strong> : commence par identifier{" "}
-                          <strong>1 à 2 actions simples</strong> que tu peux
-                          mettre en place dans les 7 prochains jours (prise de
-                          rendez-vous, appel, petite action concrète, etc.).
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
-
-              <div className="lk-actions-row">
-                <button
-                  type="button"
-                  className="lk-button lk-button-secondary"
-                  onClick={handleReset}
-                >
-                  Refaire le questionnaire
-                </button>
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">
+                Scores par domaine
+              </h3>
+              <div className="mt-4">
+                {Object.entries(results.domainScores).map(
+                  ([domainKey, value]) => (
+                    <DomainBar
+                      key={domainKey}
+                      label={DOMAINS[domainKey].label}
+                      value={value}
+                    />
+                  )
+                )}
               </div>
             </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <h4 className="text-sm font-semibold text-slate-900">
+                  Tes forces actuelles
+                </h4>
+                {results.strengths.length === 0 ? (
+                  <p className="mt-2 text-sm text-slate-600">
+                    Aucun domaine ne ressort particulièrement fort pour le
+                    moment, mais c&apos;est justement l&apos;occasion de
+                    construire des bases solides.
+                  </p>
+                ) : (
+                  <ul className="mt-2 list-disc pl-5 text-sm text-slate-700">
+                    {results.strengths.map((label) => (
+                      <li key={label}>{label}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <h4 className="text-sm font-semibold text-slate-900">
+                  Axes prioritaires
+                </h4>
+                {results.priorities.length === 0 ? (
+                  <p className="mt-2 text-sm text-slate-600">
+                    Aucun domaine n&apos;est identifié comme critique. Tu peux
+                    choisir un domaine qui compte le plus pour toi et chercher à
+                    l&apos;améliorer progressivement.
+                  </p>
+                ) : (
+                  <ul className="mt-2 list-disc pl-5 text-sm text-slate-700">
+                    {results.priorities.map((label) => (
+                      <li key={label}>{label}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+
+            {showAbout && (
+              <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/60 p-4 text-sm text-slate-600">
+                <p>
+                  Ce bilan est une{" "}
+                  <span className="font-semibold">
+                    photographie de ta situation actuelle
+                  </span>
+                  , pas un verdict définitif. Tu peux refaire le questionnaire
+                  régulièrement (par exemple une fois par mois) pour suivre
+                  l&apos;évolution de ton LifeScore et voir concrètement les
+                  progrès réalisés.
+                </p>
+              </div>
+            )}
           </section>
         )}
-      </main>
-
-      <footer className="lk-footer">
-        <div className="lk-footer-inner">
-          <span>
-            © 2025 Lifekore – Bilan de vie expérimental. Les réponses ne sont
-            pas enregistrées côté serveur. Ce site ne fournit pas de conseil
-            médical, financier ou psychologique.
-          </span>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
