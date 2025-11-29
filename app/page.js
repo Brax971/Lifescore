@@ -8,9 +8,18 @@ const domains = [
     label: "Finances",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "fin_situation", label: "Situation financière globale" },
-      { id: "fin_budget", label: "Gestion du budget" },
-      { id: "fin_dettes", label: "Poids des dettes" },
+      {
+        id: "fin_situation",
+        label: "Situation financière globale",
+      },
+      {
+        id: "fin_budget",
+        label: "Gestion du budget",
+      },
+      {
+        id: "fin_dettes",
+        label: "Poids des dettes",
+      },
     ],
   },
   {
@@ -18,8 +27,14 @@ const domains = [
     label: "Travail / activité",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "job_confiance", label: "Confiance dans ton travail / activité" },
-      { id: "job_sens", label: "Sens de ton activité" },
+      {
+        id: "job_confiance",
+        label: "Confiance dans ton travail / activité",
+      },
+      {
+        id: "job_sens",
+        label: "Sens de ton activité",
+      },
     ],
   },
   {
@@ -27,8 +42,14 @@ const domains = [
     label: "Santé / énergie",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "sante_energie", label: "Niveau d'énergie global" },
-      { id: "sante_hygiene", label: "Qualité de ton hygiène de vie" },
+      {
+        id: "sante_energie",
+        label: "Niveau d'énergie global",
+      },
+      {
+        id: "sante_hygiene",
+        label: "Qualité de ton hygiène de vie",
+      },
     ],
   },
   {
@@ -36,8 +57,14 @@ const domains = [
     label: "Organisation / administratif",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "orga_quotidien", label: "Organisation de ton quotidien" },
-      { id: "orga_admin", label: "Gestion de l'administratif" },
+      {
+        id: "orga_quotidien",
+        label: "Organisation de ton quotidien",
+      },
+      {
+        id: "orga_admin",
+        label: "Gestion de l'administratif",
+      },
     ],
   },
   {
@@ -47,7 +74,7 @@ const domains = [
     questions: [
       {
         id: "rel_soutien",
-        label: "Soutien ressenti de la part de ton entourage",
+        label: "Soutien ressenti de la part ton entourage",
       },
       {
         id: "rel_temps",
@@ -60,7 +87,10 @@ const domains = [
     label: "État mental / ressenti",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "mental_humeur", label: "Humeur générale en ce moment" },
+      {
+        id: "mental_humeur",
+        label: "Humeur générale en ce moment",
+      },
       {
         id: "mental_motivation",
         label: "Motivation pour avancer dans tes projets",
@@ -93,7 +123,7 @@ export default function HomePage() {
 
     domains.forEach((domain) => {
       const values = domain.questions.map((q) => {
-        const val = answers[q.id] ?? 5; // défaut 5/10
+        const val = answers[q.id] ?? 5; // par défaut 5/10
         allValues.push(val);
         return val;
       });
@@ -101,7 +131,7 @@ export default function HomePage() {
       const avgDomain =
         values.reduce((sum, v) => sum + v, 0) / values.length || 0;
 
-      domainScores[domain.label] = Math.round(avgDomain * 10); // /100
+      domainScores[domain.label] = Math.round(avgDomain * 10);
     });
 
     const globalAvg =
@@ -133,40 +163,51 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Brand / logo */}
+          {/* Logo à gauche, cliquable pour revenir en haut */}
           <button
             type="button"
-            className="lk-brand"
             onClick={() => {
               const el = document.getElementById("lk-home");
               if (el) {
                 el.scrollIntoView({ behavior: "smooth", block: "start" });
               }
             }}
+            style={{
+              padding: 0,
+              margin: 0,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
           >
-            <div className="lk-brand-mark">
-              <div className="lk-brand-mark-inner" />
-            </div>
-            <div className="lk-brand-text">
-              <span className="lk-brand-name">
-                <span className="lk-brand-name-l">L</span>
-                <span className="lk-brand-name-rest">ifecore</span>
-              </span>
-              <span className="lk-brand-tagline">
-                Ta vie a un potentiel, mesure-la.
-              </span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Lifecore – Ta vie a un potentiel, mesure-la."
+              style={{
+                height: 56,
+                width: "auto",
+                display: "block",
+              }}
+            />
           </button>
 
-          {/* Boutons header */}
-          <div className="lk-header-actions">
-            <button type="button" className="lk-header-btn lk-header-btn-primary">
+          {/* Boutons à droite */}
+          <nav className="lk-nav">
+            <button
+              type="button"
+              className="lk-button lk-button-primary lk-button-small"
+            >
               Se connecter
             </button>
-            <button type="button" className="lk-header-btn lk-header-btn-primary">
+            <button
+              type="button"
+              className="lk-button lk-button-primary lk-button-small"
+            >
               Créer un compte
             </button>
-          </div>
+          </nav>
         </div>
       </header>
 
@@ -174,10 +215,10 @@ export default function HomePage() {
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
-            <h1>Évalues ton équilibre de vie en 2 minutes</h1>
+            <h1>Evalues ton équilibre de vie en 2 minutes</h1>
             <p>
-              <strong>Lifecore</strong> t&apos;aide à obtenir une vision claire de
-              ton équilibre de vie grâce à l&apos;intelligence artificielle.
+              <strong>Lifecore</strong> t&apos;aide à obtenir une vision claire
+              de ton équilibre de vie grâce à l&apos;intelligence artificielle.
             </p>
             <p>
               En quelques questions, tu obtiens un{" "}
@@ -187,11 +228,12 @@ export default function HomePage() {
             </p>
             <p>
               Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe
-              pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi tu
-              ressens aujourd&apos;hui.
+              pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi
+              tu ressens aujourd&apos;hui.
             </p>
             <div className="lk-scale-info">
-              Échelle utilisée : <strong>1 = très faible, 10 = excellent.</strong>
+              Échelle utilisée :{" "}
+              <strong>1 = très faible, 10 = excellent.</strong>
             </div>
           </div>
 
@@ -216,7 +258,9 @@ export default function HomePage() {
                       <div key={question.id} className="lk-question-row">
                         <div className="lk-question-label-row">
                           <p className="lk-question-label">{question.label}</p>
-                          <span className="lk-question-value">{value}/10</span>
+                          <span className="lk-question-value">
+                            {value}/10
+                          </span>
                         </div>
 
                         <div className="lk-slider-wrapper">
@@ -227,7 +271,10 @@ export default function HomePage() {
                             step={1}
                             value={value}
                             onChange={(e) =>
-                              handleChange(question.id, Number(e.target.value))
+                              handleChange(
+                                question.id,
+                                Number(e.target.value)
+                              )
                             }
                             className="lk-slider"
                           />
@@ -277,25 +324,26 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="lk-results-title">
-                  <h2>Ton LifeScore global</h2>
+                  <h1>Ton LifeScore global</h1>
                   <p>
                     Ce score est la moyenne de l&apos;ensemble de tes réponses,
-                    ramenée sur 100. Ce n&apos;est pas une note absolue, mais une
-                    photographie de ta situation actuelle.
+                    ramenée sur 100. Ce n&apos;est pas une note absolue, mais
+                    une photographie de ta situation actuelle.
                   </p>
                   <p>
                     Ton LifeScore global est{" "}
                     <strong>{getScoreText(results.globalScore)}</strong>.
                   </p>
                   <p>
-                    Utilise ce score comme un point de départ et refais le test
-                    régulièrement pour suivre l&apos;évolution de ton équilibre.
+                    Utilise ce score comme un point de départ : tu peux refaire
+                    le questionnaire régulièrement pour suivre l&apos;évolution
+                    de ton LifeScore au fil des semaines ou des mois.
                   </p>
                 </div>
               </div>
 
               <div className="lk-results-block">
-                <h3>Scores par domaine</h3>
+                <h2>Scores par domaine</h2>
                 <p>
                   Chaque score est la moyenne de tes réponses dans le domaine,
                   ramenée sur 100.
@@ -303,7 +351,10 @@ export default function HomePage() {
                 <div className="lk-domain-scores">
                   {Object.entries(results.domainScores).map(
                     ([label, score]) => (
-                      <div key={label} className="lk-domain-score-row">
+                      <div
+                        key={label}
+                        className="lk-domain-score-row"
+                      >
                         <div className="lk-domain-score-header">
                           <span className="lk-domain-score-label">
                             {label}
@@ -325,24 +376,38 @@ export default function HomePage() {
               </div>
 
               <div className="lk-results-block">
-                <h3>Ce que ton LifeScore suggère</h3>
+                <h2>Ce que ton LifeScore suggère</h2>
                 <ul className="lk-list">
-                  <li>Au-dessus de 70/100 : domaines forts aujourd&apos;hui.</li>
                   <li>
-                    Entre 40 et 70/100 : zones stables mais perfectibles.
+                    Les domaines au-dessus de 70/100 sont tes points forts
+                    actuels.
                   </li>
                   <li>
-                    En dessous de 40/100 : domaines qui méritent ta priorité.
+                    Les domaines entre 40 et 70/100 sont « stables » mais
+                    pourraient être améliorés.
+                  </li>
+                  <li>
+                    Les domaines en dessous de 40/100 méritent une attention
+                    prioritaire.
                   </li>
                 </ul>
               </div>
 
               <div className="lk-results-block">
-                <h3>Et maintenant ?</h3>
+                <h2>Et maintenant, concrètement ?</h2>
                 <ul className="lk-list">
-                  <li>Choisis un seul domaine à travailler en priorité.</li>
-                  <li>Note 1 à 3 actions simples pour cette semaine.</li>
-                  <li>Refais le test dans 1 à 2 semaines.</li>
+                  <li>
+                    Choisis <strong>un seul domaine</strong> à travailler en
+                    priorité.
+                  </li>
+                  <li>
+                    Note <strong>1 à 3 actions simples</strong> que tu peux
+                    faire cette semaine.
+                  </li>
+                  <li>
+                    Reviens faire le test dans 1 à 2 semaines pour voir
+                    l&apos;évolution.
+                  </li>
                 </ul>
 
                 <div className="lk-actions-row" style={{ marginTop: 16 }}>
@@ -366,8 +431,47 @@ export default function HomePage() {
             </div>
           )}
         </section>
+
+        {/* À PROPOS */}
+        <section id="lk-about" className="lk-section">
+          <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
+            <h2>À propos de Lifecore</h2>
+            <p>
+              Lifecore est un outil qui utilise l&apos;intelligence artificielle
+              pour t&apos;aider à{" "}
+              <strong>prendre une photo honnête de ta vie</strong>{" "}
+              aujourd&apos;hui.
+            </p>
+            <p>
+              En quelques questions, tu mesures ton équilibre dans six domaines
+              clés : finances, travail, santé, organisation, relations et état
+              mental. Le LifeScore ne cherche pas la perfection : il met en
+              lumière <strong>où tu es solide</strong> et{" "}
+              <strong>où tu as besoin d&apos;un coup de pouce</strong>.
+            </p>
+            <p>
+              L&apos;objectif n&apos;est pas de te juger, mais de te donner un
+              repère simple pour :
+            </p>
+            <ul className="lk-list">
+              <li>suivre ton ressenti au fil du temps ;</li>
+              <li>
+                voir si tes actions ont un impact réel sur ton quotidien ;
+              </li>
+              <li>
+                te concentrer sur un seul domaine à la fois, sans te disperser.
+              </li>
+            </ul>
+            <p>
+              Tu peux revenir sur Lifecore aussi souvent que tu veux, noter ton
+              nouveau score et observer ton évolution. Ta vie a un potentiel :
+              Lifecore est là pour t&apos;aider à le mesurer.
+            </p>
+          </div>
+        </section>
       </main>
 
+      {/* FOOTER */}
       <footer className="lk-footer">
         <div className="lk-footer-inner">
           Lifecore · Ta vie a un potentiel, mesure-la.
