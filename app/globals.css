@@ -46,9 +46,9 @@ body {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #ffffff !important; /* Fond blanc pur */
+  background: #FAFAF7 !important;
   backdrop-filter: none !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06); /* Très léger relief premium */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
 
 /* ligne header : logo + boutons */
