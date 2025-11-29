@@ -445,9 +445,9 @@ export default function HomePage() {
         {/* À PROPOS */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
-            <h2>À propos de Lifekore</h2>
+            <h2>À propos de Lifecore</h2>
             <p>
-              Lifekore est un outil qui utilise l&apos;intelligence
+              Lifecore est un outil qui utilise l&apos;intelligence
               artificielle pour t&apos;aider à{" "}
               <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui.
             </p>
@@ -468,9 +468,9 @@ export default function HomePage() {
               <li>te concentrer sur un seul domaine à la fois, sans te disperser.</li>
             </ul>
             <p>
-              Tu peux revenir sur Lifekore aussi souvent que tu veux, noter
+              Tu peux revenir sur Lifecore aussi souvent que tu veux, noter
               ton nouveau score et observer ton évolution. Ta vie a un
-              potentiel : Lifekore est là pour t&apos;aider à le mesurer.
+              potentiel : Lifecore est là pour t&apos;aider à le mesurer.
             </p>
           </div>
         </section>
@@ -479,7 +479,7 @@ export default function HomePage() {
       {/* FOOTER */}
       <footer className="lk-footer">
         <div className="lk-footer-inner">
-          Lifekore · Ta vie a un potentiel, mesure-la.
+          Lifecore · Ta vie a un potentiel, mesure-la.
         </div>
       </footer>
     </div>
