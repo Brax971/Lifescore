@@ -169,7 +169,7 @@ export default function HomePage() {
               <div className="lk-brand-pulse" />
             </div>
             <div className="lk-brand-text">
-              <span className="lk-brand-name">Lifekore</span>
+              <span className="lk-brand-name">Lifecore</span>
               <span className="lk-brand-tagline">
                 Ta vie a un potentiel, mesure-la.
               </span>
