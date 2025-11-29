@@ -61,11 +61,18 @@ body {
   gap: 24px; /* espace entre logo et bloc de boutons */
 }
 
-/* LOGO IMAGE (LIFEKORE) */
+/* ===== LOGO HEADER (agrandi uniquement) ===== */
 .lk-logo-img {
   display: block;
-  height: 88px; /* plus grand sur PC */
+  height: 120px;   /* taille PC beaucoup plus grande */
   width: auto;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .lk-logo-img {
+    height: 100px;  /* bien plus grand aussi sur smartphone */
+  }
 }
 
 /* Brand (bloc texte, si tu le réutilises un jour) */
