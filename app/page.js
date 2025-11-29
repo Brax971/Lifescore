@@ -235,7 +235,9 @@ export default function HomePage() {
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
-            <h1>Mesure ton LIFEKORE avec précision et rejoins une communauté qui avance</h1>
+            <h1 className="lk-hero-title">
+  Mesure ton LIFEKORE avec précision et rejoins une communauté qui avance
+</h1>
             <p>
               <strong>Lifekore</strong> t&apos;aide à obtenir une vision claire
               de ton équilibre de vie grâce à l&apos;intelligence artificielle.
