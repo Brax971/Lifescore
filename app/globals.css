@@ -594,3 +594,12 @@ img.lk-logo-img {
     height: 130px !important;  /* plus grand aussi sur smartphone */
   }
 }
+/* HERO TITLE STYLE */
+.lk-hero-title {
+  text-align: center;
+  color: #003366; /* bleu du logo */
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
