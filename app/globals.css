@@ -50,17 +50,25 @@ body {
   backdrop-filter: blur(18px);
 }
 
+/* ligne header : logo + boutons */
 .lk-header-inner {
   max-width: 960px;
   margin: 0 auto;
   padding: 12px 16px 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
+  gap: 24px; /* espace entre logo et bloc de boutons */
 }
 
-/* Brand */
+/* LOGO IMAGE (LIFEKORE) */
+.lk-logo-img {
+  display: block;
+  height: 88px; /* plus grand sur PC */
+  width: auto;
+}
 
+/* Brand (bloc texte, si tu le réutilises un jour) */
 .lk-brand {
   border: none;
   outline: none;
@@ -130,14 +138,16 @@ body {
 
 .lk-header-actions {
   display: flex;
-  gap: 20px; /* plus d’espace entre les deux boutons */
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px; /* PLUS D'ESPACE ENTRE LES 2 BOUTONS */
 }
 
 .lk-header-btn {
   border: none;
   cursor: pointer;
   border-radius: 999px;
-  padding: 10px 20px;
+  padding: 10px 24px;
   font-weight: 700;
   font-size: 15px;
   white-space: nowrap;
@@ -485,37 +495,28 @@ p {
 
 @media (max-width: 768px) {
   .lk-header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 10px 12px 12px;
     flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
   }
 
-  .lk-brand {
-    width: 100%;
-  }
-
-  .lk-brand-mark {
-    width: 34px;
-    height: 46px;
-  }
-
-  .lk-brand-name {
-    font-size: 20px;
-  }
-
-  .lk-brand-tagline {
-    font-size: 12px;
+  .lk-logo-img {
+    height: 80px; /* logo bien visible sur mobile */
   }
 
   .lk-header-actions {
     width: 100%;
     justify-content: center;
+    gap: 16px; /* plus d’espace entre les deux boutons sur mobile */
   }
 
   .lk-header-btn {
-    font-size: 14px;
-    padding: 10px 14px;
     flex: 1 1 0;
+    font-size: 14px;
+    padding: 10px 18px;
     text-align: center;
   }
 
@@ -560,55 +561,5 @@ p {
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
-}
-
-/* ===== FIX HEADER LOGO + BUTTONS ALIGNMENT ===== */
-
-.lk-header-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 16px 16px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* logo à gauche, boutons à droite */
-  gap: 16px;                      /* espace entre logo et bloc de boutons */
-}
-
-/* Logo Lifekore dans le header */
-.lk-logo-img {
-  display: block;
-  height: 80px;   /* logo beaucoup plus grand sur PC */
-  width: auto;
-}
-
-/* Bloc des deux boutons "Se connecter" / "Créer un compte" */
-.lk-auth-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 20px;      /* espace visible entre les deux boutons */
-}
-
-/* Ajustements spécifiques mobile */
-@media (max-width: 640px) {
-  .lk-header-inner {
-    padding-top: 12px;
-    padding-bottom: 8px;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .lk-logo-img {
-    height: 64px;    /* plus grand aussi sur mobile */
-  }
-
-  .lk-auth-actions {
-    gap: 16px;
-  }
-
-  .lk-auth-button {
-    font-size: 14px;
-    padding-inline: 18px;
   }
 }
