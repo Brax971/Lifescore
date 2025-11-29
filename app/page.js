@@ -209,7 +209,7 @@ export default function HomePage() {
       "Poppins, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
   }}
 >
-  L’IA qui révèle ton équilibre de vie.
+  ✦ L’IA qui révèle ton potentiel. Une communauté qui avance ensemble.
 </div>
 
           {/* Boutons à droite */}
