@@ -193,25 +193,23 @@ export default function HomePage() {
             />
           </button>
 
-          {/* PHRASE ENTRE LOGO ET BOUTONS */}
-          <div
-            style={{
-              flex: 1,
-              marginLeft: 16,
-              marginRight: 16,
-              fontSize: 20,
-              lineHeight: 1.4,
-              color: "#0f172a",
-              maxWidth: 360,
-              textAlign: "center",
-            }}
-          >
-            <strong>
-              Rejoins la première communauté au monde propulsée par l'IA qui mesure, partage et améliore ton équilibre de vie.
-            </strong>
-            <br />
-            
-          </div>
+  {/* PHRASE ENTRE LOGO ET BOUTONS */}
+<div
+  style={{
+    flex: 1,
+    marginLeft: 16,
+    marginRight: 16,
+    fontSize: 20,
+    lineHeight: 1.4,
+    color: "#0A2A43", // bleu du logo
+    maxWidth: 360,
+    textAlign: "center",
+    fontFamily:
+      "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
+  }}
+>
+  L’IA qui révèle ton équilibre de vie.
+</div>
 
           {/* Boutons à droite */}
           <nav className="lk-nav">
