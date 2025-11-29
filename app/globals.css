@@ -1,149 +1,444 @@
-/* ===========================
-   HEADER LIFECORE
-   =========================== */
+/* RESET DE BASE */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top left, #fdf2ff 0, #f3f4ff 40%, #eef2ff 100%);
+  color: #111827;
+}
+
+/* WRAPPER GLOBAL */
+.ls-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 40px;
+}
+
+.lk-app {
+  width: 100%;
+  max-width: 960px;
+}
+
+/* HEADER */
 .lk-header {
   position: sticky;
   top: 0;
-  z-index: 40;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.97),
-    rgba(255, 255, 255, 0.92)
-  );
-  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+  z-index: 20;
+  padding-bottom: 12px;
+  backdrop-filter: blur(10px);
 }
 
 .lk-header-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
 }
 
-/* Logo cliquable (retour accueil) */
-.lk-brand-button {
-  display: inline-flex;
+/* Logo + marque */
+.lk-brand {
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 4px 0;
-  background: transparent;
   border: none;
+  background: transparent;
   cursor: pointer;
 }
 
-/* Icône carré dégradé identique mobile / PC */
 .lk-brand-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
   padding: 2px;
   background: conic-gradient(
-    from 140deg,
+    from 160deg,
     #ff4b8b,
-    #ff7b6b,
-    #ffb347,
-    #5864ff,
+    #ff7b5b,
+    #ffd95b,
+    #41e1ff,
+    #7b61ff,
     #ff4b8b
   );
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
 }
 
-.lk-brand-mark::before {
-  content: "";
+.lk-brand-pulse {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  background: #ffffff;
+  border-radius: 12px;
+  background: #f9fafb;
 }
 
 .lk-brand-text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
-/* Lifecore = L rose + ifecore bleu (dégradé texte) */
 .lk-brand-name {
-  font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: 0.02em;
-  background: linear-gradient(90deg, #ff4b8b, #5864ff);
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #ff4b8b 0%, #2f80ff 55%, #2f80ff 100%);
   -webkit-background-clip: text;
-  background-clip: text;
   color: transparent;
 }
 
 .lk-brand-tagline {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #6b7280;
 }
 
-/* Nav à droite */
-.lk-nav-auth {
+/* NAV + BOUTONS AUTH */
+.lk-nav {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* Base commune des boutons header */
-.lk-auth-link {
-  font-size: 0.95rem;
-  font-weight: 600;
+/* Bouton générique */
+.lk-button {
   border-radius: 999px;
-  padding: 0.6rem 1.6rem;
-  border: 1px solid transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.6rem;
   cursor: pointer;
-  transition: all 0.18s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease,
+    opacity 0.12s ease;
   white-space: nowrap;
 }
 
-/* "Se connecter" – clair */
-.lk-auth-link-ghost {
-  background: #ffffff;
-  color: #111827;
-  border-color: rgba(148, 163, 184, 0.6);
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-}
-
-.lk-auth-link-ghost:hover {
-  background: rgba(248, 250, 252, 1);
-  transform: translateY(-0.5px);
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
-}
-
-/* "Créer un compte" – même dégradé que "Calculer mon LifeScore" */
-.lk-auth-link-primary {
-  background: linear-gradient(90deg, #ff4b8b, #5864ff);
+/* Bouton principal – utilisé pour le CTA et pour les boutons auth */
+.lk-button-primary {
+  background: linear-gradient(90deg, #ff4b8b, #7b61ff);
   color: #ffffff;
-  box-shadow: 0 14px 36px rgba(88, 100, 255, 0.45);
+  box-shadow: 0 14px 30px rgba(123, 97, 255, 0.35);
 }
 
-.lk-auth-link-primary:hover {
-  filter: brightness(1.03);
-  transform: translateY(-0.5px);
-  box-shadow: 0 18px 42px rgba(88, 100, 255, 0.5);
+.lk-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(123, 97, 255, 0.45);
 }
 
-/* Responsive mobile */
+.lk-button-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(123, 97, 255, 0.35);
+}
+
+/* Bouton secondaire */
+.lk-button-secondary {
+  background: #f3f4ff;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 16px rgba(148, 163, 184, 0.25);
+}
+
+.lk-button-secondary:hover {
+  background: #e5e7ff;
+}
+
+/* Ajustement visuel pour les boutons du header
+   (même style que CTA mais un peu plus compacts) */
+.lk-nav-cta {
+  padding-inline: 1.3rem;
+  padding-block: 0.55rem;
+  font-size: 0.9rem;
+}
+
+/* MAIN LAYOUT */
+.lk-main {
+  margin-top: 12px;
+}
+
+.lk-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* CARDS */
+.lk-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 20px 22px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.lk-card-main {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.lk-card-intro h1 {
+  margin-top: 0;
+  font-size: 1.7rem;
+  letter-spacing: 0.01em;
+}
+
+.lk-card-intro p {
+  margin-bottom: 0.6rem;
+}
+
+.lk-scale-info {
+  margin-top: 0.8rem;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #f5f3ff;
+  color: #4b5563;
+}
+
+/* DOMAINES / QUESTIONS */
+.lk-domain-block + .lk-domain-block {
+  margin-top: 18px;
+}
+
+.lk-domain-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.lk-domain-description {
+  margin: 4px 0 12px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.lk-domain-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lk-question-row {
+  padding: 10px 12px 12px;
+  border-radius: 16px;
+  background: #f9fafb;
+}
+
+.lk-question-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.lk-question-label {
+  margin: 0;
+  font-weight: 500;
+}
+
+.lk-question-value {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* SLIDER */
+.lk-slider-wrapper {
+  margin-top: 4px;
+}
+
+.lk-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  outline: none;
+}
+
+/* piste */
+.lk-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe6f4 40%, #ff4b8b 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.8);
+  cursor: pointer;
+}
+
+.lk-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #ffe6f4 40%, #ff4b8b 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.8);
+  cursor: pointer;
+}
+
+.lk-slider-ticks {
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: #9ca3af;
+}
+
+/* ACTIONS */
+.lk-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+/* RÉSULTATS */
+.lk-results-header {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.lk-circle-score {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 200deg,
+    #ff4b8b,
+    #ffd95b,
+    #7b61ff,
+    #ff4b8b
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(123, 97, 255, 0.45);
+}
+
+.lk-circle-score-inner {
+  width: 86%;
+  height: 86%;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lk-circle-score-value {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.lk-circle-score-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.lk-results-title h1 {
+  margin: 0 0 0.4rem;
+}
+
+.lk-results-block {
+  margin-top: 18px;
+}
+
+.lk-domain-scores {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lk-domain-score-row {
+  padding: 8px 0;
+}
+
+.lk-domain-score-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.lk-domain-score-bar {
+  margin-top: 5px;
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.lk-domain-score-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff4b8b, #7b61ff);
+}
+
+/* LISTES */
+.lk-list {
+  margin: 8px 0 0;
+  padding-left: 1.1rem;
+  color: #4b5563;
+}
+
+/* FOOTER */
+.lk-footer {
+  margin-top: 20px;
+  padding-top: 8px;
+}
+
+.lk-footer-inner {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* RESPONSIVE */
 @media (max-width: 640px) {
-  .lk-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .ls-page {
+    padding-inline: 10px;
   }
 
-  .lk-nav-auth {
+  .lk-header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .lk-nav {
     width: 100%;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 8px;
+  }
+
+  .lk-nav-cta {
+    flex: 0 0 auto;
+  }
+
+  .lk-card {
+    padding: 18px 16px;
+  }
+
+  .lk-circle-score {
+    width: 100px;
+    height: 100px;
   }
 }
