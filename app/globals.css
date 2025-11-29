@@ -15,15 +15,16 @@
 /* HEADER */
 .lk-header {
   width: 100%;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(14px);
-  padding: 18px;
+  padding: 20px 0;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .lk-header-inner {
-  max-width: 1180px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,13 +42,18 @@
   height: 44px;
   border-radius: 12px;
   background: linear-gradient(135deg,#ff2d7f,#755bff,#00c8ff,#00db7f);
+  flex-shrink: 0;
+}
+
+.lk-brand-text {
+  display: flex;
+  flex-direction: column;
 }
 
 .lk-brand-name {
   font-size: 32px;
   font-weight: 700;
   display: flex;
-  gap: 2px;
 }
 
 .lk-letter-l {
@@ -60,49 +66,41 @@
 
 .lk-brand-tagline {
   font-size: 14px;
-  margin-top: -2px;
   opacity: 0.7;
-  display: block;
+  margin-top: -4px;
 }
 
 /* NAV BUTTONS */
 .lk-nav {
   display: flex;
-  gap: 12px;
+  gap: 14px;
+}
+
+/* === BOUTONS IDENTIQUES AU BOUTON "Calculer mon LifeScore" === */
+.lk-nav-button,
+.lk-nav-button-primary {
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .lk-nav-button {
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-size: 16px;
-  border: 1px solid rgba(0,0,0,0.15);
-  background: white;
-  font-weight: 600;
+  background: linear-gradient(90deg, #ff2d7f, #755bff);
+  color: white;
+  border: none;
 }
 
 .lk-nav-button-primary {
   background: linear-gradient(90deg, #ff2d7f, #755bff);
-  border: none;
-  color: white !important;
-}
-
-/* BOUTONS PRINCIPAUX */
-.lk-button-primary {
-  background: linear-gradient(90deg, #ff2d7f, #755bff);
-  color: #fff;
+  color: white;
   border: none;
 }
 
-.lk-button {
-  padding: 14px 28px;
-  border-radius: 999px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.lk-button-secondary {
-  border: 1px solid rgba(0,0,0,0.2);
-  background: #fff;
+/* MAIN */
+.lk-main {
+  padding-top: 20px;
 }
 
 /* CARDS */
@@ -117,4 +115,41 @@
 .lk-card-main {
   max-width: 1180px;
   margin: 0 auto;
+}
+
+/* ACTIONS */
+.lk-button {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lk-button-primary {
+  background: linear-gradient(90deg, #ff2d7f, #755bff);
+  color: #fff;
+  border: none;
+}
+
+.lk-button-secondary {
+  border: 1px solid rgba(0,0,0,0.2);
+  background: #fff;
+}
+
+/* SLIDERS */
+.lk-slider {
+  width: 100%;
+}
+
+.lk-slider-wrapper {
+  margin-top: 10px;
+}
+
+/* FOOTER */
+.lk-footer {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 15px;
+  opacity: 0.6;
 }
