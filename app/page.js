@@ -186,7 +186,7 @@ export default function HomePage() {
               src="/logo.png"
               alt="Lifecore – Ta vie a un potentiel, mesure-la."
               style={{
-                height: 56,
+                height: 120,
                 width: "auto",
                 display: "block",
               }}
