@@ -562,3 +562,52 @@ p {
     text-align: center;
   }
 }
+/* ===== FIX HEADER LOGO + BUTTONS ALIGNMENT ===== */
+
+.lk-header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo à gauche, boutons à droite */
+  gap: 16px;                      /* espace entre logo et bloc de boutons */
+}
+
+/* Logo Lifekore dans le header */
+.lk-logo-img {
+  display: block;
+  height: 56px;   /* taille PC */
+  width: auto;
+}
+
+/* Bloc des deux boutons "Se connecter" / "Créer un compte" */
+.lk-auth-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;      /* espace entre les deux boutons */
+}
+
+/* Ajustements spécifiques mobile */
+@media (max-width: 640px) {
+  .lk-header-inner {
+    padding-top: 12px;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .lk-logo-img {
+    height: 48px;    /* un peu plus petit sur mobile mais bien visible */
+  }
+
+  .lk-auth-actions {
+    gap: 8px;
+  }
+
+  .lk-auth-button {
+    font-size: 14px;
+    padding-inline: 18px;
+  }
+}
