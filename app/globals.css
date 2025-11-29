@@ -590,3 +590,15 @@ p {
 .lk-header button + button {
   margin-left: 24px;
 }
+/* OVERRIDE TAILLE LOGO UNIQUEMENT */
+img.lk-logo-img {
+  height: 200px !important;   /* taille PC, bien visible */
+  width: auto !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  img.lk-logo-img {
+    height: 130px !important;  /* plus grand aussi sur smartphone */
+  }
+}
