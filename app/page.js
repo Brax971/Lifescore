@@ -217,7 +217,7 @@ export default function HomePage() {
           <div className="lk-card lk-card-main lk-card-intro">
             <h1>Evalues ton équilibre de vie en 2 minutes</h1>
             <p>
-              <strong>Lifekore</strong> a été conçu pour t&apos;aider à prendre du
+              <strong>Lifecore</strong> a été conçu pour t&apos;aider à prendre du
               recul sur ta situation de vie grâce à l&apos;intelligence
               artificielle. En quelques questions, tu obtiens un{" "}
               <strong>score global</strong> et des{" "}
