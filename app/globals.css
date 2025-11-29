@@ -188,17 +188,8 @@ body {
 }
 
 .lk-card-intro {
-  background: radial-gradient(
-      circle at top left,
-      rgba(255, 192, 203, 0.3),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(129, 140, 248, 0.35),
-      transparent 55%
-    ),
-    #ffffff;
+  background: #ffffff !important; /* fond blanc pur */
+  text-align: center;             /* centre le texte */
 }
 
 /* TITRES & TEXTES */
