@@ -207,10 +207,10 @@ export default function HomePage() {
             }}
           >
             <strong>
-              Le premier calculateur intelligent de ton équilibre de vie
+              “Rejoins la première communauté qui mesure, partage et améliore ton équilibre de vie.
             </strong>
             <br />
-            propulsé par l’IA et une communauté de personnes comme toi.
+            
           </div>
 
           {/* Boutons à droite */}
