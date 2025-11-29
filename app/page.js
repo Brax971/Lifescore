@@ -18,10 +18,7 @@ const domains = [
     label: "Travail / activité",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "job_confiance",
-        label: "Confiance dans ton travail / activité",
-      },
+      { id: "job_confiance", label: "Confiance dans ton travail / activité" },
       { id: "job_sens", label: "Sens de ton activité" },
     ],
   },
@@ -31,10 +28,7 @@ const domains = [
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       { id: "sante_energie", label: "Niveau d'énergie global" },
-      {
-        id: "sante_hygiene",
-        label: "Qualité de ton hygiène de vie",
-      },
+      { id: "sante_hygiene", label: "Qualité de ton hygiène de vie" },
     ],
   },
   {
@@ -42,14 +36,8 @@ const domains = [
     label: "Organisation / administratif",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "orga_quotidien",
-        label: "Organisation de ton quotidien",
-      },
-      {
-        id: "orga_admin",
-        label: "Gestion de l'administratif",
-      },
+      { id: "orga_quotidien", label: "Organisation de ton quotidien" },
+      { id: "orga_admin", label: "Gestion de l'administratif" },
     ],
   },
   {
@@ -72,10 +60,7 @@ const domains = [
     label: "État mental / ressenti",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "mental_humeur",
-        label: "Humeur générale en ce moment",
-      },
+      { id: "mental_humeur", label: "Humeur générale en ce moment" },
       {
         id: "mental_motivation",
         label: "Motivation pour avancer dans tes projets",
@@ -98,10 +83,6 @@ export default function HomePage() {
   const handleReset = () => {
     setAnswers({});
     setResults(null);
-    const el = document.getElementById("lk-home");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
   };
 
   const handleSubmit = (e) => {
@@ -112,7 +93,7 @@ export default function HomePage() {
 
     domains.forEach((domain) => {
       const values = domain.questions.map((q) => {
-        const val = answers[q.id] ?? 5;
+        const val = answers[q.id] ?? 5; // défaut 5/10
         allValues.push(val);
         return val;
       });
@@ -120,7 +101,7 @@ export default function HomePage() {
       const avgDomain =
         values.reduce((sum, v) => sum + v, 0) / values.length || 0;
 
-      domainScores[domain.label] = Math.round(avgDomain * 10);
+      domainScores[domain.label] = Math.round(avgDomain * 10); // /100
     });
 
     const globalAvg =
@@ -147,22 +128,24 @@ export default function HomePage() {
     return "fragile";
   };
 
-  const scrollHome = () => {
-    const el = document.getElementById("lk-home");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <div className="lk-app">
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Logo + marque */}
-          <button type="button" className="lk-brand" onClick={scrollHome}>
-            <div className="lk-logo-pill">
-              <span className="lk-logo-inner" />
+          {/* Brand / logo */}
+          <button
+            type="button"
+            className="lk-brand"
+            onClick={() => {
+              const el = document.getElementById("lk-home");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+          >
+            <div className="lk-brand-mark">
+              <div className="lk-brand-mark-inner" />
             </div>
             <div className="lk-brand-text">
               <span className="lk-brand-name">
@@ -175,18 +158,12 @@ export default function HomePage() {
             </div>
           </button>
 
-          {/* Boutons auth */}
+          {/* Boutons header */}
           <div className="lk-header-actions">
-            <button
-              type="button"
-              className="lk-button lk-button-primary lk-button-header"
-            >
+            <button type="button" className="lk-header-btn lk-header-btn-primary">
               Se connecter
             </button>
-            <button
-              type="button"
-              className="lk-button lk-button-primary lk-button-header"
-            >
+            <button type="button" className="lk-header-btn lk-header-btn-primary">
               Créer un compte
             </button>
           </div>
@@ -196,12 +173,11 @@ export default function HomePage() {
       {/* MAIN */}
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
-          {/* Intro */}
           <div className="lk-card lk-card-main lk-card-intro">
             <h1>Évalues ton équilibre de vie en 2 minutes</h1>
             <p>
-              <strong>Lifecore</strong> t’aide à obtenir une vision claire de
-              ton équilibre de vie.
+              <strong>Lifecore</strong> t&apos;aide à obtenir une vision claire de
+              ton équilibre de vie grâce à l&apos;intelligence artificielle.
             </p>
             <p>
               En quelques questions, tu obtiens un{" "}
@@ -210,19 +186,19 @@ export default function HomePage() {
               relations, etc.), calculés de manière cohérente.
             </p>
             <p>
-              Répond <strong>honnêtement</strong>, sans te juger. Il n’existe
-              pas de « bonne » réponse : l’important, c’est ce que toi tu
-              ressens aujourd’hui.
+              Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe
+              pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi tu
+              ressens aujourd&apos;hui.
             </p>
-            <p className="lk-scale-info">
+            <div className="lk-scale-info">
               Échelle utilisée : <strong>1 = très faible, 10 = excellent.</strong>
-            </p>
+            </div>
           </div>
 
-          {/* FORMULAIRE */}
           <form
             onSubmit={handleSubmit}
-            className="lk-card lk-card-main lk-form-card"
+            className="lk-card lk-card-main"
+            style={{ marginTop: 16 }}
           >
             {domains.map((domain) => (
               <div key={domain.id} className="lk-domain-block">
@@ -237,17 +213,10 @@ export default function HomePage() {
                   {domain.questions.map((question) => {
                     const value = answers[question.id] ?? 5;
                     return (
-                      <div
-                        key={question.id}
-                        className="lk-question-row"
-                      >
+                      <div key={question.id} className="lk-question-row">
                         <div className="lk-question-label-row">
-                          <p className="lk-question-label">
-                            {question.label}
-                          </p>
-                          <span className="lk-question-value">
-                            {value}/10
-                          </span>
+                          <p className="lk-question-label">{question.label}</p>
+                          <span className="lk-question-value">{value}/10</span>
                         </div>
 
                         <div className="lk-slider-wrapper">
@@ -258,10 +227,7 @@ export default function HomePage() {
                             step={1}
                             value={value}
                             onChange={(e) =>
-                              handleChange(
-                                question.id,
-                                Number(e.target.value)
-                              )
+                              handleChange(question.id, Number(e.target.value))
                             }
                             className="lk-slider"
                           />
@@ -278,7 +244,7 @@ export default function HomePage() {
               </div>
             ))}
 
-            <div className="lk-actions-row lk-actions-row-main">
+            <div className="lk-actions-row">
               <button
                 type="button"
                 className="lk-button lk-button-secondary"
@@ -288,18 +254,18 @@ export default function HomePage() {
               </button>
               <button
                 type="submit"
-                className="lk-button lk-button-primary lk-button-cta"
+                className="lk-button lk-button-primary"
               >
                 Calculer mon LifeScore
               </button>
             </div>
           </form>
 
-          {/* RÉSULTATS */}
           {results && (
             <div
               id="lk-results"
-              className="lk-card lk-card-main lk-results-card"
+              className="lk-card lk-card-main"
+              style={{ marginTop: 20 }}
             >
               <div className="lk-results-header">
                 <div className="lk-circle-score">
@@ -313,8 +279,8 @@ export default function HomePage() {
                 <div className="lk-results-title">
                   <h2>Ton LifeScore global</h2>
                   <p>
-                    Ce score est la moyenne de l’ensemble de tes réponses,
-                    ramenée sur 100. Ce n’est pas une note absolue, mais une
+                    Ce score est la moyenne de l&apos;ensemble de tes réponses,
+                    ramenée sur 100. Ce n&apos;est pas une note absolue, mais une
                     photographie de ta situation actuelle.
                   </p>
                   <p>
@@ -322,9 +288,8 @@ export default function HomePage() {
                     <strong>{getScoreText(results.globalScore)}</strong>.
                   </p>
                   <p>
-                    Utilise ce score comme un point de départ : tu peux refaire
-                    le questionnaire régulièrement pour suivre l’évolution de
-                    ton LifeScore au fil des semaines ou des mois.
+                    Utilise ce score comme un point de départ et refais le test
+                    régulièrement pour suivre l&apos;évolution de ton équilibre.
                   </p>
                 </div>
               </div>
@@ -338,10 +303,7 @@ export default function HomePage() {
                 <div className="lk-domain-scores">
                   {Object.entries(results.domainScores).map(
                     ([label, score]) => (
-                      <div
-                        key={label}
-                        className="lk-domain-score-row"
-                      >
+                      <div key={label} className="lk-domain-score-row">
                         <div className="lk-domain-score-header">
                           <span className="lk-domain-score-label">
                             {label}
@@ -365,14 +327,12 @@ export default function HomePage() {
               <div className="lk-results-block">
                 <h3>Ce que ton LifeScore suggère</h3>
                 <ul className="lk-list">
+                  <li>Au-dessus de 70/100 : domaines forts aujourd&apos;hui.</li>
                   <li>
-                    Au-dessus de 70/100 : tes points forts actuels.
+                    Entre 40 et 70/100 : zones stables mais perfectibles.
                   </li>
                   <li>
-                    Entre 40 et 70/100 : zone « stable » mais perfectible.
-                  </li>
-                  <li>
-                    En dessous de 40/100 : domaines prioritaires.
+                    En dessous de 40/100 : domaines qui méritent ta priorité.
                   </li>
                 </ul>
               </div>
@@ -380,25 +340,24 @@ export default function HomePage() {
               <div className="lk-results-block">
                 <h3>Et maintenant ?</h3>
                 <ul className="lk-list">
-                  <li>
-                    Choisis <strong>un seul domaine</strong> à travailler en
-                    priorité.
-                  </li>
-                  <li>
-                    Note <strong>1 à 3 actions simples</strong> que tu peux
-                    faire cette semaine.
-                  </li>
-                  <li>
-                    Reviens faire le test dans 1 à 2 semaines pour voir
-                    l’évolution.
-                  </li>
+                  <li>Choisis un seul domaine à travailler en priorité.</li>
+                  <li>Note 1 à 3 actions simples pour cette semaine.</li>
+                  <li>Refais le test dans 1 à 2 semaines.</li>
                 </ul>
 
                 <div className="lk-actions-row" style={{ marginTop: 16 }}>
                   <button
                     type="button"
                     className="lk-button lk-button-secondary"
-                    onClick={handleReset}
+                    onClick={() => {
+                      const el = document.getElementById("lk-home");
+                      if (el) {
+                        el.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }
+                    }}
                   >
                     Refaire le questionnaire
                   </button>
@@ -409,7 +368,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* FOOTER */}
       <footer className="lk-footer">
         <div className="lk-footer-inner">
           Lifecore · Ta vie a un potentiel, mesure-la.
