@@ -193,19 +193,20 @@ export default function HomePage() {
             />
           </button>
 
-  {/* PHRASE ENTRE LOGO ET BOUTONS */}
+{/* PHRASE ENTRE LOGO ET BOUTONS */}
 <div
   style={{
     flex: 1,
     marginLeft: 16,
     marginRight: 16,
-    fontSize: 20,
-    lineHeight: 1.4,
-    color: "#0A2A43", // bleu du logo
-    maxWidth: 360,
+    fontSize: 24,           // plus grand
+    fontWeight: 700,        // très lisible, épais
+    lineHeight: 1.3,
+    color: "#0A2A43",       // bleu du logo
+    maxWidth: 420,
     textAlign: "center",
     fontFamily:
-      "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
+      "Poppins, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
   }}
 >
   L’IA qui révèle ton équilibre de vie.
