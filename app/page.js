@@ -193,6 +193,26 @@ export default function HomePage() {
             />
           </button>
 
+          {/* PHRASE ENTRE LOGO ET BOUTONS */}
+          <div
+            style={{
+              flex: 1,
+              marginLeft: 16,
+              marginRight: 16,
+              fontSize: 14,
+              lineHeight: 1.4,
+              color: "#0f172a",
+              maxWidth: 360,
+              textAlign: "center",
+            }}
+          >
+            <strong>
+              Le premier calculateur intelligent de ton équilibre de vie
+            </strong>
+            <br />
+            propulsé par l’IA et une communauté de personnes comme toi.
+          </div>
+
           {/* Boutons à droite */}
           <nav className="lk-nav">
             <button
