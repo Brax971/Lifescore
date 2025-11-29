@@ -100,7 +100,6 @@ const domains = [
 ];
 
 export default function HomePage() {
-  const [showAbout, setShowAbout] = useState(false); // laissé au cas où pour plus tard
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
 
@@ -164,7 +163,21 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          <div className="lk-brand">
+          {/* Logo / retour accueil */}
+          <button
+            type="button"
+            className="lk-brand"
+            onClick={() => {
+              const el = document.getElementById("lk-home");
+              if (el) {
+                el.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }}
+            style={{ background: "none", border: "none", padding: 0 }}
+          >
             <div className="lk-brand-mark">
               <div className="lk-brand-pulse" />
             </div>
@@ -174,38 +187,18 @@ export default function HomePage() {
                 Ta vie a un potentiel, mesure-la.
               </span>
             </div>
-          </div>
+          </button>
 
+          {/* Actions compte */}
           <nav className="lk-nav">
-            <button
-              type="button"
-              className="lk-nav-link lk-nav-link-active"
-              onClick={() => {
-                const el = document.getElementById("lk-home");
-                if (el) {
-                  el.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
-              }}
-            >
-              Accueil
+            <button type="button" className="lk-nav-link">
+              Se connecter
             </button>
             <button
               type="button"
-              className="lk-nav-link"
-              onClick={() => {
-                const el = document.getElementById("lk-about");
-                if (el) {
-                  el.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
-              }}
+              className="lk-nav-link lk-nav-link-primary"
             >
-              À propos
+              Créer un compte
             </button>
           </nav>
         </div>
@@ -215,7 +208,7 @@ export default function HomePage() {
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
-            <h1>Evalues ton équilibre de vie en 2 minutes</h1>
+            <h1>Évalues ton équilibre de vie en 2 minutes</h1>
             <p>
               <strong>Lifecore</strong> a été conçu pour t&apos;aider à prendre du
               recul sur ta situation de vie grâce à l&apos;intelligence
@@ -340,7 +333,7 @@ export default function HomePage() {
                   </p>
                   <p>
                     Ton LifeScore global est{" "}
-                    <strong>{getScoreText(results.globalScore)}</strong>.
+                      <strong>{getScoreText(results.globalScore)}</strong>.
                   </p>
                   <p>
                     Utilise ce score comme un point de départ : tu peux
@@ -442,7 +435,7 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* À PROPOS */}
+        {/* À PROPOS – on la garde pour la mettre plus tard dans le footer/menu */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2>À propos de Lifecore</h2>
@@ -455,7 +448,7 @@ export default function HomePage() {
               En quelques questions, tu mesures ton équilibre dans six
               domaines clés : finances, travail, santé, organisation,
               relations et état mental. Le LifeScore ne cherche pas la
-              perfection : il met en lumière <strong>où tu es solide</strong> et
+              perfection : il met en lumière <strong>où tu es solide</strong> et{" "}
               <strong>où tu as besoin d&apos;un coup de pouce</strong>.
             </p>
             <p>
