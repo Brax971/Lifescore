@@ -130,7 +130,7 @@ body {
 
 .lk-header-actions {
   display: flex;
-  gap: 12px;
+  gap: 20px; /* plus d’espace entre les deux boutons */
 }
 
 .lk-header-btn {
@@ -562,6 +562,7 @@ p {
     text-align: center;
   }
 }
+
 /* ===== FIX HEADER LOGO + BUTTONS ALIGNMENT ===== */
 
 .lk-header-inner {
@@ -577,7 +578,7 @@ p {
 /* Logo Lifekore dans le header */
 .lk-logo-img {
   display: block;
-  height: 56px;   /* taille PC */
+  height: 80px;   /* logo beaucoup plus grand sur PC */
   width: auto;
 }
 
@@ -586,7 +587,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;      /* espace entre les deux boutons */
+  gap: 20px;      /* espace visible entre les deux boutons */
 }
 
 /* Ajustements spécifiques mobile */
@@ -599,11 +600,11 @@ p {
   }
 
   .lk-logo-img {
-    height: 48px;    /* un peu plus petit sur mobile mais bien visible */
+    height: 64px;    /* plus grand aussi sur mobile */
   }
 
   .lk-auth-actions {
-    gap: 8px;
+    gap: 16px;
   }
 
   .lk-auth-button {
