@@ -207,7 +207,7 @@ export default function HomePage() {
             }}
           >
             <strong>
-              Rejoins la première communauté au monde qui mesure, partage et améliore ton équilibre de vie.
+              Rejoins la première communauté au monde propulsée par l'IA qui mesure, partage et améliore ton équilibre de vie.
             </strong>
             <br />
             
