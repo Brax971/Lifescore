@@ -8,18 +8,9 @@ const domains = [
     label: "Finances",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "fin_situation",
-        label: "Situation financière globale",
-      },
-      {
-        id: "fin_budget",
-        label: "Gestion du budget",
-      },
-      {
-        id: "fin_dettes",
-        label: "Poids des dettes",
-      },
+      { id: "fin_situation", label: "Situation financière globale" },
+      { id: "fin_budget", label: "Gestion du budget" },
+      { id: "fin_dettes", label: "Poids des dettes" },
     ],
   },
   {
@@ -27,14 +18,8 @@ const domains = [
     label: "Travail / activité",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "job_confiance",
-        label: "Confiance dans ton travail / activité",
-      },
-      {
-        id: "job_sens",
-        label: "Sens de ton activité",
-      },
+      { id: "job_confiance", label: "Confiance dans ton travail / activité" },
+      { id: "job_sens", label: "Sens de ton activité" },
     ],
   },
   {
@@ -42,14 +27,8 @@ const domains = [
     label: "Santé / énergie",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "sante_energie",
-        label: "Niveau d'énergie global",
-      },
-      {
-        id: "sante_hygiene",
-        label: "Qualité de ton hygiène de vie",
-      },
+      { id: "sante_energie", label: "Niveau d'énergie global" },
+      { id: "sante_hygiene", label: "Qualité de ton hygiène de vie" },
     ],
   },
   {
@@ -57,14 +36,8 @@ const domains = [
     label: "Organisation / administratif",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "orga_quotidien",
-        label: "Organisation de ton quotidien",
-      },
-      {
-        id: "orga_admin",
-        label: "Gestion de l'administratif",
-      },
+      { id: "orga_quotidien", label: "Organisation de ton quotidien" },
+      { id: "orga_admin", label: "Gestion de l'administratif" },
     ],
   },
   {
@@ -87,10 +60,7 @@ const domains = [
     label: "État mental / ressenti",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      {
-        id: "mental_humeur",
-        label: "Humeur générale en ce moment",
-      },
+      { id: "mental_humeur", label: "Humeur générale en ce moment" },
       {
         id: "mental_motivation",
         label: "Motivation pour avancer dans tes projets",
@@ -123,7 +93,7 @@ export default function HomePage() {
 
     domains.forEach((domain) => {
       const values = domain.questions.map((q) => {
-        const val = answers[q.id] ?? 5; // par défaut 5/10
+        const val = answers[q.id] ?? 5;
         allValues.push(val);
         return val;
       });
@@ -131,7 +101,7 @@ export default function HomePage() {
       const avgDomain =
         values.reduce((sum, v) => sum + v, 0) / values.length || 0;
 
-      domainScores[domain.label] = Math.round(avgDomain * 10); // /100
+      domainScores[domain.label] = Math.round(avgDomain * 10);
     });
 
     const globalAvg =
@@ -163,21 +133,20 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Logo + titre cliquables (reviennent à l’accueil) */}
+          {/* Logo + marque cliquable pour revenir à l’accueil */}
           <button
             type="button"
-            className="lk-brand-button"
+            className="lk-brand"
             onClick={() => {
               const el = document.getElementById("lk-home");
               if (el) {
-                el.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
               }
             }}
           >
-            <div className="lk-brand-mark" />
+            <div className="lk-brand-mark">
+              <div className="lk-brand-pulse" />
+            </div>
             <div className="lk-brand-text">
               <span className="lk-brand-name">Lifecore</span>
               <span className="lk-brand-tagline">
@@ -186,17 +155,17 @@ export default function HomePage() {
             </div>
           </button>
 
-          {/* Boutons authentification */}
-          <nav className="lk-nav-auth">
+          {/* Boutons auth – mêmes styles que le CTA principal */}
+          <nav className="lk-nav">
             <button
               type="button"
-              className="lk-auth-link lk-auth-link-ghost"
+              className="lk-button lk-button-primary lk-nav-cta"
             >
               Se connecter
             </button>
             <button
               type="button"
-              className="lk-auth-link lk-auth-link-primary"
+              className="lk-button lk-button-primary lk-nav-cta"
             >
               Créer un compte
             </button>
@@ -268,10 +237,7 @@ export default function HomePage() {
                             step={1}
                             value={value}
                             onChange={(e) =>
-                              handleChange(
-                                question.id,
-                                Number(e.target.value)
-                              )
+                              handleChange(question.id, Number(e.target.value))
                             }
                             className="lk-slider"
                           />
@@ -296,10 +262,7 @@ export default function HomePage() {
               >
                 Réinitialiser
               </button>
-              <button
-                type="submit"
-                className="lk-button lk-button-primary"
-              >
+              <button type="submit" className="lk-button lk-button-primary">
                 Calculer mon LifeScore
               </button>
             </div>
@@ -413,8 +376,7 @@ export default function HomePage() {
                     type="button"
                     className="lk-button lk-button-secondary"
                     onClick={() => {
-                      const el =
-                        document.getElementById("lk-home");
+                      const el = document.getElementById("lk-home");
                       if (el) {
                         el.scrollIntoView({
                           behavior: "smooth",
@@ -429,39 +391,6 @@ export default function HomePage() {
               </div>
             </div>
           )}
-        </section>
-
-        {/* À PROPOS */}
-        <section id="lk-about" className="lk-section">
-          <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
-            <h2>À propos de Lifecore</h2>
-            <p>
-              Lifecore est un outil qui utilise l&apos;intelligence
-              artificielle pour t&apos;aider à{" "}
-              <strong>prendre une photo honnête de ta vie</strong> aujourd&apos;hui.
-            </p>
-            <p>
-              En quelques questions, tu mesures ton équilibre dans six
-              domaines clés : finances, travail, santé, organisation,
-              relations et état mental. Le LifeScore ne cherche pas la
-              perfection : il met en lumière <strong>où tu es solide</strong> et{" "}
-              <strong>où tu as besoin d&apos;un coup de pouce</strong>.
-            </p>
-            <p>
-              L&apos;objectif n&apos;est pas de te juger, mais de te donner un
-              repère simple pour :
-            </p>
-            <ul className="lk-list">
-              <li>suivre ton ressenti au fil du temps ;</li>
-              <li>voir si tes actions ont un impact réel sur ton quotidien ;</li>
-              <li>te concentrer sur un seul domaine à la fois, sans te disperser.</li>
-            </ul>
-            <p>
-              Tu peux revenir sur Lifecore aussi souvent que tu veux, noter
-              ton nouveau score et observer ton évolution. Ta vie a un
-              potentiel : Lifecore est là pour t&apos;aider à le mesurer.
-            </p>
-          </div>
         </section>
       </main>
 
