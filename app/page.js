@@ -240,20 +240,40 @@ export default function HomePage() {
               Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
             </h1>
             <p>
-              Lifekore t&apos;aide à obtenir une photographie honnête et
-              structurée de ton équilibre actuel.
-            </p>
-            <p>
-              En quelques questions, tu obtiens un{" "}
-              <strong>score global</strong> et des{" "}
-              <strong>scores détaillés</strong> dans six domaines essentiels.
-            </p>
-            <p>
-              Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
-              une vision claire pour avancer.
+              Lifekore t&apos;aide à obtenir une vision claire, honnête et
+              structurée de ton équilibre personnel.
             </p>
 
-            {/* badge échelle utilisée – fond bleu + texte blanc (géré en CSS) */}
+            {/* Liste avec checks */}
+            <ul className="lk-list">
+              <li>
+                <strong>✓</strong> Comprends ton état actuel dans six domaines
+                essentiels.
+              </li>
+              <li>
+                <strong>✓</strong> Obtiens un score global et des scores
+                détaillés faciles à interpréter.
+              </li>
+              <li>
+                <strong>✓</strong> Identifie immédiatement tes forces et tes
+                axes d&apos;amélioration.
+              </li>
+              <li>
+                <strong>✓</strong> Visualise ton niveau d&apos;équilibre
+                général avec simplicité et précision.
+              </li>
+              <li>
+                <strong>✓</strong> Avance chaque semaine avec une meilleure
+                compréhension de toi-même.
+              </li>
+            </ul>
+
+            <p>
+              Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
+              un point de départ pour progresser.
+            </p>
+
+            {/* badge échelle utilisée – on ne change rien au style */}
             <div className="lk-scale-info">
               Échelle utilisée :{" "}
               <strong>1 = très faible, 10 = excellent.</strong>
