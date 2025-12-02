@@ -99,16 +99,6 @@ const domains = [
   },
 ];
 
-// Icônes par domaine (sans fichiers externes)
-const domainIcons = {
-  finances: "💰",
-  travail: "💼",
-  sante: "💊",
-  orga: "📂",
-  relations: "🤝",
-  mental: "🧠",
-};
-
 export default function HomePage() {
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
@@ -209,10 +199,10 @@ export default function HomePage() {
               flex: 1,
               marginLeft: 16,
               marginRight: 16,
-              fontSize: 24, // plus grand
-              fontWeight: 700, // très lisible, épais
+              fontSize: 24,
+              fontWeight: 700,
               lineHeight: 1.3,
-              color: "#0A2A43", // bleu du logo
+              color: "#0A2A43",
               maxWidth: 420,
               textAlign: "center",
               fontFamily:
@@ -266,12 +256,7 @@ export default function HomePage() {
               className="lk-scale-info"
               style={{
                 backgroundColor: "#0A2A43",
-                color: "white",
-                padding: "12px 16px",
-                borderRadius: "12px",
-                fontSize: "14px",
-                textAlign: "center",
-                marginTop: "12px",
+                color: "#FFFFFF",
               }}
             >
               Échelle utilisée :{" "}
@@ -287,18 +272,7 @@ export default function HomePage() {
             {domains.map((domain) => (
               <div key={domain.id} className="lk-domain-block">
                 <div className="lk-domain-header">
-                  <h2
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                    }}
-                  >
-                    <span aria-hidden="true">
-                      {domainIcons[domain.id] ?? "•"}
-                    </span>
-                    {domain.label}
-                  </h2>
+                  <h2>{domain.label}</h2>
                   <p className="lk-domain-description">
                     {domain.description}
                   </p>
@@ -490,9 +464,7 @@ export default function HomePage() {
         {/* À PROPOS */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
-            <h2 style={{ textAlign: "center", width: "100%" }}>
-              À propos de Lifekore
-            </h2>
+            <h2 style={{ textAlign: "center" }}>À propos de Lifekore</h2>
             <p>
               Lifekore est une plateforme conçue pour t&apos;aider à comprendre
               ton <strong>LifeKore Identity™</strong> : la structure réelle de
@@ -528,8 +500,18 @@ export default function HomePage() {
 
       {/* FOOTER */}
       <footer className="lk-footer">
-        <div className="lk-footer-inner">
-          Lifekore · Ta vie a un potentiel, mesure-la.
+        <div
+          className="lk-footer-inner"
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          <strong>Lifekore</strong> · LifeKore Identity™ – Mesure gratuite de
+          ton équilibre de vie.
+          <br />
+          © {new Date().getFullYear()} Lifekore. Tous droits réservés.
         </div>
       </footer>
     </div>
