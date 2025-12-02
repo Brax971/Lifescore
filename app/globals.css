@@ -603,3 +603,9 @@ img.lk-logo-img {
   line-height: 1.3;
   margin-bottom: 24px;
 }
+.lk-domain-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
