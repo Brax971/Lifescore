@@ -8,9 +8,18 @@ const domains = [
     label: "Finances",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "fin_situation", label: "Situation financière globale" },
-      { id: "fin_budget", label: "Gestion du budget" },
-      { id: "fin_dettes", label: "Poids des dettes" },
+      {
+        id: "fin_situation",
+        label: "Situation financière globale",
+      },
+      {
+        id: "fin_budget",
+        label: "Gestion du budget",
+      },
+      {
+        id: "fin_dettes",
+        label: "Poids des dettes",
+      },
     ],
   },
   {
@@ -18,8 +27,14 @@ const domains = [
     label: "Travail / activité",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "job_confiance", label: "Confiance dans ton travail / activité" },
-      { id: "job_sens", label: "Sens de ton activité" },
+      {
+        id: "job_confiance",
+        label: "Confiance dans ton travail / activité",
+      },
+      {
+        id: "job_sens",
+        label: "Sens de ton activité",
+      },
     ],
   },
   {
@@ -27,8 +42,14 @@ const domains = [
     label: "Santé / énergie",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "sante_energie", label: "Niveau d'énergie global" },
-      { id: "sante_hygiene", label: "Qualité de ton hygiène de vie" },
+      {
+        id: "sante_energie",
+        label: "Niveau d'énergie global",
+      },
+      {
+        id: "sante_hygiene",
+        label: "Qualité de ton hygiène de vie",
+      },
     ],
   },
   {
@@ -36,8 +57,14 @@ const domains = [
     label: "Organisation / administratif",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "orga_quotidien", label: "Organisation de ton quotidien" },
-      { id: "orga_admin", label: "Gestion de l'administratif" },
+      {
+        id: "orga_quotidien",
+        label: "Organisation de ton quotidien",
+      },
+      {
+        id: "orga_admin",
+        label: "Gestion de l'administratif",
+      },
     ],
   },
   {
@@ -60,7 +87,10 @@ const domains = [
     label: "État mental / ressenti",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
-      { id: "mental_humeur", label: "Humeur générale en ce moment" },
+      {
+        id: "mental_humeur",
+        label: "Humeur générale en ce moment",
+      },
       {
         id: "mental_motivation",
         label: "Motivation pour avancer dans tes projets",
@@ -133,7 +163,7 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="lk-header">
         <div className="lk-header-inner">
-          {/* Logo à gauche, cliquable pour revenir en haut */}
+          {/* Logo cliquable */}
           <button
             type="button"
             onClick={() => {
@@ -205,7 +235,7 @@ export default function HomePage() {
       {/* MAIN */}
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
-          {/* BLOC INTRO SOUS LE HEADER */}
+          {/* BLOC INTRO AVEC TEXTE VALIDÉ */}
           <div className="lk-card lk-card-main lk-card-intro">
             <h1 className="lk-hero-title">
               Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
@@ -216,28 +246,32 @@ export default function HomePage() {
               structurée de ton équilibre personnel.
             </p>
 
-            {/* Checklist sans puces, seulement des checkmarks */}
-            <div>
-              <p>✓ Comprends ton état actuel dans six domaines essentiels.</p>
+            {/* On remplace la liste à puces par un bloc de lignes avec ✔️
+                => pas de puces rondes en doublon */}
+            <div className="lk-list">
               <p>
-                ✓ Obtiens un score global et des scores détaillés faciles à
-                interpréter.
+                ✔️ Comprends ton état actuel dans{" "}
+                <strong>six domaines essentiels</strong>.
               </p>
               <p>
-                ✓ Identifie immédiatement tes forces et tes axes
-                d&apos;amélioration.
+                ✔️ Obtiens un <strong>score global</strong> et des{" "}
+                <strong>scores détaillés</strong> faciles à interpréter.
               </p>
               <p>
-                ✓ Visualise ton niveau d&apos;équilibre général avec simplicité
-                et précision.
+                ✔️ Identifie immédiatement <strong>tes forces</strong> et tes{" "}
+                <strong>axes d&apos;amélioration</strong>.
               </p>
               <p>
-                ✓ Avance chaque semaine avec une meilleure compréhension de
-                toi-même.
+                ✔️ Visualise ton <strong>niveau d&apos;équilibre général</strong>{" "}
+                avec simplicité et précision.
+              </p>
+              <p>
+                ✔️ Avance chaque semaine avec une meilleure compréhension de{" "}
+                <strong>toi-même</strong>.
               </p>
             </div>
 
-            <p style={{ marginTop: 12 }}>
+            <p>
               Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
               un point de départ pour progresser.
             </p>
