@@ -467,11 +467,29 @@ export default function HomePage() {
                 </div>
 
                 <p style={{ marginTop: 12 }}>
-                  En créant un compte Lifekore, tu peux sauvegarder ton
-                  historique, suivre l&apos;évolution de tes scores dans le
-                  temps, visualiser ta progression et accéder à des
-                  recommandations plus personnalisées en fonction de ton
-                  LifeKore Identity™.
+                  Pourquoi créer ton compte LiveKore ?
+
+Créer un compte LiveKore, c’est passer d’un simple score ponctuel à une véritable stratégie d’évolution personnelle.
+Ton espace devient un tableau de bord précis, intelligent, et entièrement centré sur ton équilibre de vie.
+
+Voici tout ce que tu débloques immédiatement :
+	•	Historique complet de tes LifeScores
+Suis l’évolution de chaque domaine au fil des semaines et comprends ce qui progresse réellement dans ta vie.
+	•	Analyse de progression automatisée
+Visualise clairement tes cycles, tes baisses d’énergie, tes périodes de regain — et ce qui les déclenche.
+	•	Recommandations personnalisées basées sur ton profil
+Reçois des conseils ciblés et cohérents avec ton LifeKore Identity™ pour améliorer tes scores là où ça compte.
+	•	Objectifs simples et mesurables
+Fixe 1 à 3 actions clés et mesure directement leur impact sur ton score global et tes scores détaillés.
+	•	Outils, contenus et vidéos adaptés à tes faiblesses
+L’IA identifie tes zones sensibles et te propose des ressources ultra ciblées pour avancer plus vite.
+	•	Vue complète de tes forces et faiblesses réelles
+Comprends ce qui te tire vers le haut, ce qui te bloque, et comment rééquilibrer ton quotidien.
+	•	Expérience avancée, entièrement gratuite
+Aucune limite cachée, aucun abonnement premium : tout est accessible dès la création de ton compte.
+
+Créer un compte te permet d’obtenir une profondeur d’analyse impossible en mode invité.
+C’est le moyen le plus fiable de comprendre ton évolution et d’avancer avec clarté, semaine après semaine.
                 </p>
               </div>
             </div>
