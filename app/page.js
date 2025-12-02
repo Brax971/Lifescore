@@ -235,6 +235,7 @@ export default function HomePage() {
       {/* MAIN */}
       <main className="lk-main">
         <section id="lk-home" className="lk-section">
+          {/* BLOC INTRO SOUS LE HEADER */}
           <div className="lk-card lk-card-main lk-card-intro">
             <h1 className="lk-hero-title">
               Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
@@ -244,9 +245,9 @@ export default function HomePage() {
               structurée de ton équilibre actuel.
             </p>
             <p>
-              En quelques questions, tu obtiens un <strong>score global</strong>{" "}
-              et des <strong>scores détaillés</strong> dans six domaines
-              essentiels.
+              En quelques questions, tu obtiens un{" "}
+              <strong>score global</strong> et des{" "}
+              <strong>scores détaillés</strong> dans six domaines essentiels.
             </p>
             <p>
               Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
@@ -264,6 +265,7 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* FORMULAIRE */}
           <form
             onSubmit={handleSubmit}
             className="lk-card lk-card-main"
@@ -337,6 +339,7 @@ export default function HomePage() {
             </div>
           </form>
 
+          {/* RÉSULTATS */}
           {results && (
             <div
               id="lk-results"
@@ -458,19 +461,25 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* BLOC CRÉATION DE COMPTE */}
-              <div className="lk-results-block lk-results-cta">
-                <h2>Va plus loin avec ton compte Lifekore</h2>
-                <button
-                  type="button"
-                  className="lk-button lk-button-primary lk-button-full"
-                >
-                  Créer un compte gratuitement
-                </button>
-                <p style={{ marginTop: 16 }}>
+              {/* BLOC COMPTE LIFEKORE */}
+              <div className="lk-results-block" style={{ marginTop: 24 }}>
+                <div style={{ textAlign: "center", marginBottom: 16 }}>
+                  <button
+                    type="button"
+                    className="lk-button lk-button-primary"
+                  >
+                    Créer un compte gratuitement
+                  </button>
+                </div>
+
+                <h2 style={{ textAlign: "center", marginBottom: 12 }}>
+                  Va plus loin avec ton compte Lifekore
+                </h2>
+
+                <p>
                   En créant un compte Lifekore, tu passes d&apos;un simple test
-                  ponctuel à un véritable tableau de bord de ton équilibre de
-                  vie.
+                  ponctuel à un véritable tableau de bord vivant de ton
+                  équilibre de vie.
                 </p>
                 <ul className="lk-list">
                   <li>
@@ -480,26 +489,22 @@ export default function HomePage() {
                   </li>
                   <li>
                     Tu visualises clairement ta progression, tes phases de
-                    baisse ou de regain d&apos;énergie, et ce qui les déclenche.
-                  </li>
-                  <li>
-                    Tu reçois des recommandations plus personnalisées, adaptées
-                    à ton LifeKore Identity™ et à tes priorités du moment.
+                    baisse ou de regain d&apos;énergie, et ce qui les
+                    déclenche.
                   </li>
                   <li>
                     Tu peux définir des objectifs simples et mesurer leur impact
-                    direct sur ton score global et tes scores détaillés.
+                    sur ton équilibre global.
                   </li>
                   <li>
-                    Tu accèdes progressivement à des contenus, outils et
-                    ressources alignés sur tes forces et tes faiblesses
-                    réelles.
+                    Tu bénéficies, à terme, de recommandations plus
+                    personnalisées en fonction de ton LifeKore Identity™.
                   </li>
                 </ul>
-                <p style={{ marginTop: 8 }}>
-                  La création de compte est gratuite et sans engagement. C&apos;est
-                  le moyen le plus fiable de comprendre ton évolution et
-                  d&apos;avancer avec clarté, semaine après semaine.
+                <p>
+                  Ton compte devient ton espace dédié pour suivre ton équilibre
+                  de vie, sans pression, mais avec une vision claire de ce qui
+                  évolue réellement.
                 </p>
               </div>
             </div>
@@ -516,17 +521,24 @@ export default function HomePage() {
               ton équilibre de vie.
             </p>
             <p>
-              En évaluant six domaines essentiels — finances, activité,
-              santé/énergie, organisation, relations et état mental — Lifekore
-              offre une vision claire et honnête de ta situation actuelle.
+              En évaluant six domaines essentiels, Lifekore t&apos;offre une
+              vision claire et honnête de ta situation actuelle :
             </p>
+            <ul className="lk-list">
+              <li>1 — Finances</li>
+              <li>2 — Travail / activité</li>
+              <li>3 — Santé / énergie</li>
+              <li>4 — Organisation / administratif</li>
+              <li>5 — Relations / entourage</li>
+              <li>6 — État mental / ressenti</li>
+            </ul>
             <p>
               L&apos;objectif n&apos;est pas la perfection, mais la
               compréhension : identifier ce qui va bien, ce qui peut être
               amélioré, et avancer étape par étape.
             </p>
             <ul className="lk-list">
-              <li>suivre ton ressenti et ton équilibre au fil du temps ;</li>
+              <li>suivre ton ressenti au fil du temps ;</li>
               <li>
                 voir si tes actions ont un impact réel sur ton quotidien ;
               </li>
