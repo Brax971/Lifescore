@@ -462,7 +462,7 @@ export default function HomePage() {
                     type="button"
                     className="lk-button lk-button-primary"
                   >
-                    Créer un compte gratuitement
+                    Créer un compte 
                   </button>
                 </div>
 
