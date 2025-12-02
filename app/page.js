@@ -244,9 +244,9 @@ export default function HomePage() {
               structurée de ton équilibre actuel.
             </p>
             <p>
-              En quelques questions, tu obtiens un{" "}
-              <strong>score global</strong> et des{" "}
-              <strong>scores détaillés</strong> dans six domaines essentiels.
+              En quelques questions, tu obtiens un <strong>score global</strong>{" "}
+              et des <strong>scores détaillés</strong> dans six domaines
+              essentiels.
             </p>
             <p>
               Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
@@ -456,40 +456,50 @@ export default function HomePage() {
                     Refaire le questionnaire
                   </button>
                 </div>
+              </div>
 
-                <div className="lk-actions-row" style={{ marginTop: 8 }}>
-                  <button
-                    type="button"
-                    className="lk-button lk-button-primary"
-                  >
-                    Créer un compte 
-                  </button>
-                </div>
-
-                <p style={{ marginTop: 12 }}>
-                  Pourquoi créer ton compte LiveKore ?
-
-Créer un compte LiveKore, c’est passer d’un simple score ponctuel à une véritable stratégie d’évolution personnelle.
-Ton espace devient un tableau de bord précis, intelligent, et entièrement centré sur ton équilibre de vie.
-
-Voici tout ce que tu débloques immédiatement :
-	•	Historique complet de tes LifeScores
-Suis l’évolution de chaque domaine au fil des semaines et comprends ce qui progresse réellement dans ta vie.
-	•	Analyse de progression automatisée
-Visualise clairement tes cycles, tes baisses d’énergie, tes périodes de regain — et ce qui les déclenche.
-	•	Recommandations personnalisées basées sur ton profil
-Reçois des conseils ciblés et cohérents avec ton LifeKore Identity™ pour améliorer tes scores là où ça compte.
-	•	Objectifs simples et mesurables
-Fixe 1 à 3 actions clés et mesure directement leur impact sur ton score global et tes scores détaillés.
-	•	Outils, contenus et vidéos adaptés à tes faiblesses
-L’IA identifie tes zones sensibles et te propose des ressources ultra ciblées pour avancer plus vite.
-	•	Vue complète de tes forces et faiblesses réelles
-Comprends ce qui te tire vers le haut, ce qui te bloque, et comment rééquilibrer ton quotidien.
-	•	Expérience avancée, entièrement gratuite
-Aucune limite cachée, aucun abonnement premium : tout est accessible dès la création de ton compte.
-
-Créer un compte te permet d’obtenir une profondeur d’analyse impossible en mode invité.
-C’est le moyen le plus fiable de comprendre ton évolution et d’avancer avec clarté, semaine après semaine.
+              {/* BLOC CRÉATION DE COMPTE */}
+              <div className="lk-results-block lk-results-cta">
+                <h2>Va plus loin avec ton compte Lifekore</h2>
+                <button
+                  type="button"
+                  className="lk-button lk-button-primary lk-button-full"
+                >
+                  Créer un compte gratuitement
+                </button>
+                <p style={{ marginTop: 16 }}>
+                  En créant un compte Lifekore, tu passes d&apos;un simple test
+                  ponctuel à un véritable tableau de bord de ton équilibre de
+                  vie.
+                </p>
+                <ul className="lk-list">
+                  <li>
+                    Tu sauvegardes l&apos;historique de tes LifeScores et de
+                    tes scores par domaine pour suivre ton évolution dans le
+                    temps.
+                  </li>
+                  <li>
+                    Tu visualises clairement ta progression, tes phases de
+                    baisse ou de regain d&apos;énergie, et ce qui les déclenche.
+                  </li>
+                  <li>
+                    Tu reçois des recommandations plus personnalisées, adaptées
+                    à ton LifeKore Identity™ et à tes priorités du moment.
+                  </li>
+                  <li>
+                    Tu peux définir des objectifs simples et mesurer leur impact
+                    direct sur ton score global et tes scores détaillés.
+                  </li>
+                  <li>
+                    Tu accèdes progressivement à des contenus, outils et
+                    ressources alignés sur tes forces et tes faiblesses
+                    réelles.
+                  </li>
+                </ul>
+                <p style={{ marginTop: 8 }}>
+                  La création de compte est gratuite et sans engagement. C&apos;est
+                  le moyen le plus fiable de comprendre ton évolution et
+                  d&apos;avancer avec clarté, semaine après semaine.
                 </p>
               </div>
             </div>
@@ -506,24 +516,17 @@ C’est le moyen le plus fiable de comprendre ton évolution et d’avancer avec
               ton équilibre de vie.
             </p>
             <p>
-              En évaluant six domaines essentiels, Lifekore t&apos;offre une
-              vision claire et honnête de ta situation actuelle :
+              En évaluant six domaines essentiels — finances, activité,
+              santé/énergie, organisation, relations et état mental — Lifekore
+              offre une vision claire et honnête de ta situation actuelle.
             </p>
-            <ul className="lk-list">
-              <li>1 — Finances</li>
-              <li>2 — Travail / activité</li>
-              <li>3 — Santé / énergie</li>
-              <li>4 — Organisation / administratif</li>
-              <li>5 — Relations / entourage</li>
-              <li>6 — État mental / ressenti</li>
-            </ul>
             <p>
               L&apos;objectif n&apos;est pas la perfection, mais la
               compréhension : identifier ce qui va bien, ce qui peut être
               amélioré, et avancer étape par étape.
             </p>
             <ul className="lk-list">
-              <li>suivre ton ressenti au fil du temps ;</li>
+              <li>suivre ton ressenti et ton équilibre au fil du temps ;</li>
               <li>
                 voir si tes actions ont un impact réel sur ton quotidien ;
               </li>
