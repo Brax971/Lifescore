@@ -346,6 +346,7 @@ export default function HomePage() {
               className="lk-card lk-card-main"
               style={{ marginTop: 20 }}
             >
+              {/* SCORE GLOBAL */}
               <div className="lk-results-header">
                 <div className="lk-circle-score">
                   <div className="lk-circle-score-inner">
@@ -374,6 +375,7 @@ export default function HomePage() {
                 </div>
               </div>
 
+              {/* SCORES PAR DOMAINE */}
               <div className="lk-results-block">
                 <h2>Scores par domaine</h2>
                 <p>
@@ -407,6 +409,7 @@ export default function HomePage() {
                 </div>
               </div>
 
+              {/* INTERPRÉTATION */}
               <div className="lk-results-block">
                 <h2>Ce que ton LifeScore suggère</h2>
                 <ul className="lk-list">
@@ -425,6 +428,7 @@ export default function HomePage() {
                 </ul>
               </div>
 
+              {/* PLAN D’ACTION + CTA COMPTE */}
               <div className="lk-results-block">
                 <h2>Et maintenant, concrètement ?</h2>
                 <ul className="lk-list">
@@ -462,8 +466,11 @@ export default function HomePage() {
               </div>
 
               {/* BLOC COMPTE LIFEKORE */}
-              <div className="lk-results-block" style={{ marginTop: 24 }}>
-                <div style={{ textAlign: "center", marginBottom: 16 }}>
+              <div className="lk-results-block">
+                <div
+                  className="lk-actions-row"
+                  style={{ marginTop: 8, marginBottom: 16 }}
+                >
                   <button
                     type="button"
                     className="lk-button lk-button-primary"
@@ -472,39 +479,47 @@ export default function HomePage() {
                   </button>
                 </div>
 
-                <h2 style={{ textAlign: "center", marginBottom: 12 }}>
+                <h2 style={{ textAlign: "center" }}>
                   Va plus loin avec ton compte Lifekore
                 </h2>
 
                 <p>
                   En créant un compte Lifekore, tu passes d&apos;un simple test
                   ponctuel à un véritable tableau de bord vivant de ton
-                  équilibre de vie.
+                  équilibre de vie — gratuit et sans aucun engagement.
                 </p>
+
                 <ul className="lk-list">
                   <li>
-                    Tu sauvegardes l&apos;historique de tes LifeScores et de
-                    tes scores par domaine pour suivre ton évolution dans le
-                    temps.
+                    Tu sauvegardes l&apos;historique de tes LifeScores et de tes
+                    scores par domaine pour suivre ton évolution dans le temps.
                   </li>
                   <li>
                     Tu visualises clairement ta progression, tes phases de
-                    baisse ou de regain d&apos;énergie, et ce qui les
-                    déclenche.
+                    baisse ou de regain d&apos;énergie, et ce qui les déclenche.
                   </li>
                   <li>
                     Tu peux définir des objectifs simples et mesurer leur impact
-                    sur ton équilibre global.
+                    sur ton équilibre global, selon tes priorités du moment.
                   </li>
                   <li>
-                    Tu bénéficies, à terme, de recommandations plus
+                    Tu bénéficies, à terme, de recommandations de plus en plus
                     personnalisées en fonction de ton LifeKore Identity™.
                   </li>
+                  <li>
+                    Tu accéderas également aux{" "}
+                    <strong>fonctionnalités à venir</strong> : courbes
+                    d&apos;évolution détaillées, analyses avancées, contenus
+                    adaptés à ton profil et espace personnel enrichi.
+                  </li>
                 </ul>
+
                 <p>
                   Ton compte devient ton espace dédié pour suivre ton équilibre
-                  de vie, sans pression, mais avec une vision claire de ce qui
-                  évolue réellement.
+                  de vie, sans pression, avec une vision claire de ce qui évolue
+                  réellement — tout cela{" "}
+                  <strong>gratuitement</strong> et{" "}
+                  <strong>sans aucun engagement</strong>.
                 </p>
               </div>
             </div>
