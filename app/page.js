@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 
-// ----------------------
-// DOMAINES + QUESTIONS
-// ----------------------
 const domains = [
   {
     id: "finances",
@@ -103,23 +99,231 @@ const domains = [
   },
 ];
 
-// ----------------------
-// ICONES (dans public/icons)
-// ----------------------
-const domainIcons = {
-  finances: "/icons/finance.svg?v=2",
-  travail: "/icons/travail.svg?v=2",
-  sante: "/icons/sante.svg?v=2",
-  orga: "/icons/orga.svg?v=2",
-  relations: "/icons/relations.svg?v=2",
-  mental: "/icons/mental.svg?v=2",
-};
+function DomainIcon({ id }: { id: string }) {
+  switch (id) {
+    case "finances":
+      // Pièces + billet
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="6"
+            y="10"
+            width="18"
+            height="12"
+            rx="3"
+            fill="#0A2A43"
+          />
+          <rect
+            x="8"
+            y="12"
+            width="14"
+            height="8"
+            rx="2"
+            fill="#ffffff"
+            opacity="0.9"
+          />
+          <circle cx="23" cy="22" r="5" fill="#FF4B8B" />
+          <circle cx="23" cy="22" r="3" fill="#ffffff" />
+        </svg>
+      );
+    case "travail":
+      // Mallette de travail
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="6"
+            y="11"
+            width="20"
+            height="13"
+            rx="3"
+            fill="#0A2A43"
+          />
+          <rect
+            x="12"
+            y="7"
+            width="8"
+            height="4"
+            rx="1"
+            fill="#0A2A43"
+          />
+          <rect
+            x="8"
+            y="13"
+            width="16"
+            height="9"
+            rx="2"
+            fill="#ffffff"
+            opacity="0.9"
+          />
+          <rect
+            x="14"
+            y="16"
+            width="4"
+            height="2"
+            rx="1"
+            fill="#FF4B8B"
+          />
+        </svg>
+      );
+    case "sante":
+      // Croix médicale + cœur
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="6"
+            y="6"
+            width="20"
+            height="20"
+            rx="6"
+            fill="#0A2A43"
+          />
+          <rect x="14" y="10" width="4" height="12" fill="#ffffff" />
+          <rect x="10" y="14" width="12" height="4" fill="#ffffff" />
+          <path
+            d="M22 23c-1.6 1.5-3 2.4-3 2.4S17.6 24.5 16 23c-1.1-1-1.6-2-1.6-3.1C14.4 18.9 15.4 18 16.6 18c0.7 0 1.4 0.3 1.9 0.8 0.5-0.5 1.2-0.8 1.9-0.8 1.2 0 2.2 0.9 2.2 1.9C22.6 21 22.1 22 22 23z"
+            fill="#FF4B8B"
+          />
+        </svg>
+      );
+    case "orga":
+      // Checklist / planning
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="7"
+            y="6"
+            width="18"
+            height="20"
+            rx="3"
+            fill="#0A2A43"
+          />
+          <rect
+            x="10"
+            y="9"
+            width="12"
+            height="14"
+            rx="2"
+            fill="#ffffff"
+            opacity="0.95"
+          />
+          <path
+            d="M12 13l1.5 1.5L16 12"
+            stroke="#18A0FB"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <line
+            x1="12"
+            y1="17.5"
+            x2="18"
+            y2="17.5"
+            stroke="#FF4B8B"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "relations":
+      // Deux profils qui se rejoignent
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="4"
+            y="8"
+            width="24"
+            height="16"
+            rx="8"
+            fill="#0A2A43"
+          />
+          <circle cx="12" cy="16" r="3" fill="#ffffff" />
+          <circle cx="20" cy="16" r="3" fill="#ffffff" />
+          <path
+            d="M9 20c1.1-1 2-1.5 3-1.5s1.9 0.5 3 1.5"
+            stroke="#FF4B8B"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <path
+            d="M17 20c1.1-1 2-1.5 3-1.5s1.9 0.5 3 1.5"
+            stroke="#18A0FB"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "mental":
+      // Cerveau stylisé
+      return (
+        <svg
+          className="lk-domain-icon"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="8"
+            y="8"
+            width="16"
+            height="16"
+            rx="6"
+            fill="#0A2A43"
+          />
+          <path
+            d="M14 11c-1.5 0-2.5 1-2.5 2.3 0 0.8 0.3 1.3 0.8 1.8-0.9 0.4-1.3 1.1-1.3 2 0 1.4 1 2.4 2.5 2.4"
+            stroke="#ffffff"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <path
+            d="M18 11c1.5 0 2.5 1 2.5 2.3 0 0.8-0.3 1.3-0.8 1.8 0.9 0.4 1.3 1.1 1.3 2 0 1.4-1 2.4-2.5 2.4"
+            stroke="#FF4B8B"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <line
+            x1="16"
+            y1="11"
+            x2="16"
+            y2="21"
+            stroke="#18A0FB"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
 
 export default function HomePage() {
-  const [answers, setAnswers] = useState({});
-  const [results, setResults] = useState(null);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [results, setResults] = useState<{
+    globalScore: number;
+    domainScores: Record<string, number>;
+  } | null>(null);
 
-  const handleChange = (questionId, value) => {
+  const handleChange = (questionId: string, value: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: value,
@@ -131,11 +335,11 @@ export default function HomePage() {
     setResults(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const allValues = [];
-    const domainScores = {};
+    const allValues: number[] = [];
+    const domainScores: Record<string, number> = {};
 
     domains.forEach((domain) => {
       const values = domain.questions.map((q) => {
@@ -168,7 +372,7 @@ export default function HomePage() {
     }
   };
 
-  const getScoreText = (score) => {
+  const getScoreText = (score: number) => {
     if (score >= 70) return "élevé";
     if (score >= 40) return "intermédiaire";
     return "fragile";
@@ -198,12 +402,9 @@ export default function HomePage() {
               alignItems: "center",
             }}
           >
-            <Image
+            <img
               src="/logo.png"
               alt="Lifekore – Ta vie a un potentiel, mesure-la."
-              width={240}
-              height={240}
-              priority
               style={{
                 height: 240,
                 width: "auto",
@@ -271,83 +472,71 @@ export default function HomePage() {
               Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
               une vision claire pour avancer.
             </p>
+            {/* ÉCHELLE UTILISÉE – on garde le style bleu actuel via CSS */}
             <div className="lk-scale-info">
               Échelle utilisée :{" "}
               <strong>1 = très faible, 10 = excellent.</strong>
             </div>
           </div>
 
-          {/* FORMULAIRE */}
           <form
             onSubmit={handleSubmit}
             className="lk-card lk-card-main"
             style={{ marginTop: 16 }}
           >
-            {domains.map((domain) => {
-              const iconSrc = domainIcons[domain.id];
-
-              return (
-                <div key={domain.id} className="lk-domain-block">
-                  <div className="lk-domain-header">
-                    <h2>
-                      {iconSrc && (
-                        <Image
-                          src={iconSrc}
-                          alt={domain.label}
-                          width={28}
-                          height={28}
-                          className="lk-domain-icon"
-                        />
-                      )}
-                      {domain.label}
-                    </h2>
-                    <p className="lk-domain-description">
-                      {domain.description}
-                    </p>
+            {domains.map((domain) => (
+              <div key={domain.id} className="lk-domain-block">
+                <div className="lk-domain-header">
+                  <div className="lk-domain-title-row">
+                    <DomainIcon id={domain.id} />
+                    <h2>{domain.label}</h2>
                   </div>
+                  <p className="lk-domain-description">
+                    {domain.description}
+                  </p>
+                </div>
 
-                  <div className="lk-domain-questions">
-                    {domain.questions.map((question) => {
-                      const value = answers[question.id] ?? 5;
-                      return (
-                        <div key={question.id} className="lk-question-row">
-                          <div className="lk-question-label-row">
-                            <p className="lk-question-label">
-                              {question.label}
-                            </p>
-                            <span className="lk-question-value">
-                              {value}/10
-                            </span>
-                          </div>
+                <div className="lk-domain-questions">
+                  {domain.questions.map((question) => {
+                    const value = answers[question.id] ?? 5;
+                    return (
+                      <div key={question.id} className="lk-question-row">
+                        <div className="lk-question-label-row">
+                          <p className="lk-question-label">
+                            {question.label}
+                          </p>
+                          <span className="lk-question-value">
+                            {value}/10
+                          </span>
+                        </div>
 
-                          <div className="lk-slider-wrapper">
-                            <input
-                              type="range"
-                              min={1}
-                              max={10}
-                              step={1}
-                              value={value}
-                              onChange={(e) =>
-                                handleChange(
-                                  question.id,
-                                  Number(e.target.value)
-                                )
-                              }
-                              className="lk-slider"
-                            />
-                            <div className="lk-slider-ticks">
-                              {Array.from({ length: 10 }, (_, i) => (
-                                <span key={i + 1}>{i + 1}</span>
-                              ))}
-                            </div>
+                        <div className="lk-slider-wrapper">
+                          <input
+                            type="range"
+                            min={1}
+                            max={10}
+                            step={1}
+                            value={value}
+                            onChange={(e) =>
+                              handleChange(
+                                question.id,
+                                Number(e.target.value)
+                              )
+                            }
+                            className="lk-slider"
+                          />
+                          <div className="lk-slider-ticks">
+                            {Array.from({ length: 10 }, (_, i) => (
+                              <span key={i + 1}>{i + 1}</span>
+                            ))}
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            ))}
 
             <div className="lk-actions-row">
               <button
@@ -366,7 +555,6 @@ export default function HomePage() {
             </div>
           </form>
 
-          {/* RÉSULTATS */}
           {results && (
             <div
               id="lk-results"
@@ -410,7 +598,10 @@ export default function HomePage() {
                 <div className="lk-domain-scores">
                   {Object.entries(results.domainScores).map(
                     ([label, score]) => (
-                      <div key={label} className="lk-domain-score-row">
+                      <div
+                        key={label}
+                        className="lk-domain-score-row"
+                      >
                         <div className="lk-domain-score-header">
                           <span className="lk-domain-score-label">
                             {label}
@@ -491,7 +682,7 @@ export default function HomePage() {
         {/* À PROPOS */}
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
-            <h2>À propos de Lifekore</h2>
+            <h2 style={{ textAlign: "center" }}>À propos de Lifekore</h2>
             <p>
               Lifekore est une plateforme conçue pour t&apos;aider à comprendre
               ton <strong>LifeKore Identity™</strong> : la structure réelle de
