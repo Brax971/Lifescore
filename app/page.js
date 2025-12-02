@@ -456,6 +456,23 @@ export default function HomePage() {
                     Refaire le questionnaire
                   </button>
                 </div>
+
+                <div className="lk-actions-row" style={{ marginTop: 8 }}>
+                  <button
+                    type="button"
+                    className="lk-button lk-button-primary"
+                  >
+                    Créer un compte gratuitement
+                  </button>
+                </div>
+
+                <p style={{ marginTop: 12 }}>
+                  En créant un compte Lifekore, tu peux sauvegarder ton
+                  historique, suivre l&apos;évolution de tes scores dans le
+                  temps, visualiser ta progression et accéder à des
+                  recommandations plus personnalisées en fonction de ton
+                  LifeKore Identity™.
+                </p>
               </div>
             </div>
           )}
@@ -465,18 +482,15 @@ export default function HomePage() {
         <section id="lk-about" className="lk-section">
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2 style={{ textAlign: "center" }}>À propos de Lifekore</h2>
-
             <p>
               Lifekore est une plateforme conçue pour t&apos;aider à comprendre
               ton <strong>LifeKore Identity™</strong> : la structure réelle de
               ton équilibre de vie.
             </p>
-
             <p>
               En évaluant six domaines essentiels, Lifekore t&apos;offre une
               vision claire et honnête de ta situation actuelle :
             </p>
-
             <ul className="lk-list">
               <li>1 — Finances</li>
               <li>2 — Travail / activité</li>
@@ -485,13 +499,11 @@ export default function HomePage() {
               <li>5 — Relations / entourage</li>
               <li>6 — État mental / ressenti</li>
             </ul>
-
             <p>
               L&apos;objectif n&apos;est pas la perfection, mais la
               compréhension : identifier ce qui va bien, ce qui peut être
               amélioré, et avancer étape par étape.
             </p>
-
             <ul className="lk-list">
               <li>suivre ton ressenti au fil du temps ;</li>
               <li>
@@ -501,7 +513,6 @@ export default function HomePage() {
                 te focaliser sur un seul domaine à la fois, sans te disperser.
               </li>
             </ul>
-
             <p>
               Tu peux recalculer ton LifeKore Identity™ aussi souvent que tu le
               souhaites pour suivre ton évolution. Ton identité évolue :
