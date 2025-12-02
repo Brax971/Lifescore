@@ -238,7 +238,7 @@ Comprends où tu te trouves, avance vers où tu veux aller
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
             <h1 className="lk-hero-title">
-  Mesure ton LIFEKORE avec précision et rejoins une communauté qui avance
+  Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
 </h1>
             <p>
               <strong>Lifekore</strong> t&apos;aide à obtenir une vision claire
