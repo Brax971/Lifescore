@@ -209,7 +209,9 @@ export default function HomePage() {
       "Poppins, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
   }}
 >
-  ✦ L’IA qui révèle ton potentiel. Une communauté qui avance ensemble.
+  Découvre ton LifeKore Identity™
+
+Comprends où tu te trouves, avance vers où tu veux aller
 </div>
 
           {/* Boutons à droite */}
