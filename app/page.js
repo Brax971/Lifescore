@@ -210,6 +210,7 @@ export default function HomePage() {
   }}
 >
   Découvre ton LifeKore Identity™
+  
 
 Comprends où tu te trouves, avance vers où tu veux aller
 </div>
