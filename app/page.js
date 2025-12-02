@@ -193,27 +193,26 @@ export default function HomePage() {
             />
           </button>
 
-{/* PHRASE ENTRE LOGO ET BOUTONS */}
-<div
-  style={{
-    flex: 1,
-    marginLeft: 16,
-    marginRight: 16,
-    fontSize: 24,           // plus grand
-    fontWeight: 700,        // très lisible, épais
-    lineHeight: 1.3,
-    color: "#0A2A43",       // bleu du logo
-    maxWidth: 420,
-    textAlign: "center",
-    fontFamily:
-      "Poppins, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
-  }}
->
-  Découvre ton LifeKore Identity™
-  
-
-Comprends où tu te trouves, avance vers où tu veux aller
-</div>
+          {/* PHRASE ENTRE LOGO ET BOUTONS */}
+          <div
+            style={{
+              flex: 1,
+              marginLeft: 16,
+              marginRight: 16,
+              fontSize: 24, // plus grand
+              fontWeight: 700, // très lisible, épais
+              lineHeight: 1.3,
+              color: "#0A2A43", // bleu du logo
+              maxWidth: 420,
+              textAlign: "center",
+              fontFamily:
+                "Poppins, Inter, system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
+            }}
+          >
+            Découvre ton LifeKore Identity™.
+            <br />
+            Comprends où tu te trouves, avance vers où tu veux aller.
+          </div>
 
           {/* Boutons à droite */}
           <nav className="lk-nav">
@@ -238,22 +237,20 @@ Comprends où tu te trouves, avance vers où tu veux aller
         <section id="lk-home" className="lk-section">
           <div className="lk-card lk-card-main lk-card-intro">
             <h1 className="lk-hero-title">
-  Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
-</h1>
+              Mesure ton LifeKore Identity™ et clarifie ton équilibre de vie
+            </h1>
             <p>
-              <strong>Lifekore</strong> t&apos;aide à obtenir une vision claire
-              de ton équilibre de vie grâce à l&apos;intelligence artificielle.
+              Lifekore t&apos;aide à obtenir une photographie honnête et
+              structurée de ton équilibre actuel.
             </p>
             <p>
               En quelques questions, tu obtiens un{" "}
               <strong>score global</strong> et des{" "}
-              <strong>scores par domaine</strong> (finances, travail, santé,
-              relations, etc.), calculés de manière cohérente.
+              <strong>scores détaillés</strong> dans six domaines essentiels.
             </p>
             <p>
-              Répond <strong>honnêtement</strong>, sans te juger. Il n&apos;existe
-              pas de « bonne » réponse : l&apos;important, c&apos;est ce que toi
-              tu ressens aujourd&apos;hui.
+              Il n&apos;existe pas de bonne ou de mauvaise réponse : seulement
+              une vision claire pour avancer.
             </p>
             <div className="lk-scale-info">
               Échelle utilisée :{" "}
@@ -281,7 +278,9 @@ Comprends où tu te trouves, avance vers où tu veux aller
                     return (
                       <div key={question.id} className="lk-question-row">
                         <div className="lk-question-label-row">
-                          <p className="lk-question-label">{question.label}</p>
+                          <p className="lk-question-label">
+                            {question.label}
+                          </p>
                           <span className="lk-question-value">
                             {value}/10
                           </span>
@@ -461,24 +460,22 @@ Comprends où tu te trouves, avance vers où tu veux aller
           <div className="lk-card lk-card-main" style={{ marginTop: 20 }}>
             <h2>À propos de Lifekore</h2>
             <p>
-              Lifekore est un outil qui utilise l&apos;intelligence artificielle
-              pour t&apos;aider à{" "}
-              <strong>prendre une photo honnête de ta vie</strong>{" "}
-              aujourd&apos;hui.
+              Lifekore est une plateforme conçue pour t&apos;aider à comprendre
+              ton <strong>LifeKore Identity™</strong> : la structure réelle de
+              ton équilibre de vie.
             </p>
             <p>
-              En quelques questions, tu mesures ton équilibre dans six domaines
-              clés : finances, travail, santé, organisation, relations et état
-              mental. Le LifeScore ne cherche pas la perfection : il met en
-              lumière <strong>où tu es solide</strong> et{" "}
-              <strong>où tu as besoin d&apos;un coup de pouce</strong>.
+              En évaluant six domaines essentiels — finances, activité,
+              santé/énergie, organisation, relations et état mental — Lifekore
+              offre une vision claire de ta situation actuelle.
             </p>
             <p>
-              L&apos;objectif n&apos;est pas de te juger, mais de te donner un
-              repère simple pour :
+              L&apos;objectif n&apos;est pas la perfection, mais la
+              compréhension : identifier ce qui va bien, ce qui peut être
+              amélioré, et avancer étape par étape.
             </p>
             <ul className="lk-list">
-              <li>suivre ton ressenti au fil du temps ;</li>
+              <li>suivre ton ressenti et ton équilibre au fil du temps ;</li>
               <li>
                 voir si tes actions ont un impact réel sur ton quotidien ;
               </li>
@@ -487,9 +484,9 @@ Comprends où tu te trouves, avance vers où tu veux aller
               </li>
             </ul>
             <p>
-              Tu peux revenir sur Lifekore aussi souvent que tu veux, noter ton
-              nouveau score et observer ton évolution. Ta vie a un potentiel :
-              Lifekore est là pour t&apos;aider à le mesurer.
+              Tu peux recalculer ton LifeKore Identity™ aussi souvent que tu le
+              souhaites pour suivre ton évolution. Ton identité évolue. Lifekore
+              t&apos;aide à la maîtriser.
             </p>
           </div>
         </section>
