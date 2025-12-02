@@ -1,12 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
+// ----------------------
+// DOMAINES + QUESTIONS
+// ----------------------
 const domains = [
   {
     id: "finances",
     label: "Finances",
-    icon: "/icons/finance.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -26,7 +29,6 @@ const domains = [
   {
     id: "travail",
     label: "Travail / activité",
-    icon: "/icons/travail.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -42,7 +44,6 @@ const domains = [
   {
     id: "sante",
     label: "Santé / énergie",
-    icon: "/icons/sante.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -58,7 +59,6 @@ const domains = [
   {
     id: "orga",
     label: "Organisation / administratif",
-    icon: "/icons/orga.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -74,7 +74,6 @@ const domains = [
   {
     id: "relations",
     label: "Relations / entourage",
-    icon: "/icons/relations.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -90,7 +89,6 @@ const domains = [
   {
     id: "mental",
     label: "État mental / ressenti",
-    icon: "/icons/mental.svg",
     description: "1 = très mauvaise, 10 = excellente.",
     questions: [
       {
@@ -104,6 +102,18 @@ const domains = [
     ],
   },
 ];
+
+// ----------------------
+// ICONES (dans public/icons)
+// ----------------------
+const domainIcons = {
+  finances: "/icons/finance.svg?v=2",
+  travail: "/icons/travail.svg?v=2",
+  sante: "/icons/sante.svg?v=2",
+  orga: "/icons/orga.svg?v=2",
+  relations: "/icons/relations.svg?v=2",
+  mental: "/icons/mental.svg?v=2",
+};
 
 export default function HomePage() {
   const [answers, setAnswers] = useState({});
@@ -188,9 +198,12 @@ export default function HomePage() {
               alignItems: "center",
             }}
           >
-            <img
+            <Image
               src="/logo.png"
               alt="Lifekore – Ta vie a un potentiel, mesure-la."
+              width={240}
+              height={240}
+              priority
               style={{
                 height: 240,
                 width: "auto",
@@ -205,10 +218,10 @@ export default function HomePage() {
               flex: 1,
               marginLeft: 16,
               marginRight: 16,
-              fontSize: 24, // plus grand
-              fontWeight: 700, // très lisible, épais
+              fontSize: 24,
+              fontWeight: 700,
               lineHeight: 1.3,
-              color: "#0A2A43", // bleu du logo
+              color: "#0A2A43",
               maxWidth: 420,
               textAlign: "center",
               fontFamily:
@@ -264,71 +277,77 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* FORMULAIRE */}
           <form
             onSubmit={handleSubmit}
             className="lk-card lk-card-main"
             style={{ marginTop: 16 }}
           >
-            {domains.map((domain) => (
-              <div key={domain.id} className="lk-domain-block">
-                <div className="lk-domain-header">
-                  <div className="lk-domain-title-row">
-                    {domain.icon && (
-                      <img
-                        src={domain.icon}
-                        alt=""
-                        className="lk-domain-icon"
-                        aria-hidden="true"
-                      />
-                    )}
-                    <h2>{domain.label}</h2>
+            {domains.map((domain) => {
+              const iconSrc = domainIcons[domain.id];
+
+              return (
+                <div key={domain.id} className="lk-domain-block">
+                  <div className="lk-domain-header">
+                    <h2>
+                      {iconSrc && (
+                        <Image
+                          src={iconSrc}
+                          alt={domain.label}
+                          width={28}
+                          height={28}
+                          className="lk-domain-icon"
+                        />
+                      )}
+                      {domain.label}
+                    </h2>
+                    <p className="lk-domain-description">
+                      {domain.description}
+                    </p>
                   </div>
-                  <p className="lk-domain-description">
-                    {domain.description}
-                  </p>
-                </div>
 
-                <div className="lk-domain-questions">
-                  {domain.questions.map((question) => {
-                    const value = answers[question.id] ?? 5;
-                    return (
-                      <div key={question.id} className="lk-question-row">
-                        <div className="lk-question-label-row">
-                          <p className="lk-question-label">
-                            {question.label}
-                          </p>
-                          <span className="lk-question-value">
-                            {value}/10
-                          </span>
-                        </div>
+                  <div className="lk-domain-questions">
+                    {domain.questions.map((question) => {
+                      const value = answers[question.id] ?? 5;
+                      return (
+                        <div key={question.id} className="lk-question-row">
+                          <div className="lk-question-label-row">
+                            <p className="lk-question-label">
+                              {question.label}
+                            </p>
+                            <span className="lk-question-value">
+                              {value}/10
+                            </span>
+                          </div>
 
-                        <div className="lk-slider-wrapper">
-                          <input
-                            type="range"
-                            min={1}
-                            max={10}
-                            step={1}
-                            value={value}
-                            onChange={(e) =>
-                              handleChange(
-                                question.id,
-                                Number(e.target.value)
-                              )
-                            }
-                            className="lk-slider"
-                          />
-                          <div className="lk-slider-ticks">
-                            {Array.from({ length: 10 }, (_, i) => (
-                              <span key={i + 1}>{i + 1}</span>
-                            ))}
+                          <div className="lk-slider-wrapper">
+                            <input
+                              type="range"
+                              min={1}
+                              max={10}
+                              step={1}
+                              value={value}
+                              onChange={(e) =>
+                                handleChange(
+                                  question.id,
+                                  Number(e.target.value)
+                                )
+                              }
+                              className="lk-slider"
+                            />
+                            <div className="lk-slider-ticks">
+                              {Array.from({ length: 10 }, (_, i) => (
+                                <span key={i + 1}>{i + 1}</span>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div className="lk-actions-row">
               <button
@@ -347,6 +366,7 @@ export default function HomePage() {
             </div>
           </form>
 
+          {/* RÉSULTATS */}
           {results && (
             <div
               id="lk-results"
@@ -390,10 +410,7 @@ export default function HomePage() {
                 <div className="lk-domain-scores">
                   {Object.entries(results.domainScores).map(
                     ([label, score]) => (
-                      <div
-                        key={label}
-                        className="lk-domain-score-row"
-                      >
+                      <div key={label} className="lk-domain-score-row">
                         <div className="lk-domain-score-header">
                           <span className="lk-domain-score-label">
                             {label}
